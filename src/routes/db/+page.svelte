@@ -1,7 +1,5 @@
 ﻿<script>
-    export let data;
-    let { countries } = data;
-    $: ({ countries } = data);
+   
   </script>
 <div class="vertical-menu">
   <a href="../db1" class="active">Страны мира</a>
