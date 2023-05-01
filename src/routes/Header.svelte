@@ -33,7 +33,7 @@
 				<a href="/sverdle">Sverdle</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
-				<a href="/db">DB</a>
+				<a href="/db">БД</a>
 			</li>
 
 		</ul>
