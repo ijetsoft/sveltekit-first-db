@@ -9,7 +9,7 @@
 	<meta name="description" content="Svelte demo app" />
 </svelte:head>
 
-<section>
+<!-- <section> -->
 	<h1>
 		<span class="welcome">
 			<picture>
@@ -17,18 +17,31 @@
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
-
-		SvelteKit-приложение, <br>
-		использующее DBaaS <b>Supabase</b> и<br>
-		с хостингом на <b>Netlify</b>
+		<table>
+			<tr>
+				<td width="50%" style="top: 0%;"><p>DevOps-стек<br>технологий: </p></td>
+				<td align="left" style="border-left: 1px;">
+					<ul style="font-size: larger;">
+						<li>Node.js</li>					
+						<li>Svelte/SvelteKit</li>		
+						<li>vite</li>												
+						<li>DBaaS <b>Supabase</b></li>																		
+						<li>Netlify</li>						
+					</ul>
+				</td>
+				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+				<td align="left">
+					Пример компонента:
+				<br/>
+				<Counter /></td>
+			</tr>
+		</table>
+		
 	</h1>
+<!-- </section> -->
 
-	<h2>
-		try editing <strong>src/routes/+page.svelte</strong>
-	</h2>
+	
 
-	<Counter />
-</section>
 
 <style>
 	section {
@@ -38,6 +51,7 @@
 		align-items: center;
 		flex: 0.6;
 	}
+	
 
 	h1 {
 		width: 100%;
