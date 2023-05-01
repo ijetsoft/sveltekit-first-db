@@ -25,6 +25,7 @@
 						<li>Node.js</li>					
 						<li>Svelte/SvelteKit</li>		
 						<li>vite</li>												
+						<li>GitHub</li>																		
 						<li>DBaaS <b>Supabase</b></li>																		
 						<li>Netlify</li>						
 					</ul>
