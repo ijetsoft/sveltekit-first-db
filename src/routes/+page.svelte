@@ -18,7 +18,9 @@
 			</picture>
 		</span>
 
-		to your new<br />SvelteKit app
+		SvelteKit-приложение, <br>
+		использующее DBaaS <b>Supabase</b> и<br>
+		с хостингом на <b>Netlify</b>
 	</h1>
 
 	<h2>

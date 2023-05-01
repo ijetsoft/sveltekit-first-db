@@ -2,13 +2,20 @@
 	import { page } from '$app/stores';
 	import logo from '$lib/images/svelte-logo.svg';
 	import github from '$lib/images/github.svg';
+	import netlify from '$lib/images/netlify-logo.png';
+	import supabase from '$lib/images/supabase-logo.png';
 </script>
 
 <header>
 	<div class="corner">
 		<a href="https://kit.svelte.dev">
 			<img src={logo} alt="SvelteKit" />
+			
+		</a><br/>
+		<a href="https://github.com/sveltejs/kit">
+			<img src={github} alt="GitHub" />
 		</a>
+
 	</div>
 
 	<nav>
@@ -25,6 +32,10 @@
 			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href="/sverdle">Sverdle</a>
 			</li>
+			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
+				<a href="/db">DB</a>
+			</li>
+
 		</ul>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
@@ -32,8 +43,11 @@
 	</nav>
 
 	<div class="corner">
-		<a href="https://github.com/sveltejs/kit">
-			<img src={github} alt="GitHub" />
+		<a href="https://www.netlify.com/">
+			<img src={netlify} alt="Netlify" />
+		</a><br/>
+		<a href="https://supabase.com/">
+			<img src={supabase} alt="supabase" />
 		</a>
 	</div>
 </header>
