@@ -1,5 +1,5 @@
-﻿<script>
-    export let data;
+<script>
+    export let data../dbCountries/$types.js;
     let { countries } = data;
     $: ({ countries } = data);
   </script>
