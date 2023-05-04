@@ -1,7 +1,7 @@
 import { supabase } from "$lib/supabaseClient";
 
   export async function load() {
-    const { data } = await supabase.from("Product").select();
+    const { data } = await supabase.from("ProductFull").select();
     return {
       Products: data ?? [],
     };

@@ -3,8 +3,10 @@
   </script>
 <div class="vertical-menu">
   <a href="../db1" class="active">Страны мира</a>
+  <a href="../dbEmployee">Персонал</a>    
   <a href="../db2">Товары</a>
   <a href="../db2">Поставщики</a>
+  <a href="../db/dbCategories">Типы товаров</a>  
 </div>
   
 
