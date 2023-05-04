@@ -6,7 +6,7 @@
   <a href="../dbEmployee">Персонал</a>    
   <a href="../db2">Товары</a>
   <a href="../db2">Поставщики</a>
-  <a href="../db/dbCategories">Типы товаров</a>  
+  <a href="../dbCategories">Типы товаров</a>  
 </div>
   
 
