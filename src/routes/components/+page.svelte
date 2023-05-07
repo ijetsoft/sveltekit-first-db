@@ -2,8 +2,8 @@
    
 </script>
 <div class="vertical-menu">
-<a href="../компоненты/счетчик" class="active">Счетчик</a>
-<a href="../компоненты/комбобокс">комбобокс</a>
+<a href="../components/счетчик" class="active">Счетчик</a>
+<a href="../components/комбобокс">комбобокс</a>
 <a href="../db2">Скринсейвер</a>
 </div>
 
