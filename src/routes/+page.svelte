@@ -26,10 +26,7 @@
 			<li>DBaaS <b>Supabase</b></li>																		
 			<li>Netlify</li>						
 		</ul>
-		<p>Пример компонента:</p>
-		
-		<div style="align-content: center;"><Counter /></div>
-		
+	
 	</h1>
 <!-- </section> -->
 
