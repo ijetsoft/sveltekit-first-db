@@ -8,7 +8,7 @@
     <tr><th>название</th> <th>описание</th></tr>
     {#each categories as category}
       <tr>
-        <td>*{category.CategoryName}</td> 
+        <td>{category.CategoryName}</td> 
         <td>{category.Description}</td></tr>
     {/each}
   </table>

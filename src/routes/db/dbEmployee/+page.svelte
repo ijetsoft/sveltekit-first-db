@@ -1,13 +1,13 @@
 <script>
     export let data;
-    let { countries } = data;
-    $: ({ countries } = data);
+    let { Employees } = data;
+    $: ({ Employees } = data);
   </script>
 
   <table style="width: 30%; margin-top: 50px;">
-    <tr><th>название</th> <th>код</th></tr>
-    {#each countries as country}
-      <tr><td>{country.name}</td> <td>{country.iso2}</td></tr>
+    <tr><th>имя</th> <th>фамилия</th></tr>
+    {#each Employees as employee}
+      <tr><td>{employee.LastName}</td> <td>{employee.FirstName}</td></tr>
     {/each}
   </table>
 

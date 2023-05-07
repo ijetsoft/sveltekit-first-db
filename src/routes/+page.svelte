@@ -17,26 +17,18 @@
 				<img src={welcome_fallback} alt="Welcome" />
 			</picture>
 		</span>
-		<table>
-			<tr>
-				<td width="50%" style="top: 0%;"><p>DevOps-стек<br>технологий: </p></td>
-				<td align="left" style="border-left: 1px;">
-					<ul style="font-size: larger;">
-						<li>Node.js</li>					
-						<li>Svelte/SvelteKit</li>		
-						<li>vite</li>												
-						<li>GitHub</li>																		
-						<li>DBaaS <b>Supabase</b></li>																		
-						<li>Netlify</li>						
-					</ul>
-				</td>
-				<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
-				<td align="left">
-					Пример компонента:
-				<br/>
-				<Counter /></td>
-			</tr>
-		</table>
+		<p>DevOps-стек технологий: </p>
+		<ul style="font-size: larger; ">
+			<li style="font-size: larger; padding-left: 0;">Node.js</li>					
+			<li>Svelte/SvelteKit</li>		
+			<li>vite</li>												
+			<li>GitHub</li>																		
+			<li>DBaaS <b>Supabase</b></li>																		
+			<li>Netlify</li>						
+		</ul>
+		<p>Пример компонента:</p>
+		
+		<div style="align-content: center;"><Counter /></div>
 		
 	</h1>
 <!-- </section> -->
@@ -45,6 +37,10 @@
 
 
 <style>
+	ul { 
+	display: inline-block; 
+	text-align: left; 
+	}
 	section {
 		display: flex;
 		flex-direction: column;

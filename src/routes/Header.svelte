@@ -32,6 +32,9 @@
 			<li aria-current={$page.url.pathname.startsWith('/sverdle') ? 'page' : undefined}>
 				<a href="/sverdle">Sverdle</a>
 			</li>
+			<li aria-current={$page.url.pathname.startsWith('/компоненты') ? 'page' : undefined}>
+				<a href="/компоненты">Компоненты</a>
+			</li>
 			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
 				<a href="/db">БД</a>
 			</li>
