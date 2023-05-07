@@ -1,5 +1,5 @@
 <script>
-	import Combo from './components/Combo.svelte'
+	import Combo from './Combo.svelte'
 	let name = 'world'
 	let items = ['Сезон 1','Сезон 2','Сезон 3','Сезон 4']
 	function onChangeMain() {
