@@ -1,18 +1,22 @@
 ﻿<script>
     import dscEmployees from './../../../json/Employees.json'
+    import MyTable from './MyTable.svelte'
     import { text } from 'svelte/internal';
-import {myCut, getName} from './util';
+    import {myCut, getName} from './util';
+
     export let data;
-    let { Employees } = data;
+        let { Employees } = data;
     $: ({ Employees } = data);
     $: note = "";
+    let options = ['item1', 'item2', 'item3', 'item4'];
     
     Employees.forEach(element => {
        element.Notes = myCut(element.Notes)
    }); 
 	
   </script>
-
+ <!-- <MyTable options={dscEmployees.col} ></MyTable> -->
+   
   <table style="width: 30%; margin-top: 50px; ">
     <tr>
       {#each dscEmployees.col as colfld }
@@ -63,6 +67,7 @@ import {myCut, getName} from './util';
       </tr>
     {/each}
   </table>
+  
 
   <style>
     table {  border-collapse: collapse; }
