@@ -1,10 +1,10 @@
-<script>
+<script lang='ts'>
     const colors =
       ['red', 'orange', 'yellow', 'green', 'blue', 'purple'];
     const flavors = ['vanilla', 'chocolate', 'strawberry'];
     const seasons = ['Spring', 'Summer', 'Fall', 'Winter'];
     let favoriteColor = '';
-    let favoriteFlavors = [];
+    let favoriteFlavors : any[];
     let favoriteSeason = '';
     let happy = true;
     let name = '';
@@ -13,7 +13,7 @@
    
   <div class="form">
     <div>
-      <label>Name</label>
+      <p>Name</p>
       <input type="text" bind:value={name}>
     </div>
     <div>
@@ -23,7 +23,7 @@
       </label>
     </div>
     <div>
-      <label>Favorite Flavors</label>
+      <p>Favorite Flavors</p>
       {#each flavors as flavor}
       <label class="indent">
         <input type="checkbox" value={flavor} bind:group={favoriteFlavors}> 
@@ -32,7 +32,7 @@
       {/each}
     </div>
     <div>
-      <label>Favorite Season</label>
+      <p>Favorite Season</p>
       {#each seasons as season}
       <label class="indent">
         <input type="radio" value={season} bind:group={favoriteSeason}> 

@@ -1,7 +1,7 @@
 <script lang="ts">
 	// https://freefrontend.com/css-select-boxes/
 	// https://codepen.io/5t3ph/pen/MWyyYNz
-	export let options = ['item1', 'item2', 'item3', 'item4'];
+	export const options = ['item1', 'item2', 'item3', 'item4'];
 	//export let displayText = a => a.text;
 	let name = 'world';
 	import { createEventDispatcher } from 'svelte';
@@ -55,21 +55,8 @@
 </details>
 
 <style>
-html * {
-	padding: 0;
-	margin: 0;
-	box-sizing: border-box;
-}
 
-body {
-	background-color: #262626;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	height: 100vh;
-	font-family: sans-serif;
-	padding: 5rem;
-}
+
 
 details {
 	position: relative;
@@ -107,7 +94,6 @@ details[open] summary:before {
 summary:after {
 	content: '';
 	display: inline-block;
-	float: right;
 	width: .5rem;
 	height: .5rem;
 	border-bottom: 1px solid currentColor;

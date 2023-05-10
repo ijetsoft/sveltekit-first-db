@@ -16,7 +16,7 @@
 
 <style>
  table {  border-collapse: collapse; }
-    th, td { border: solid 1px #777;  }
+    /* th, td { border: solid 1px #777;  } */
     th { background-color:lightblue;}
     tr:nth-child(even) {
     background-color: #eee;
