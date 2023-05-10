@@ -21,7 +21,7 @@
 	{@debug dialog}
 	<span>You can see me</span>
 </dialog>
-<Combo options={items} on:message={handleMessage}></Combo>
+<Combo1 options={items} on:message={handleMessage}></Combo1>
 <style>
 	
 

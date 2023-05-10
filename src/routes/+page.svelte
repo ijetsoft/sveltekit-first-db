@@ -20,16 +20,29 @@
 <!-- <section> -->
 	<h1>
 		<img src={DevOps} alt="DevOps" />
-		<p>DevOps-стек технологий: </p>
+		<p>DevOps-стек технологий: <i class="far fa-thumbs-up"></i></p>
 		<ul style="font-size: larger; ">
 			<li><div class="corner"><img src={node} alt="TypeScript" />Node.js</li>					
 			<li><div class="corner"><img src={typescript} alt="TypeScript" />TypeScript</li>	
-			<li><div class="corner"><img src={logo} alt="Svelte" />Svelte/SvelteKit</div></li>		
+			<li><div class="corner">
+				<a href="https://kit.svelte.dev">
+				<img src={logo} alt="SvelteKit" title="SvelteKit"/></a>
+				Svelte/SvelteKit</div></li>		
 			<li><div class="corner"><img src={vite} alt="Vite" />vite</li>												
-			<li><div class="corner"><img src={github} alt="GitHub" />GitHub</li>																		
-			<li><div class="corner"><img src={supabase} alt="Supabase" />DBaaS <b>Supabase</b></li>																		
-			<li><div class="corner"><img src={netlify} alt="Netlify" />Netlify</li>						
+			<li><div class="corner">
+				<a href="https://github.com"  title="github">
+				<img src={github} alt="GitHub" /></a>
+				GitHub</div></li>																		
+			<li><div class="corner">
+				<a href="https://supabase.com/" title="supabase"> 
+				<img src={supabase} alt="supabase" /> </a>
+				DBaaS <b>Supabase</b></div></li>																		
+			<li><div class="corner">
+				<a href="https://www.netlify.com/" title="Netlify">
+				<img src={netlify} alt="Netlify" /></a>
+				Netlify</div></li>						
 		</ul>
+		
 		<span class="welcome">
 			<picture>
 				<source srcset={welcome} type="image/webp" />

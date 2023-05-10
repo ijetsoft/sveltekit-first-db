@@ -7,17 +7,7 @@
 </script>
 
 <header>
-	<div class="corner">
-		<a href="https://kit.svelte.dev">
-			<img src={logo} alt="SvelteKit" />
-			
-		</a><br/>
-		<a href="https://github.com/sveltejs/kit">
-			<img src={github} alt="GitHub" />
-		</a>
-
-	</div>
-
+	<div class="corner"> </div>
 	<nav>
 		<svg viewBox="0 0 2 3" aria-hidden="true">
 			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
@@ -42,14 +32,7 @@
 		</svg>
 	</nav>
 
-	<div class="corner">
-		<a href="https://www.netlify.com/">
-			<img src={netlify} alt="Netlify" />
-		</a><br/>
-		<a href="https://supabase.com/">
-			<img src={supabase} alt="supabase" />
-		</a>
-	</div>
+	<div class="corner"></div>
 </header>
 
 <style>
