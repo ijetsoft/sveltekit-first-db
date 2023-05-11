@@ -4,7 +4,7 @@
 <div class="vertical-menu">
 <a href="../components/счетчик" class="active">Счетчик</a>
 <a href="../components/комбобокс">комбобокс</a>
-<!-- <a href="../components/комбобокс1">комбобокс1</a> -->
+<a href="../components/комбобокс1">комбобокс1</a> 
 <a href="../components/test">Test</a>
 <a href="../db2">Скринсейвер</a>
 </div>

@@ -22,12 +22,17 @@
 		<img src={DevOps} alt="DevOps" />
 		<p>DevOps-стек технологий: <i class="far fa-thumbs-up"></i></p>
 		<ul style="font-size: larger; ">
-			<li><div class="corner"><img src={node} alt="TypeScript" />Node.js</li>					
-			<li><div class="corner"><img src={typescript} alt="TypeScript" />TypeScript</li>	
+			<li><div class="corner">
+				<img src={node} alt="TypeScript" />Node.js</li>					
+			<li><div class="corner">
+				<img src={typescript} alt="TypeScript" />
+				<a href="https://en.wikipedia.org/wiki/TypeScript">TypeScript</a>
+				</li>	
 			<li><div class="corner">
 				<a href="https://kit.svelte.dev">
 				<img src={logo} alt="SvelteKit" title="SvelteKit"/></a>
-				Svelte/SvelteKit</div></li>		
+				<a href="https://en.wikipedia.org/wiki/Svelte">Svelte/SvelteKit</a>
+				</div></li>		
 			<li><div class="corner"><img src={vite} alt="Vite" />vite</li>												
 			<li><div class="corner">
 				<a href="https://github.com"  title="github">

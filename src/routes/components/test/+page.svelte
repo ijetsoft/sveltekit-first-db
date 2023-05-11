@@ -9,6 +9,10 @@
     let happy = true;
     let name = '';
     let story = '';
+    let option = [{ind:1,val:'vanilla'}, {ind:1,val:'vanilla'}, {ind:1,val:'vanilla'}];
+    function myFunction() {
+alert(typeof(option[0].ind))
+    }
   </script>
    
   <div class="form">
@@ -58,7 +62,8 @@
         <textarea bind:value={story} />
       </label>
     </div>
-   
+   <hr>
+   <button on:click={myFunction}>Click me</button>
     {#if name}                                                              
    
       <div>
