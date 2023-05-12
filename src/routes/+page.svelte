@@ -36,12 +36,13 @@
 			<li><div class="corner">
 				<a href="https://vitejs.dev/">
 				<img src={vite} alt="Vite" /></a>
-				<a href="https://vitejs.dev/">vite</a>
+				<a href="https://en.wikipedia.org/wiki/Vite_(software)">vite</a>
 				</li>												
 			<li><div class="corner">
 				<a href="https://github.com"  title="github">
 				<img src={github} alt="GitHub" /></a>
-				GitHub
+				<a href="https://en.wikipedia.org/wiki/GitHub">GitHub</a>
+				
 			</div></li>																		
 			<li><div class="corner">
 				<a href="https://supabase.com/" title="supabase"> 
