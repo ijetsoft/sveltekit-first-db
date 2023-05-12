@@ -10,6 +10,7 @@
 	import vite from '$lib/images/Vitejs-logo.svg.png';
 	import typescript from '$lib/images/TypeScript_round.png';
 	import node from '$lib/images/node.jpg';
+	import cdci from '$lib/images/CD-CI.png';
 </script>
 
 <svelte:head>
@@ -37,7 +38,7 @@
 				<a href="https://vitejs.dev/">
 				<img src={vite} alt="Vite" /></a>
 				<a href="https://en.wikipedia.org/wiki/Vite_(software)">vite</a>
-				</li>												
+				</div></li>												
 			<li><div class="corner">
 				<a href="https://github.com"  title="github">
 				<img src={github} alt="GitHub" /></a>
@@ -51,7 +52,12 @@
 			<li><div class="corner">
 				<a href="https://www.netlify.com/" title="Netlify">
 				<img src={netlify} alt="Netlify" /></a>
-				Netlify</div></li>						
+				Netlify</div></li>	
+			<li><div class="corner">
+				<img src={cdci} alt="CD-CI" />
+					<a href="https://en.wikipedia.org/wiki/Continuous_integration">CD-CI</a>
+				</div></li>												
+									
 		</ul>
 		
 		<span class="welcome">

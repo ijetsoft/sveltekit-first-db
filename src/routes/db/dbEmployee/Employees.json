@@ -1,0 +1,93 @@
+{
+	"name": "Employees",
+	"SQL": "SELECT * FROM Employees ORDER BY LastName",
+	"col": [
+		{
+			"fld": "EmployeeID",
+			"header": "id",
+			"type": "key"
+		},
+		{
+			"fld": "LastName",
+			"header": "фамилия",
+			"type": "string",
+			"validate": "required;maxlength:20;minlength:2"
+		},
+		{
+			"fld": "FirstName",
+			"header": "имя",
+			"type": "string",
+			"validate": "required;maxlength:10;minlength:2;pattern:[а-яА-ЯёЁ]+"
+		},
+		{
+			"fld": "Title",
+			"header": "должность",
+			"type": "string"
+		},
+		{
+			"fld": "TitleOfCourtesy",
+			"header": "обра- щение",
+			"type": "string"
+		},
+		{
+			"fld": "BirthDate",
+			"header": "дата рожд.",
+			"type": "date"
+		},
+		{
+			"fld": "HireDate",
+			"header": "работает с",
+			"type": "date"
+		},
+		{
+			"fld": "Address",
+			"header": "адрес",
+			"type": "string"
+		},
+		{
+			"fld": "City",
+			"header": "город",
+			"type": "string"
+		},
+		{
+			"fld": "Region",
+			"header": "регион",
+			"type": "string",
+			"validate": "maxlength:15"
+		},
+		{
+			"fld": "PostalCode",
+			"header": "почт. код",
+			"type": "string"
+		},
+		{
+			"fld": "HomePhone",
+			"header": "тел.",
+			"type": "string"
+		},
+		{
+			"fld": "Extension",
+			"header": "доп.",
+			"type": "string"
+		},
+		{
+			"fld": "Photo",
+			"header": "фото",
+			"type": "image"
+		},
+		{"fld": "Notes", "header": "резюме", "type": "memo"},
+		{"fld": "ReportsTo", "header": "подотчетен (код)", "type": "number", "ref": "ReportsTo"},
+		{"fld": "_ReportsTo", "header": "подотчетен","type": "string"}
+	],
+	"options": [
+
+		{ "lines": "all" },
+		{ "numlines": "yes" },
+		{
+			"reports": [
+				[ "повний список", "/doctors/FullReport" ],
+				[ "короткий список", "/doctors/ShortReport" ]
+			]
+		}
+	]
+}
