@@ -74,7 +74,8 @@
 			<option value={i}> {option}</option>
 		{/if}
 		{#if mode === 1} 	
-			<option value={option.ind}> {option.val}</option>
+		<!-- disabled -->
+			<option  value={option.ind}> {option.val}</option>
 		{/if}
 	{/each}
      
@@ -82,7 +83,8 @@
 <style>
 	
 select {
-	
+	background-color: LemonChiffon;
+	color: maroon;
 	padding: 5px 100px 5px 5px; 
 		/* 100px required to make sure image displays */
 	font-size: 16px;
