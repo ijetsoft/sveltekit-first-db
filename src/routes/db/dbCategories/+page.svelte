@@ -1,5 +1,5 @@
 <script lang ='ts'>
-    import dscCategories from './../../../json/Categories.dsc'
+    import dscCategories from './../../../json/Categories.json'
     import {newGet} from './dsc';
     export let data;
     let { categories } = data;
