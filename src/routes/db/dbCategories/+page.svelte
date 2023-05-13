@@ -1,4 +1,6 @@
-<script>
+<script lang ='ts'>
+    import dscCategories from './../../../json/Categories.dsc'
+    import {newGet} from './dsc';
     export let data;
     let { categories } = data;
     $: ({ categories } = data);

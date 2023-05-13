@@ -43,12 +43,12 @@
 				<a href="https://github.com"  title="github">
 				<img src={github} alt="GitHub" /></a>
 				<a href="https://en.wikipedia.org/wiki/GitHub">GitHub</a>
-				
 			</div></li>																		
 			<li><div class="corner">
 				<a href="https://supabase.com/" title="supabase"> 
 				<img src={supabase} alt="supabase" /> </a>
-				DBaaS <b>Supabase</b></div></li>																		
+				<a href="https://en.wikipedia.org/wiki/Cloud_database">DBaaS <b>Supabase</b></a>
+			</div></li>
 			<li><div class="corner">
 				<a href="https://www.netlify.com/" title="Netlify">
 				<img src={netlify} alt="Netlify" /></a>
