@@ -1,11 +1,20 @@
-<script lang ='ts'>
+<script lang="ts">
+    import {onMount} from 'svelte';
     import dscCategories from './../../../json/Categories.json'
-    import {newGet} from './dsc';
+    import {formView} from './../dsc';
     export let data;
     let { categories } = data;
-    $: ({ categories } = data);
-  </script>
 
+    //let myPlace: any = document.querySelector(".placeHold") ;
+    onMount(() => {
+      let myPlace: any = document.querySelector(".placeHold") ;
+       myPlace.innerHTML = formView(dscCategories, categories, document);
+    }  
+    );
+    
+  </script>
+  <p class='placeHold'>****</p>
+<!--   
   <table style="width: 30%; margin-top: 50px;">
     <tr><th>название</th> <th>описание</th></tr>
     {#each categories as category}
@@ -13,8 +22,15 @@
         <td>{category.CategoryName}</td> 
         <td>{category.Description}</td></tr>
     {/each}
-  </table>
-
+  </table>   -->
+  
   <style>
-
+    /* table {  border-collapse: collapse; }
+    th, td { border: solid 1px #777;  color:maroon}
+    th { background-color:lightblue;}
+    tr:nth-child(even) {
+    background-color: #eee;  
+	}
+  tr:hover { background-color: red; }
+  table { background-color: white; }*/
   </style>

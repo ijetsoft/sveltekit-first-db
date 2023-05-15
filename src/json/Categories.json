@@ -20,7 +20,7 @@
 		{
 			"fld": "Picture",
 			"header": "фото",
-			"type": "string"
+			"type": "image"
 		}
 	],
 	"options": [

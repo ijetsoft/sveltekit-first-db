@@ -21,10 +21,12 @@
 <!-- <section> -->
 	<h1>
 		<img src={DevOps} alt="DevOps" />
-		<p>DevOps-стек технологий: <i class="far fa-thumbs-up"></i></p>
+		<p><a href="https://en.wikipedia.org/wiki/DevOps">DevOps</a>-стек технологий: <i class="far fa-thumbs-up"></i></p>
 		<ul style="font-size: larger; ">
 			<li><div class="corner">
-				<img src={node} alt="TypeScript" />Node.js</li>					
+				<img src={node} alt="Node.js" />
+				<a href="https://en.wikipedia.org/wiki/Node.js">Node.js</a>
+			</li>					
 			<li><div class="corner">
 				<img src={typescript} alt="TypeScript" />
 				<a href="https://en.wikipedia.org/wiki/TypeScript">TypeScript</a>
@@ -52,7 +54,7 @@
 			<li><div class="corner">
 				<a href="https://www.netlify.com/" title="Netlify">
 				<img src={netlify} alt="Netlify" /></a>
-				Netlify</div></li>	
+				<a href="https://en.wikipedia.org/wiki/Netlify">Netlify</a>
 			<li><div class="corner">
 				<img src={cdci} alt="CD-CI" />
 					<a href="https://en.wikipedia.org/wiki/Continuous_integration">CD-CI</a>
