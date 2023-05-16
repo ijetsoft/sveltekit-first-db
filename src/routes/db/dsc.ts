@@ -1,4 +1,4 @@
-import type { DSCType } from "./dsc.type";
+
 export function formView(parm: any, qry: any, doc: any) {
   let col = parm.col, ret = '', len = col.length
   //alert(JSON.stringify(qry))
