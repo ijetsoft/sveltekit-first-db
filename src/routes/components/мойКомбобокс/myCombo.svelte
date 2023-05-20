@@ -10,7 +10,7 @@
   export let multiple = false;
 	export let height = '34px';
 	export let width = "250px;"
-	export let fontSize = "16px;"
+	export let fontSize = "1em;"//"16px;"
 	export let color = "maroon"
 	export let backgroundColor = "LemonChiffon"
 	import { createEventDispatcher } from 'svelte';
@@ -25,19 +25,21 @@
 	function handleClick() {
 		alert('clicked');
 	}
+  let mode = typeof(options[0])=="string" ? 0 : 1
+  //if (multiple) height = '100px';
   let sSheet = document.styleSheets[0];
 		if (sSheet.insertRule) {
       let ret = 'width:'+width+';'
-      ret += ' height:'+height+';'
-      ret += ' font-size: '+fontSize+';'
-			ret += ' height: '+height+';'			
 			ret += ' border-radius: 10px;'
 			ret += ' border: 1px solid #19247c;'
-			ret += ' color: '+color+';'
-			ret += ' background-color: '+backgroundColor+';'
-			ret += ' padding: 5px 100px 5px 5px;'
-     	sSheet.insertRule('.box select {'+ret+'}', sSheet.cssRules.length);
-      //  sSheet.insertRule('.box select {'+sLine+'}', sSheet.cssRules.length);
+			ret += ' background-color: '+backgroundColor+';' 
+			ret += ' --selectedCol: '+'maroon'+';'     
+      ret += ' color: '+color+';'
+      ret += ' font-size: '+fontSize+';'      
+      //ret += ' height:'+height+';'
+			// ret += ' padding: 5px 100px 5px 5px;'
+     	sSheet.insertRule('select {'+ret+'}', sSheet.cssRules.length);
+     	sSheet.insertRule('select:focus {border-radius: 10px;}', sSheet.cssRules.length);
 		}
     function setSelectHover(selector = "select") {
       let selects : any; selects = document.querySelectorAll(selector);
@@ -58,7 +60,7 @@
           let size = select.querySelectorAll("option").length;
           // adjust height on resize
           const getSelectHeight = () => {
-            selectWrap.style.height = "auto";
+            //selectWrap.style.height = "auto";
             let selectHeight = select.getBoundingClientRect();
             selectWrap.style.height = selectHeight.height + "px";
           };
@@ -104,7 +106,7 @@
       setSelectHover()
     })
 </script>
-{@debug width}
+{@debug height}
 <!-- <div class="box">
 	<select class="selectHovercolor" on:change={onChange} multiple={multiple}>
 		{#each options as option, i}
@@ -113,24 +115,34 @@
 		
 	</select>
   </div> -->
-  <select class="selectHovercolor">
+  <select class="selectHovercolor" {multiple}>
+    {#each options as option, i}
+			{#if mode === 0} 	
+				<option value={i}> {option}</option>
+			{/if}
+			{#if mode === 1} 	
+				<!-- <option value={option.ind}> * {option.val}</option> -->
+			{/if}
+		{/each}
+  </select> 
+  <!-- <select class="selectHovercolor">
     <option value="volvo" selected>Volvo</option>
     <option value="saab">Saab</option>
     <option value="opel">Opel</option>
     <option value="audi">Audi</option>
-  </select>
+  </select>  -->
 <style>
 select {
   --selectHoverCol: #999;
-  --selectedCol: red;
-  width: 100%;
-  font-size: 1em;
+  /* --selectedCol: red; */
+  /* width: 100%; 
+  font-size: 1em;*/
   padding: 0.3em;
   background-color: #fff;
 }
 
 select:focus {
-  border-radius: 0px;
+  /* border-radius: 0px; */
   border-color: red;
   background: #fff;
   outline: none;
@@ -154,5 +166,6 @@ option:hover {
 
 option:checked {
   box-shadow: 0 0 1em 100px var(--selectedCol) inset;
+  color: yellow;
 }
 </style>

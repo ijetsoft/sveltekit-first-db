@@ -3,7 +3,8 @@
     import dscCategories from './../../../json/Categories.json'
     import {formView} from './../dsc';
     export let data;
-    let { categories } = data;
+    let { CategoryID } = data;
+    //let { categories } = data;
 
     //let myPlace: any = document.querySelector(".placeHold") ;
     onMount(() => {
