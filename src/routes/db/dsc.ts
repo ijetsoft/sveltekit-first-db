@@ -26,7 +26,10 @@ export function formView(parm: any, qry: any, voc: any) {
         vocFld = colRow.slice(1); vocVal = row[vocFld]
         ret += '<td>'+getVocab(vocFld, voc, vocVal)+'</td>';
       }
-      else {ret += '<td>'+row[colRow]+'</td>';}
+      else {
+        if (col[j].type == 'memo') {ret += '<td style="text-align: center;"><button class="mini">...</button></td>'}
+        else {ret += '<td>'+row[colRow]+'</td>'};
+      }
       
     }
     // ret += '<td>'+qry[i].CategoryName+'</td>';
@@ -35,60 +38,48 @@ export function formView(parm: any, qry: any, voc: any) {
   }
   ret += '</tbody></table>';
   var sSheet = document.styleSheets[0];
-  sSheet.insertRule('th { background-color:lightblue;}', sSheet.cssRules.length);
+  let miniCSS = 'border: solid 1px #777; background-color: grey; border-radius: 3px;'
+    miniCSS += 'background-color: rgb(197, 194, 194); width: 25px; cursor:pointer;'
+  sSheet.insertRule('th { background-color:maroon;color:white;}', sSheet.cssRules.length);
    if (sSheet.insertRule) {
      //sSheet.insertRule('td {background-color: LemonChiffon}', sSheet.cssRules.length);
      sSheet.insertRule('th, td { border: solid 1px #777; }', sSheet.cssRules.length);
+     //sSheet.insertRule('td { text-align: center;}', sSheet.cssRules.length);
      sSheet.insertRule('table {  border-collapse: collapse; color:maroon;}', sSheet.cssRules.length);
      sSheet.insertRule('tr:nth-child(odd) {background-color: #eee}', sSheet.cssRules.length);
      sSheet.insertRule('tr:nth-child(even) {background-color: LemonChiffon}', sSheet.cssRules.length);
      //sSheet.insertRule('table > tbody > tr:nth-child(even) { background-color: white; }', sSheet.cssRules.length);
-     sSheet.insertRule('tr:hover { background-color: maroon; color: white}', sSheet.cssRules.length);     
+     sSheet.insertRule('tr:hover { background-color: rgb(202, 101, 101); color: white}', sSheet.cssRules.length);     
+     sSheet.insertRule('.mini {'+miniCSS+' }', sSheet.cssRules.length);
    }
   return ret
   }
   function getVocab(parmName: string, parmVoc: any, parmVal: any) {
-    let a =  parmVoc.find(item => item.name == parmName);
+    let a =  parmVoc.find((item:any) => item.name == parmName);
     let vocQry = a.qry.data
     let nameKey = Object.entries(vocQry[0])[0][0]
     let nameVal = Object.entries(vocQry[0])[1][0]
-    let vocabRecs = vocQry.find(itemV => itemV[nameKey] === parmVal);
-    return vocabRecs[nameVal]
-    // 
-    // let nameVal : any
-    // try {x = Object.entries(vocabVal)[1][1]}
-    // catch {console.log(parmName+' parmVal='+parmVal)}
-
-    return x
-    return vocabVal
-    let ret : string = parmName+'='+parmVal
-    if (parmName == 'SupplierId') return ret
-    let str: string = String(parmVal).valueOf()
-    let i = -1, val = '', arr = Object.values(a)
-    let vocabVal = parmVoc.data.find(itemV => itemV.Id === parmVal);
-    let x : any
-    try {x = Object.entries(vocabVal)[1][1]}
-    catch {console.log(parmName+' parmVal='+parmVal)}
-
-    return x
-    for (const [key, value] of Object.entries(vocabVal)) {
-      console.log(`${key}: ${value}`);
-    }
-    //return vocabVal[1]
-                    //rec['_' + name] = vocabVal['_Value']
-    Object.keys(parmVoc.data).forEach(key => {
-      i+=1
-      if (parseInt(key) == parmVal) {
-        let obj: any = arr[parmVal-1]
-        ret = String(Object.values(obj)[1]).valueOf()
-      }
-      // console.log(key) // returns the keys in an object
-      // console.log(parmVoc.data[key])  // returns the appropriate value 
-   })
-    // for (let index = 0; index < parmVoc.data.length; index++) {
-    //   if (Object.keys(parmVoc) == parmVal) ret = parmVoc.data[index][fld[1]]
+    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+    let retVal = ''; if (vocabRecs) retVal = vocabRecs[nameVal]
+    return retVal
+  }
+  function getFldValue(parmDSC: any, parmValue: any, parmVoc: any) {
+   let colRow = parmDSC.fld, vocFld = ''
+   let retAttr = '', retLine = '<td>'+'</td>'
+   switch (parmDSC.type) {
+    case 'memo':
       
-    // }
-    //const result = parmVoc.find(() => parmVoc[0] === "cherries");
-    return ret
+      break;
+   
+    default:
+      break;
+   }
+   
+   if (colRow[0] == '_') {
+    vocFld = colRow.slice(1); 
+    retLine += '<td>'+getVocab(vocFld, parmVoc, parmValue)+'</td>';}
+    else {
+      retLine='????'
+    }
+   return retLine
   }

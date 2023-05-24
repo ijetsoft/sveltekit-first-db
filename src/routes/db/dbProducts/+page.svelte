@@ -1,7 +1,10 @@
 <script  lang="ts">
   import {onMount} from 'svelte';
     import dscProducts from './../../../json/Products.json'
+    // import Navigator from './../../components/navigator/+page.svelte'
     import {formView} from './../dsc';
+    import JetDBTable from './../../components/JetDBTable/JetDBTable.svelte';
+    
     export let data;
     let { db } = data;
     onMount(() => {
@@ -11,6 +14,8 @@
     );
   </script>
   {@debug data}
+  <JetDBTable></JetDBTable>
+  <!-- <Navigator></Navigator> -->
   <p class='placeHold'>****</p>
   <!-- <table style="width: 30%; margin-top: 50px;">
     <tr><th>название</th> <th>код</th></tr>
