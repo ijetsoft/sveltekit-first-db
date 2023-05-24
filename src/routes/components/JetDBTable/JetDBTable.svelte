@@ -1,38 +1,66 @@
 <script  lang="ts">
-export let headerFlds = ['Company', 'Contact', 'Country'];
-export let Rows = [
-  {Company:'Alfreds Futterkiste', Contact:'Maria Anders', Country:'Germany'},
-  {Company:'Centro comercial Moctezuma', Contact:'Francisco Changs', Country:'Mexico'},
-  {Company:'Ernst Handele', Contact:'Roland Mendels', Country:'Austria'},
-  {Company:'Island Trading', Contact:'Helen Bennett', Country:'UK'},
-  {Company:'Laughing Bacchus Winecellars', Contact:'Yoshi Tannamuri', Country:'Canada'},
-  {Company:'Magazzini Alimentari Riuniti', Contact:'Giovanni Rovelli', Country:'Italy'}
-]
+  import Navigator from './../navigator/+page.svelte';
+  export let headerFlds = ['Company', 'Contact', 'Country'];
+  export let dscFlds : any
+  export let tblRows : any
+   export let Rows = [
+     {Company:'Alfreds Futterkiste', Contact:'Maria Anders', Country:'Germany'},
+     {Company:'Centro comercial Moctezuma', Contact:'Francisco Changs', Country:'Mexico'},
+     {Company:'Ernst Handele', Contact:'Roland Mendels', Country:'Austria'},
+     {Company:'Island Trading', Contact:'Helen Bennett', Country:'UK'},
+     {Company:'Laughing Bacchus Winecellars', Contact:'Yoshi Tannamuri', Country:'Canada'},
+     {Company:'Magazzini Alimentari Riuniti', Contact:'Giovanni Rovelli', Country:'Italy'}
+   ]
+  let nameFlds = Object.keys(Rows[0])
 function handleMessage(event: any) {
 		alert(event.target.tagName);
 	}
 </script>
 <!-- <svelte:window  on:click={handleMessage}/> -->
-<div><button >
-	Click to say hello
-</button></div>
-{@debug headerFlds}
+<div><Navigator></Navigator>
+ 
 <table on:click={handleMessage}>
     <tr>
-    {#each headerFlds as fld, i}
-        <th on:message={handleMessage}>{fld}</th>
-		{/each}
+      {#if dscFlds} 
+        {#each dscFlds.col as fld, i}
+          <th>{@html fld.header}</th>
+        {/each}
+      {:else if headerFlds} 
+        {#each headerFlds as fld, i}
+          <th>{fld}</th>
+        {/each}
+
+      {/if} 
     </tr>
-    <tbody>
-    {#each Rows as row, i}
-      <tr>
-      {#each headerFlds as fld, i}
-        <td>{row[fld]}</td>
-		  {/each}
-      </tr>
-		{/each}
-    </tbody>
+      <tbody>
+        {#if tblRows} 
+          {#each tblRows.data as row, i}
+            <tr>
+            {#each dscFlds.col as colFld, i}
+            <!-- {@debug colFld}  -->
+              <td>{row[colFld.fld]}</td>
+            {/each}
+
+            <!-- {#each nameFlds as fld, i}
+              <td>{row[fld]}</td>
+            {/each} -->
+            </tr>
+          {/each}
+        {:else if Rows} 
+          {#each Rows as row, i}
+            <tr>
+            {#each nameFlds as fld, i}
+              <td>{row[fld]}</td>
+            {/each} 
+            </tr>
+          {/each} 
+        {/if} 
+        </tbody>
+    
+    
+    
   </table>
+</div>
 <style>
 table {
   font-family: arial, sans-serif;
@@ -41,10 +69,11 @@ table {
   /**/
   max-width: 400px;
   height: 240px;
-  margin: 0 auto;
+  margin: 0 ;/*auto;*/
   display: block;
   overflow-x: auto;
   border-spacing: 0;
+  margin-top: 2px;
 }
 th { background-color:maroon;color:white;}
 td, th {

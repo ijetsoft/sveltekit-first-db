@@ -8,13 +8,13 @@
     export let data;
     let { db } = data;
     onMount(() => {
-      let myPlace: any = document.querySelector(".placeHold") ;
-       myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
+      // let myPlace: any = document.querySelector(".placeHold") ;
+      //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
     }  
     );
   </script>
   {@debug data}
-  <JetDBTable></JetDBTable>
+  <JetDBTable dscFlds={dscProducts} tblRows={db.product}></JetDBTable>
   <!-- <Navigator></Navigator> -->
   <p class='placeHold'>****</p>
   <!-- <table style="width: 30%; margin-top: 50px;">
