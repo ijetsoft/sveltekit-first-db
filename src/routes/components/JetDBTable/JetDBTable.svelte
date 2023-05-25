@@ -12,19 +12,28 @@
      {Company:'Magazzini Alimentari Riuniti', Contact:'Giovanni Rovelli', Country:'Italy'}
    ]
   let nameFlds = Object.keys(Rows[0])
-function handleMessage(event: any) {
-		alert(event.target.tagName);
+  function handleMessage(event: any) {
+      alert(event.target.tagName);
 	}
+  function sayHeader(parm: string){
+    return   parm
+    //return  '<th>{@html parm}</th>'
+  }
+  function sayCell(parm: string){
+    return   parm
+    //return  '<th>{@html parm}</th>'
+  }
 </script>
 <!-- <svelte:window  on:click={handleMessage}/> -->
 <div><Navigator></Navigator>
- 
+  
 <table on:click={handleMessage}>
     <tr>
       {#if dscFlds} 
-        {#each dscFlds.col as fld, i}
-          <th>{@html fld.header}</th>
-        {/each}
+      <th></th>
+      {#each dscFlds.col as fld, i}
+        <th> {@html sayHeader(fld.header)} </th>
+      {/each}
       {:else if headerFlds} 
         {#each headerFlds as fld, i}
           <th>{fld}</th>
@@ -32,10 +41,11 @@ function handleMessage(event: any) {
 
       {/if} 
     </tr>
-      <tbody>
-        {#if tblRows} 
-          {#each tblRows.data as row, i}
-            <tr>
+    <tbody>
+      {#if tblRows} 
+        {#each tblRows.data as row, i}
+          <tr>
+          <td>{#if i===0} <i class="fa-solid fa-caret-right"></i>{/if}</td>
             {#each dscFlds.col as colFld, i}
             <!-- {@debug colFld}  -->
               <td>{row[colFld.fld]}</td>
@@ -91,6 +101,7 @@ th {
   position: sticky;
   top: 0;
   vertical-align: bottom;
+  text-align: center;
 }
 tbody {
   white-space: nowrap;

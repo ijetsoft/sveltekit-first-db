@@ -16,7 +16,7 @@
   {@debug data}
   <JetDBTable dscFlds={dscProducts} tblRows={db.product}></JetDBTable>
   <!-- <Navigator></Navigator> -->
-  <p class='placeHold'>****</p>
+  <p class='placeHold'>xxxx</p>
   <!-- <table style="width: 30%; margin-top: 50px;">
     <tr><th>название</th> <th>код</th></tr>
     {#each prducts as prduct}
