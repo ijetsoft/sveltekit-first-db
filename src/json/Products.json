@@ -1,5 +1,5 @@
 {
-"name": "products",
+"name": "product",
 "SQL": "SELECT * FROM Products ORDER BY ProductName",
 "col": [
   {"fld": "ProductID", "header": "id", "type": "key" },
