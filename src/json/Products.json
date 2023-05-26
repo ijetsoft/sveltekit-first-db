@@ -10,7 +10,7 @@
   {"fld": "CategoryId", "header": "id категории", "type": "number", "ref": "CategoryId"},
   {"fld": "QuantityPerUnit", "header": "единиц в<br>упаковке", "type": "string"},
   {"fld": "UnitPrice", "header": "цена<br>упаковки", "type": "number"},
-  {"fld": "UnitsInStock", "header": "единиц<br>на складе", "type": "number"},
+  {"fld": "UnitsInStock", "header": "ед. на<br>складе", "type": "number"},
   {"fld": "UnitsOnOrder", "header": "резер-<br>вировано", "type": "number"},
   {"fld": "ReorderLevel", "header": "перерас-<br>пределено", "type": "number"},
   {"fld": "Discontinued", "header": "дис-<br>конт", "type": "bool"}

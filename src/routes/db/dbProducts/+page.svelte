@@ -14,7 +14,11 @@
     );
   </script>
   {@debug data}
-  <JetDBTable dscFlds={dscProducts} tblRows={db.product}></JetDBTable>
+
+  <JetDBTable dscFlds={dscProducts} 
+    tblRows={db.product} 
+    width='800px'>
+  </JetDBTable>
   <!-- <Navigator></Navigator> -->
   <p class='placeHold'>xxxx</p>
   <!-- <table style="width: 30%; margin-top: 50px;">

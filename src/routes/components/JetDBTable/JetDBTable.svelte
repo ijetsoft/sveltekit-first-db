@@ -1,8 +1,10 @@
 <script  lang="ts">
+  import {onMount} from 'svelte';
   import Navigator from './../navigator/+page.svelte';
   export let headerFlds = ['Company', 'Contact', 'Country'];
   export let dscFlds : any
   export let tblRows : any
+  export let width = '400px'
    export let Rows = [
      {Company:'Alfreds Futterkiste', Contact:'Maria Anders', Country:'Germany'},
      {Company:'Centro comercial Moctezuma', Contact:'Francisco Changs', Country:'Mexico'},
@@ -11,28 +13,76 @@
      {Company:'Laughing Bacchus Winecellars', Contact:'Yoshi Tannamuri', Country:'Canada'},
      {Company:'Magazzini Alimentari Riuniti', Contact:'Giovanni Rovelli', Country:'Italy'}
    ]
+   const triangle = `<i class="fa-solid fa-caret-right"></i>`
+  let currRow = 1;
   let nameFlds = Object.keys(Rows[0])
   function handleMessage(event: any) {
-      alert(event.target.tagName);
+    if (event.target.tagName === "TD") {
+      let tBody = event.target.parentNode.parentNode ;
+      tBody.children[currRow-1].children[0].innerHTML = ""
+      currRow = event.target.parentNode.rowIndex
+      tBody.children[currRow-1].children[0].innerHTML = triangle
+      // alert("tBody "+tBody.children[currRow-1].children[0].innerHTML);
+      // alert("Row # "+currRow);
+    }
+    
+
+      
 	}
   function sayHeader(parm: string){
     return   parm
     //return  '<th>{@html parm}</th>'
   }
-  function sayCell(parm: string){
-    return   parm
-    //return  '<th>{@html parm}</th>'
+  function sayCell(parmRow: any, parmDSCCol: any){
+    let ret = parmRow[parmDSCCol.fld]
+    // if (parmDSCCol.fld[0] == '_') {
+    //     let vocFld = parmDSCCol.fld.slice(1); 
+    //     let vocVal = parmRow[vocFld]
+    //     ret += '<td>'+getVocab(vocFld, voc, vocVal)+'</td>';
+    //   }
+    //   else {
+    //     if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
+    //   }
+    return  ret
   }
+  function getStyle(parmDSCCol: any){
+    switch (parmDSCCol.type) {
+      case 'number':
+        return  'style = "text-align: right"'
+        break;
+      case 'bool':
+      case 'date':
+      return  'style = "text-align: center"'
+      default:
+        break;
+    }
+    return ''
+  }
+  function getVocab(parmName: string, parmVoc: any, parmVal: any) {
+    let a =  parmVoc.find((item:any) => item.name == parmName);
+    let vocQry = a.qry.data
+    let nameKey = Object.entries(vocQry[0])[0][0]
+    let nameVal = Object.entries(vocQry[0])[1][0]
+    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+    let retVal = ''; if (vocabRecs) retVal = vocabRecs[nameVal]
+    return retVal
+  }
+  onMount(() => {
+
+}  )
 </script>
 <!-- <svelte:window  on:click={handleMessage}/> -->
 <div><Navigator></Navigator>
   
-<table on:click={handleMessage}>
+<table on:click={handleMessage} style="max-width: {width};">
     <tr>
       {#if dscFlds} 
       <th></th>
       {#each dscFlds.col as fld, i}
-        <th> {@html sayHeader(fld.header)} </th>
+        {#if !(fld.type == 'key' || fld.type == 'image')} 
+          <th> {@html sayHeader(fld.header)} </th>
+        {/if} 
+        
       {/each}
       {:else if headerFlds} 
         {#each headerFlds as fld, i}
@@ -47,8 +97,12 @@
           <tr>
           <td>{#if i===0} <i class="fa-solid fa-caret-right"></i>{/if}</td>
             {#each dscFlds.col as colFld, i}
-            <!-- {@debug colFld}  -->
-              <td>{row[colFld.fld]}</td>
+              <!-- {@debug colFld}  -->
+              {#if !(colFld.type == 'key' || colFld.type == 'image')} 
+              {@html '<td '+getStyle(colFld)+'>'+ sayCell(row,colFld)+'</td>'}
+                
+                <!-- <td>{row[colFld.fld]}</td>                 -->
+              {/if}
             {/each}
 
             <!-- {#each nameFlds as fld, i}
@@ -77,7 +131,7 @@ table {
   border-collapse: collapse;
   width: 100%;
   /**/
-  max-width: 400px;
+ 
   height: 240px;
   margin: 0 ;/*auto;*/
   display: block;
@@ -95,7 +149,7 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
+tr:hover { background-color: rgb(202, 101, 101); color: white}
 /**/
 th {
   position: sticky;

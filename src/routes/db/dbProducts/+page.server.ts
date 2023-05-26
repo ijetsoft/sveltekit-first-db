@@ -6,7 +6,8 @@ import { supabase } from "$lib/supabaseClient.js";
     let category = await supabase.from("Category").select("Id, CategoryName");
     let suppliers = await supabase.from("Supplier").select("Id, CompanyName");    
     let voc = [{name:'CategoryId', qry:category}, {name:'SupplierId', qry:suppliers}]
-    data = {category, product, voc}
+    data = {product, voc}
+    //data = {category, product, voc}
     return {
       db: data ?? [],
     };
