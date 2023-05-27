@@ -1,24 +1,41 @@
 <script  lang="ts">
   import {onMount} from 'svelte';
+  import {setContext} from 'svelte';
   import Navigator from './../navigator/+page.svelte';
+  
     import { debug } from 'svelte/internal';
     export let dscFlds : any
   export let tblRows : any
   export let Width = '400px;'
+  export let Height = '240px;'
 
   export let headerFlds : any;// = ['nameCol1', 'nameCol2', 'nameCol3'];
   export let Rows : any = []
   let nameFlds : any; if (Rows.length > 0) nameFlds = Object.keys(Rows[0])
   
-    let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
+  let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
   const triangle = `<i class="fa-solid fa-caret-right"></i>`
   let currRow = 1;
+  let tBody: any
+  let tTable: any
+  setContext('masterTable', {myTable: tTable, mark: setMarkRow});
+  
   function setMarkRow(parm: any) {
     // let tBody = event.target.parentNode.parentNode ;
-       tBody.children[currRow-1].children[0].innerHTML = ""
+    if (parm === 0 || parm > tBody.childElementCount) return
+    if (tTable && parm === -1) {
+      parm = tBody.childElementCount
+      tTable.scrollTop = tTable.scrollHeight;
+    }
+    if (tBody) {
+      tBody.children[currRow-1].children[0].innerHTML = ""
        currRow = parm //event.target.parentNode.rowIndex
        tBody.children[currRow-1].children[0].innerHTML = triangle
+       //tBody.children[currRow-1].focus()
+       //tTable.scrollIntoView();
+       if (parm === 1) tTable.scrollTop = 0
+    }
   }
 function handleMessage(event: any) {
   let ind = event.target.parentNode.rowIndex
@@ -63,20 +80,21 @@ function handleMessage(event: any) {
     }
     return ''
   }
-  let tBody: any
   onMount(() => {
     setMarkRow(1)
-    //{@debug tbody}
+
       //  let myPlace: any = document.querySelector(".placeHold") ;
       //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
     } )
   let thisCol = {}
   if (dscFlds) thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
 </script>
+{@debug currRow}
 <!-- <svelte:window  on:click={handleMessage}/> -->
-<div><Navigator></Navigator>
+<div><Navigator bind:currRow={currRow} ></Navigator>
  
-<table on:click={handleMessage} style ="max-width:{Width}">
+<table bind:this={tTable} on:click={handleMessage} 
+   style ="max-width:{Width}; height:{Height}">
     <tr>
       <th> </th>
       {#if dscFlds} 
@@ -104,7 +122,18 @@ function handleMessage(event: any) {
              
             <!-- {#if !(colFld.type == 'key' || colFld.type == 'image')|| !(colFld.ref==='')} -->
              <!-- {@debug colFld}  -->
-              {@html '<td '+getStyle(colFld)+'>'+ sayCell(row,colFld)+'</td>'}
+             {#if (colFld.type == 'number')} 
+                <td class='r'>
+                {@html sayCell(row,colFld)} </td>
+             {:else if (colFld.type == 'date' || colFld.type == 'bool')}     
+                <td class='c'>
+                {@html sayCell(row,colFld)} </td>
+             {:else}  
+                <td>
+                {@html sayCell(row,colFld)} </td>
+             {/if}
+               
+              <!-- {@html '<td '+getStyle(colFld)+'>'+ sayCell(row,colFld)+'</td>'} -->
                 
                 <!-- <td>{row[colFld.fld]}</td>                 -->
               <!-- {/if} -->
@@ -137,8 +166,8 @@ table {
   border-collapse: collapse;
   width: 100%;
   /*
-  max-width: 400px; */
-  height: 240px;
+  max-width: 400px; 
+  height: 240px; */
   margin: 0 ;/*auto;*/
   display: block;
   overflow-x: auto;
@@ -151,16 +180,20 @@ td, th {
   text-align: left;
   padding: 8px;
 }
-tr:hover { background-color: rgb(202, 101, 101); color: white}
+
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-
+tr:hover { background-color: rgb(202, 101, 101); color: white}
+.r {text-align: right}
+.l {text-align: left}
+.c {text-align: center}
 /**/
 th {
   position: sticky;
   top: 0;
-  vertical-align: bottom;
+  vertical-align: center;
+  text-align: center;
 }
 tbody {
   white-space: nowrap;
