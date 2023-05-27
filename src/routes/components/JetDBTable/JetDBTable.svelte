@@ -1,33 +1,29 @@
 <script  lang="ts">
   import {onMount} from 'svelte';
   import Navigator from './../navigator/+page.svelte';
-  export let headerFlds = ['Company', 'Contact', 'Country'];
-  export let dscFlds : any
+    import { debug } from 'svelte/internal';
+    export let dscFlds : any
   export let tblRows : any
-  export let width = '400px'
-   export let Rows = [
-     {Company:'Alfreds Futterkiste', Contact:'Maria Anders', Country:'Germany'},
-     {Company:'Centro comercial Moctezuma', Contact:'Francisco Changs', Country:'Mexico'},
-     {Company:'Ernst Handele', Contact:'Roland Mendels', Country:'Austria'},
-     {Company:'Island Trading', Contact:'Helen Bennett', Country:'UK'},
-     {Company:'Laughing Bacchus Winecellars', Contact:'Yoshi Tannamuri', Country:'Canada'},
-     {Company:'Magazzini Alimentari Riuniti', Contact:'Giovanni Rovelli', Country:'Italy'}
-   ]
-   const triangle = `<i class="fa-solid fa-caret-right"></i>`
-  let currRow = 1;
-  let nameFlds = Object.keys(Rows[0])
-  function handleMessage(event: any) {
-    if (event.target.tagName === "TD") {
-      let tBody = event.target.parentNode.parentNode ;
-      tBody.children[currRow-1].children[0].innerHTML = ""
-      currRow = event.target.parentNode.rowIndex
-      tBody.children[currRow-1].children[0].innerHTML = triangle
-      // alert("tBody "+tBody.children[currRow-1].children[0].innerHTML);
-      // alert("Row # "+currRow);
-    }
-    
+  export let Width = '400px;'
 
-      
+  export let headerFlds : any;// = ['nameCol1', 'nameCol2', 'nameCol3'];
+  export let Rows : any = []
+  let nameFlds : any; if (Rows.length > 0) nameFlds = Object.keys(Rows[0])
+  
+    let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
+  let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
+  const triangle = `<i class="fa-solid fa-caret-right"></i>`
+  let currRow = 1;
+  function setMarkRow(parm: any) {
+    // let tBody = event.target.parentNode.parentNode ;
+       tBody.children[currRow-1].children[0].innerHTML = ""
+       currRow = parm //event.target.parentNode.rowIndex
+       tBody.children[currRow-1].children[0].innerHTML = triangle
+  }
+function handleMessage(event: any) {
+  let ind = event.target.parentNode.rowIndex
+  setMarkRow(ind)
+	//alert(event.target.tagName);
 	}
   function sayHeader(parm: string){
     return   parm
@@ -35,15 +31,24 @@
   }
   function sayCell(parmRow: any, parmDSCCol: any){
     let ret = parmRow[parmDSCCol.fld]
-    // if (parmDSCCol.fld[0] == '_') {
-    //     let vocFld = parmDSCCol.fld.slice(1); 
-    //     let vocVal = parmRow[vocFld]
-    //     ret += '<td>'+getVocab(vocFld, voc, vocVal)+'</td>';
-    //   }
-    //   else {
-    //     if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
-    //   }
+    if (parmDSCCol.fld[0] == '_') {
+         let vocFld = parmDSCCol.fld.slice(1); 
+         let vocVal = parmRow[vocFld]
+         ret = getVocab(vocFld, vocVal);
+       }
+       else {
+         if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
+    }
     return  ret
+  }
+  function getVocab(parmName: string, parmVal: any) {
+    let a =  thisVoc.find((item:any) => item.name == parmName);
+    let vocQry = a.qry.data
+    let nameKey = Object.entries(vocQry[0])[0][0]
+    let nameVal = Object.entries(vocQry[0])[1][0]
+    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+    let retVal = ''; if (vocabRecs) retVal = vocabRecs[nameVal]
+    return retVal
   }
   function getStyle(parmDSCCol: any){
     switch (parmDSCCol.type) {
@@ -58,32 +63,29 @@
     }
     return ''
   }
-  function getVocab(parmName: string, parmVoc: any, parmVal: any) {
-    let a =  parmVoc.find((item:any) => item.name == parmName);
-    let vocQry = a.qry.data
-    let nameKey = Object.entries(vocQry[0])[0][0]
-    let nameVal = Object.entries(vocQry[0])[1][0]
-    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
-    let retVal = ''; if (vocabRecs) retVal = vocabRecs[nameVal]
-    return retVal
-  }
+  let tBody: any
   onMount(() => {
-
-}  )
+    setMarkRow(1)
+    //{@debug tbody}
+      //  let myPlace: any = document.querySelector(".placeHold") ;
+      //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
+    } )
+  let thisCol = {}
+  if (dscFlds) thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
 </script>
 <!-- <svelte:window  on:click={handleMessage}/> -->
 <div><Navigator></Navigator>
-  
-<table on:click={handleMessage} style="max-width: {width};">
+ 
+<table on:click={handleMessage} style ="max-width:{Width}">
     <tr>
+      <th> </th>
       {#if dscFlds} 
-      <th></th>
-      {#each dscFlds.col as fld, i}
-        {#if !(fld.type == 'key' || fld.type == 'image')} 
-          <th> {@html sayHeader(fld.header)} </th>
-        {/if} 
-        
-      {/each}
+        {#each thisCol as fld, i}
+        <!-- {#each dscFlds.col as fld, i} -->
+          <!-- {#if !(fld.type == 'key' || fld.type == 'image' || fld.ref)}  -->
+            <th> {@html sayHeader(fld.header)} </th>
+          <!-- {/if}  -->
+        {/each}
       {:else if headerFlds} 
         {#each headerFlds as fld, i}
           <th>{fld}</th>
@@ -91,18 +93,21 @@
 
       {/if} 
     </tr>
-    <tbody>
-      {#if tblRows} 
-        {#each tblRows.data as row, i}
-          <tr>
-          <td>{#if i===0} <i class="fa-solid fa-caret-right"></i>{/if}</td>
-            {#each dscFlds.col as colFld, i}
-              <!-- {@debug colFld}  -->
-              {#if !(colFld.type == 'key' || colFld.type == 'image')} 
+      <tbody bind:this={tBody}>
+        {#if tblRows} 
+          {#each thisDS as row, j}
+            
+            <tr>
+              <td></td>
+              {#each thisCol as colFld, i}
+            <!-- {#each dscFlds.col as colFld, i} -->
+             
+            <!-- {#if !(colFld.type == 'key' || colFld.type == 'image')|| !(colFld.ref==='')} -->
+             <!-- {@debug colFld}  -->
               {@html '<td '+getStyle(colFld)+'>'+ sayCell(row,colFld)+'</td>'}
                 
                 <!-- <td>{row[colFld.fld]}</td>                 -->
-              {/if}
+              <!-- {/if} -->
             {/each}
 
             <!-- {#each nameFlds as fld, i}
@@ -113,11 +118,12 @@
         {:else if Rows} 
           {#each Rows as row, i}
             <tr>
+            <td></td>
             {#each nameFlds as fld, i}
               <td>{row[fld]}</td>
             {/each} 
             </tr>
-          {/each} 
+          {/each}  
         {/if} 
         </tbody>
     
@@ -130,8 +136,8 @@ table {
   font-family: arial, sans-serif;
   border-collapse: collapse;
   width: 100%;
-  /**/
- 
+  /*
+  max-width: 400px; */
   height: 240px;
   margin: 0 ;/*auto;*/
   display: block;
@@ -145,17 +151,16 @@ td, th {
   text-align: left;
   padding: 8px;
 }
-
+tr:hover { background-color: rgb(202, 101, 101); color: white}
 tr:nth-child(even) {
   background-color: #dddddd;
 }
-tr:hover { background-color: rgb(202, 101, 101); color: white}
+
 /**/
 th {
   position: sticky;
   top: 0;
   vertical-align: bottom;
-  text-align: center;
 }
 tbody {
   white-space: nowrap;
