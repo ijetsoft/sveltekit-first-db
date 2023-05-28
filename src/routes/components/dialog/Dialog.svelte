@@ -8,7 +8,7 @@
 	export let icon: any = undefined;                               
 	export let title: any;                                          
   
-	const dispatch = createEventDispatcher();
+	const  dispatch = createEventDispatcher();
    
 	$: classNames = 'dialog' + (className ? ' ' + className : '');
    
