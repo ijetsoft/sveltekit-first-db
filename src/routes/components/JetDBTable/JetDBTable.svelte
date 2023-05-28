@@ -38,9 +38,20 @@
     }
   }
 function handleMessage(event: any) {
-  let ind = event.target.parentNode.rowIndex
-  setMarkRow(ind)
-	//alert(event.target.tagName);
+  let el = event.target
+  let p = el.parentNode.parentNode.parentNode.parentNode.parentNode
+  let dialog = p.children[0]
+  //alert(el.tagName);
+  if (el.tagName === "BUTTON") {
+    //alert(el.dataset.value)
+    dialog.children[0].innerHTML = el.dataset.value
+    dialog.showModal() 
+  }
+  else {
+    let ind = event.target.parentNode.rowIndex
+    setMarkRow(ind)
+  }
+
 	}
   function sayHeader(parm: string){
     return   parm
@@ -54,10 +65,33 @@ function handleMessage(event: any) {
          ret = getVocab(vocFld, vocVal);
        }
        else {
-         if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
+        switch (parmDSCCol.type) {
+          case 'date':
+            ret = date2str(ret, 'dd.MM.yy')
+            break;
+          case 'memo':
+            ret = '<button class="mini" data-value="'+ret+'">...</button>'
+            break;
+          case 'bool':        
+            ret = ret === '0' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
+          default:
+            break;
+        }
+         //if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
     }
     return  ret
   }
+  /*
+   var options = {
+                maximumFractionDigits: 2,
+                currency: currency,
+                style: "currency",
+                currencyDisplay: "symbol"
+            }
+
+            e.target.value = ( value || value === 0 ) ?
+                localStringToNumber( value ).toLocaleString( undefined, options ) :
+   */
   function getVocab(parmName: string, parmVal: any) {
     let a =  thisVoc.find((item:any) => item.name == parmName);
     let vocQry = a.qry.data
@@ -68,17 +102,33 @@ function handleMessage(event: any) {
     return retVal
   }
   function getStyle(parmDSCCol: any){
-    switch (parmDSCCol.type) {
-      case 'number':
-        return  'style = "text-align: right"'
-        break;
-      case 'bool':
-      case 'date':
-      return  'style = "text-align: center"'
-      default:
-        break;
-    }
+    // switch (parmDSCCol.type) {
+    //   case 'number':
+    //     return  'style = "text-align: right"'
+    //     break;
+    //   case 'bool':
+    //   case 'date':
+    //   return  'style = "text-align: center"'
+    //   default:
+    //     break;
+    // }
     return ''
+  }
+  function date2str(parmDate: any, y:any) {
+    let x = new Date(parmDate);
+    let z: any = {
+        M: x.getMonth() + 1,
+        d: x.getDate(),
+        h: x.getHours(),
+        m: x.getMinutes(),
+        s: x.getSeconds()
+    };
+    y = y.replace(/(M+|d+|h+|m+|s+)/g, function (v: any) {
+        return ((v.length > 1 ? "0" : "") + z[v.slice(-1)]).slice(-2)
+    });
+    return y.replace(/(y+)/g, function (v) {
+        return x.getFullYear().toString().slice(-v.length)
+    });
   }
   onMount(() => {
     setMarkRow(1)
@@ -90,8 +140,16 @@ function handleMessage(event: any) {
   if (dscFlds) thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
 </script>
 {@debug currRow}
-<!-- <svelte:window  on:click={handleMessage}/> -->
-<div><Navigator bind:currRow={currRow} ></Navigator>
+
+<div>
+  <dialog>
+    <p>Greetings, one and all!</p>
+    <form method="dialog">
+      <button>OK</button>
+    </form>
+  </dialog>
+ 
+  <Navigator bind:currRow={currRow} ></Navigator>
  
 <table bind:this={tTable} on:click={handleMessage} 
    style ="max-width:{Width}; height:{Height}">

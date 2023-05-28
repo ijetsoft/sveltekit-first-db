@@ -1,16 +1,21 @@
 <script  lang="ts">
   import {onMount} from 'svelte';
     import dscEmployees from './../../../json/Employees.json'
-    import {formView} from './../dsc';
+    import JetDBTable from './../../components/JetDBTable/JetDBTable.svelte';
     export let data;
     let { db } = data;
     onMount(() => {
-      let myPlace: any = document.querySelector(".placeHold") ;
-       myPlace.innerHTML = formView(dscEmployees, db.employee, db.voc);
+      // let myPlace: any = document.querySelector(".placeHold") ;
+      //  myPlace.innerHTML = formView(dscEmployees, db.employee, db.voc);
     }  
     );
   </script>
   {@debug data}
+  <JetDBTable dscFlds={dscEmployees} 
+    tblRows={db} 
+    Width='500px'
+    Height='400px'>
+  </JetDBTable>
   <div><button class="mini">...</button></div>
   <p class='placeHold'>****</p>
   <!-- <table style="width: 30%; margin-top: 50px;">

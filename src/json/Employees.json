@@ -1,5 +1,5 @@
 {
-	"name": "Employees",
+	"name": "employee",
 	"SQL": "SELECT * FROM Employees ORDER BY LastName",
 	"col": [
 		{

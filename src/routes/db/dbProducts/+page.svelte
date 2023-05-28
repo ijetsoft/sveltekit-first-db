@@ -13,10 +13,11 @@
     }  
     );
   </script>
+  <!-- {@debug db} -->
   <JetDBTable dscFlds={dscProducts} 
     tblRows={db} 
     Width='500px'
-    Height='500px'>
+    Height='400px'>
   </JetDBTable>
   <!-- <Navigator></Navigator> -->
   <p class='placeHold'>xx</p>

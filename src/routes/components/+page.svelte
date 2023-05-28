@@ -9,6 +9,7 @@
 <a href="../components/мойКомбобокс">Test</a>
 <a href="../components/навигатор">БД-навигатор</a>
 <a href="../components/JetDBTable">JetDBTable</a>  
+<a href="../components/dialog">Диалог-бокс</a>  
 <a href="../db2">Скринсейвер</a>
 </div>
 
