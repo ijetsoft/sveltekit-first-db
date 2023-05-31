@@ -1,0 +1,31 @@
+{
+"name": "order",
+"SQL": "",
+"col": [
+  {"fld": "Id", "header": "id", "type": "key" },
+  {"fld": "CustomerId", "header": "клиент","type": "string"},
+  {"fld": "_EmployeeId", "header": "менеджер","type": "string"},
+  {"fld": "OrderDate", "header": "дата","type": "date"},
+  {"fld": "RequiredDate", "header": "срок", "type": "date"},
+  {"fld": "ShippedDate", "header": "отгрузка", "type": "date"},
+  {"fld": "ShipVia", "header": "тип", "type": "number"},
+  {"fld": "Freight", "header": "вес", "type": "number"},
+  {"fld": "ShipName", "header": "поставка", "type": "string"},
+  {"fld": "ShipAddress", "header": "адрес", "type": "string"},
+  {"fld": "ShipCity", "header": "город", "type": "string"},
+  {"fld": "ShipRegion", "header": "регион", "type": "string"},
+  {"fld": "ShipPostalCode", "header": "почт. код", "type": "string"},
+  {"fld": "ShipCountry", "header": "страна", "type": "string"}
+	],
+	"options": [
+
+		{ "lines": "all" },
+		{ "numlines": "yes" },
+		{
+			"reports": [
+				[ "повний список", "/doctors/FullReport" ],
+				[ "короткий список", "/doctors/ShortReport" ]
+			]
+		}
+	]
+}

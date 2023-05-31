@@ -7,6 +7,7 @@
   <a href="../db/dbProducts">Товары</a>
   <a href="../db2">Поставщики</a>
   <a href="../db/dbCategories">Типы товаров</a>  
+  <a href="../db/dbOrder">Накладные</a>
 </div>
   
 

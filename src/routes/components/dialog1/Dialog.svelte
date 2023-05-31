@@ -4,20 +4,15 @@
    
 	export let canClose = true;                                
 	export let className = '';                                 
-	export let dialog: any = null;    
-	export let header: any = null                              
+	export let dialog: any = null;                                  
 	export let icon: any = undefined;                               
-	export let title: any;  
-	export let bkgHeaderColor = '';                                         
+	export let title: any;                                          
   
 	const  dispatch = createEventDispatcher();
    
 	$: classNames = 'dialog' + (className ? ' ' + className : '');
    
-	onMount(() => {
-		header.style.backgroundColor = bkgHeaderColor
-		//header.setAttribute('background-color', 'maroon');
-	});    
+	//onMount(() => dialogPolyfill.registerDialog(dialog));      
     
 	function close() {
 	  dispatch('close');                                       
@@ -26,7 +21,7 @@
   </script>
    
   <dialog bind:this={dialog} class={classNames}>               
-  	<header bind:this={header}>
+  	<header>
 	  {#if icon}{icon}{/if}
 	  <div class="title">{title}</div>
 	  {#if canClose}
