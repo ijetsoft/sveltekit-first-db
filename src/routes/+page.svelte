@@ -83,6 +83,7 @@
 	ul { 
 	display: inline-block; 
 	text-align: left; 
+	font-size: 2em;
 	}
 	
 	h1 {
