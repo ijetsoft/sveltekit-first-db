@@ -20,7 +20,7 @@
 
 <!-- <section> -->
 	<h1>
-		<img src={DevOps} alt="DevOps" />
+		<img class="card__img" src={DevOps} alt="DevOps" />
 		<p><a href="https://en.wikipedia.org/wiki/DevOps">DevOps</a>-стек технологий: <i class="far fa-thumbs-up"></i></p>
 		<ul style="font-size: larger; ">
 			<li><div class="corner">
@@ -104,5 +104,11 @@
 		height: 100%;
 		top: 0;
 		display: block;
+	}
+	.card__img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		/*height: 40vh;*/
 	}
 </style>
