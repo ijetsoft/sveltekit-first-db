@@ -51,15 +51,16 @@
 	  border: none;
 	  color: white;
 	  cursor: pointer;
-	  font-size: 24px;
+	  font-size: 18px;
 	  outline: none;
 	  margin: 0;
 	  padding: 0;
 	}
    
 	dialog {
-	  position: fixed;
-	  top: 50%;
+		border-radius: 5px;
+	  /* position: fixed; */
+	  top: center; /*50%;*/
 	  transform: translate(0, -50%);
    
 	  border: none;
@@ -75,8 +76,8 @@
 	  background-color: cornflowerblue;
 	  box-sizing: border-box;
 	  color: white;
-	  font-weight: bold;
-	  padding: 10px;
+	  /*font-weight: bold;*/
+	  padding: 5px;
 	  width: 100%;
 	}
    
