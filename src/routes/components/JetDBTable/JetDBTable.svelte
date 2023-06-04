@@ -19,7 +19,8 @@
   let currRow = 1;
   let tBody: any
   let tTable: any
-  setContext('masterTable', {myTable: tTable, mark: setMarkRow, dsc: dscFlds, DS: thisDS[currRow]});
+  setContext('masterTable', 
+    {myTable: tTable, mark: setMarkRow, dsc: dscFlds, DS: thisDS, voc: thisVoc});
   
   function setMarkRow(parm: any) {
     // let tBody = event.target.parentNode.parentNode ;

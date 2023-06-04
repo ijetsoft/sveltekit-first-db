@@ -2,15 +2,18 @@
   import Dialog from './../dialog/Dialog.svelte'
   let dialog: any;
   import {getContext} from 'svelte'; 
-  const {myTable, mark, dsc, DS} = getContext('masterTable');
+  const {myTable, mark, dsc, DS, voc} = getContext('masterTable');
   export let currRow: any
+  let thisRecord = {}
   function myFirst() { mark(1); }
   function myLast() { mark(-1); }
   function myPrev() { mark(currRow-1); }
   function myNext() { mark(currRow+1); }
-  function thisView() {dialog.showModal()}
+  function thisView() {
+    thisRecord = DS[currRow-1]
+    dialog.showModal()}
 </script>
-{@debug currRow}
+ {@debug currRow}
 <div>
   <button class="btn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
@@ -27,7 +30,10 @@
 <button class="btn" title="добавить запись"><i class="far fa-plus-square"></i></button>
 <button class="btn" title="опции сетки"><i class="fab fa-stack-exchange"></i></button>
 </div>
-<Dialog title="Test Dialog assa"  bind:dialog bkgHeaderColor = 'maroon' dsc={dsc} DS={DS}>
+{@debug dsc}
+<Dialog title="Test Dialog assa"  
+  bind:dialog bkgHeaderColor = 'maroon' 
+  dsc={dsc} DS={thisRecord} voc={voc}>
 
   </Dialog>
   <style>

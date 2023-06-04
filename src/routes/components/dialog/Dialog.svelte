@@ -1,5 +1,6 @@
 <script  lang="ts">
     //import dialogPolyfill from 'dialog-polyfill';
+	import Checkbox from './../checkbox/Checkbox.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
    
 	export let canClose = true;                                
@@ -13,6 +14,9 @@
    export let bkgHeaderColor = '';   
    export let dsc: any = null
    export let DS: any = null
+   export let voc: any = null
+   const thisCSS = ' style="background-color:lemonchiffon;color:maroon;"'
+   let _bool = true
   
 	const  dispatch = createEventDispatcher();
    
@@ -30,37 +34,63 @@
 		//if (dsc) body = dsc.col.length+' *'
 		//header.setAttribute('background-color', 'maroon');
 	});
-	function sayCell(parmRow: any, parmDSCCol: any){
-    let ret = parmRow[parmDSCCol.fld]
-    if (parmDSCCol.fld[0] == '_') {
-         let vocFld = parmDSCCol.fld.slice(1); 
-         let vocVal = parmRow[vocFld]
-         //ret = getVocab(vocFld, vocVal);
-       }
-       else {
-        switch (parmDSCCol.type) {
-          case 'date':
-            //ret = date2str(ret, 'dd.MM.yy')
-            break;
-          case 'memo':
-            ret = '<button class="mini" data-value="'+ret+'">...</button>'
-            break;
-          case 'bool':        
-            ret = ret === '0' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
-          default:
-            break;
-        }
-         //if (parmDSCCol.type == 'memo') {ret += '<button class="mini">...</button>'}
-    }
-    return  ret
-  }
-	let thisCol = {}
-    if (dsc) thisCol = dsc.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
-  </script>
-   <div style={stylish}>
+  function sayCell(parmFld: any, parmRow: any){
+    let val = parmRow[parmFld.fld]
+	let _text = 'text', _required = 'required', ret =''
+	let _val =' value="'+val+'"'
+	switch (parmFld.type) {
+		case 'bool':
+			if (val === '1') _val = ' checked'; 
+			if (val === '1') _val = 'checked' 
+			else _val = '' 
+			ret = '<Checkbox name="'+parmFld.fld+'" id="'+parmFld.fld+'" '+_val+' --bkgHeaderColor="maroon"></Checkbox>'
+			console.log(ret)
+			return ret
+			_text = 'checkbox'
+			/* ret = '<input type="checkbox" name="'+parmFld.fld+'" id="'+parmFld.fld+'"'+
+				_val + thisCSS+'><br>'	
+				 */
+			
+			break;
+			case 'string':
+			case 'number':
+				break;
+		default:
+	}
+	ret = '<input type="'+_text+'" name="'+parmFld.fld+'" id="'+parmFld.fld+'"'+
+				_val + thisCSS+'><br>'	
 	
-</div>
+				
+				return ret
+    
+  }
+  function checkBool(parmFld: any, parmRow: any){
+	let val = parmRow[parmFld.fld]
+	console.log(parmRow[parmFld.fld])
+	if (parmRow[parmFld.fld] === "1") {
+		_bool = true }
+	else {
+		_bool = false
+	}
+	return ''
+  }
+	let thisCol = [], el = ''
+	// очистить заголовок
+    if (dsc) {
+		thisCol = dsc.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
+		for (let index = 0; index < thisCol.length; index++) {
+			el = thisCol[index].header;
+			el = el.split('-<br>').join('');
+			el = el.split('<br>').join(' ');
+			el = el.split('- ').join('');
+			thisCol[index].header= el
+		}
+	};
+// body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
+  </script>
+
 {@debug title}
+  
   <dialog bind:this={dialog} class={classNames}>               
   	<header bind:this={header}>
 	  {#if icon}{icon}{/if}
@@ -71,17 +101,31 @@
   		</button>
 	  {/if}
 	</header>
-	<main>      
+	<main> 
+		<!-- <Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>      -->
         {@html body}
-           {#if dsc}
+        {#if dsc}
 			{#each dsc.col as fld}
 				{#if !(fld.type == 'key' || fld.type == 'image' || fld.ref)}  
-			 		<label> {fld.header}</label><br>
-				 	<input type="text" name="+{fld.fld}+" id="+{fld.fld}+
-					" required value="{sayCell(DS, fld)}"><br>			 
+					<label> {fld.header}</label><br>
+					{#if fld.type == 'bool'}
+						<!-- {#if DS[fld.fld] === '1'} 
+						<Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
+						{:else} -->
+						{checkBool(fld, DS)}
+						<Checkbox text="" checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
+						<!-- {/if} -->
+					
+					<!-- <input type="checkbox" name="+{fld.fld}+" id="+{fld.fld}+ 
+						"checked	><br>	-->
+					{:else }
+					{@html sayCell(fld, DS)}
+						<!-- <input type="text" name="+{fld.fld}+" id="+{fld.fld}+
+						" required value="{sayCell(DS, fld)}"><br>			   -->
+					{/if}   
 				{/if}  
 			{/each}
-		   {/if}                                  
+		{/if}                                   
   	  <slot />                                                 
   
 	</main>

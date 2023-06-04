@@ -93,6 +93,7 @@
 		left: calc(50% - var(--size));
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
+		font-size: 2em;
 	}
 
 	nav a {
@@ -102,7 +103,7 @@
 		padding: 0 0.5rem;
 		color: var(--color-text);
 		font-weight: 700;
-		font-size: 0.8rem;
+		font-size: 0.7em;
 		text-transform: uppercase;
 		letter-spacing: 0.1em;
 		text-decoration: none;
