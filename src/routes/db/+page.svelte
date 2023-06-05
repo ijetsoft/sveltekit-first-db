@@ -23,6 +23,7 @@
   display: block; /* Make the links appear below each other */
   padding: 12px; /* Add some padding */
   text-decoration: none; /* Remove underline from links */
+  font-size: 2em;
 }
 
 .vertical-menu a:hover {
