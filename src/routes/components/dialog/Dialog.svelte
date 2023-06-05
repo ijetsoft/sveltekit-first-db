@@ -54,6 +54,12 @@
 			break;
 			case 'string':
 			case 'number':
+			if (parmFld.fld[0] == '_') {
+				let vocFld = parmFld.fld.slice(1); 
+         		let vocVal = parmRow[vocFld]
+				let val = getVocab(vocFld, vocVal);
+// console.log(vocFld+"="+vocVal+', '+val)
+			}
 				break;
 		default:
 	}
@@ -63,6 +69,24 @@
 				
 				return ret
     
+  }
+  function getVocab(parmName: string, parmVal: any) {
+    let a =  voc.find((item:any) => item.name == parmName);
+    let vocQry = a.qry.data
+    let nameKey = Object.entries(vocQry[0])[0][0]
+    let nameVal = Object.entries(vocQry[0])[1][0]
+    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+	let options:any = []
+    let retVal = ''; if (vocabRecs) {
+		vocQry.forEach(el => {
+			options.push({ind:el[nameKey],val:el[nameVal]});
+			retVal += el[nameKey]+":"+el[nameVal]+', '
+		});
+		console.log(options)
+		//retVal = vocabRecs[nameVal]
+	}
+
+    return retVal
   }
   function checkBool(parmFld: any, parmRow: any){
 	let val = parmRow[parmFld.fld]
