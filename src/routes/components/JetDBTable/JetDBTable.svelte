@@ -257,8 +257,8 @@ th {
 tbody {
   white-space: nowrap;
 }
-table { font-size: 2em;}
-    @media screen and (min-width: 601px) {
+
+@media screen and (min-width: 601px) {
       table {
     font-size: 1em;
   }

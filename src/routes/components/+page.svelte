@@ -37,4 +37,15 @@ background-color: #ccc; /* Dark grey background on mouse-over */
 background-color: #04AA6D; /* Add a green color to the "active/current" link */
 color: white;
 }
+@media screen and (min-width: 601px) {
+      a {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  a {
+    font-size: 2em;
+  }
+}
 </style>

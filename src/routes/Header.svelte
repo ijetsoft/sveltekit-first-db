@@ -113,4 +113,15 @@
 	a:hover {
 		color: var(--color-theme-1);
 	}
+@media screen and (min-width: 601px) {
+      li {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  li {
+    font-size: 2em;
+  }
+}
 </style>

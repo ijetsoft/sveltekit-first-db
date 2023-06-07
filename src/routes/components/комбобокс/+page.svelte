@@ -13,7 +13,7 @@
 	}
 	let dialog : any
 	function handleMessage(event: any) {
-		dialog = document.querySelector("dialog") ;
+		/* dialog = document.querySelector("dialog") ;
 		// alert(event.detail.text+'='+event.detail.index);
 		
 		if (dialog) {
@@ -25,16 +25,17 @@
 			}
 			//dialog.innerText =event.detail[0].index+". "+event.detail[0].text
 			dialog.showModal()
-		}
+		} */
 	}
 </script>
 
-<dialog>
-	<!-- {@debug dialog} -->
+<!-- <dialog>
+	
 	
 	<span>You can see me</span>
-</dialog>
-<Combo options={items} on:message={handleMessage}  width = {_width} />
+</dialog> -->
+<Combo options={items} on:message={handleMessage}  
+	width = {_width} />
 <!-- multiple --color="red" -->
 <!-- <Combo options={['one','two']} on:message={handleMessage}/> -->
 <p>Примеры использования:</p>

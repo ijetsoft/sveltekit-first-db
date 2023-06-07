@@ -132,7 +132,10 @@
 			{#each dsc.col as fld}
 				{#if !(fld.type == 'key' || fld.type == 'image' || fld.ref)}  
 					<label> {fld.header}</label><br>
-					{#if fld.type == 'bool'}
+					{@debug}
+					{#if fld.fld[0] == '_'}
+						<p>vocab</p>
+					{:else if fld.type == 'bool'}
 						<!-- {#if DS[fld.fld] === '1'} 
 						<Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
 						{:else} -->
