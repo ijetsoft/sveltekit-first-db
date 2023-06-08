@@ -3,7 +3,7 @@
 	// import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 	// https://freefrontend.com/css-select-boxes/
 	// https://codepen.io/5t3ph/pen/MWyyYNz
-	export let options = [{ind:0,val:'item1'}, {ind:1,val:'item2'}, {ind:2,val:'item3'}, {ind:3,val:'item4'},];
+	export let options = [{ind:0,val:'comboItem1'}, {ind:1,val:'comboItem2'}, {ind:2,val:'comboItem3'}, {ind:3,val:'comboItem4'},];
 	//export let options = ['item1', 'item2', 'item3', 'item4'];
 	export let color = 'maroon';
 	export let bkgColor = 'lemonchiffon'
@@ -64,7 +64,7 @@
      		sSheet.insertRule('p {background-color: LemonChiffon}', sSheet.cssRules.length);
 		} */
 		
-		let myPlace: any = document.querySelector(".placeHold") ;
+		// let myPlace: any = document.querySelector(".placeHold") ;
 		onMount(() => {
 		 	/* myPlace= document.querySelector(".placeHold"); 
 			myPlace.innerHTML = addHTML(); */
@@ -89,8 +89,9 @@
     	 }  
 	</script>
 	
-	<p class='placeHold'>****</p>
-	{@debug myPlace}
+	<!-- <p class='placeHold'>****</p> -->
+	{@debug thisCombo}
+	
 	<select bind:this={thisCombo} 
 		style="width: {width}; height:{height};" on:change={onChange} 
 		{multiple}>
@@ -100,7 +101,7 @@
 				<option value={i}> {option}</option>
 			{/if}
 			{#if mode === 1} 	
-				<option value={option.ind}> * {option.val}</option>
+				<option value={option.ind}>  {option.val}</option>
 			{/if}
 			<!-- {#if i === 0} 
 			<option value={i+100} selected> {option}</option>

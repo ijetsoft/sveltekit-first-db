@@ -34,10 +34,19 @@
 	
 	<span>You can see me</span>
 </dialog> -->
-<Combo options={items} on:message={handleMessage}  
-	width = {_width} />
-<!-- multiple --color="red" -->
-<!-- <Combo options={['one','two']} on:message={handleMessage}/> -->
+<table>
+	<tr>
+		<td>
+			<!-- options={items} -->
+			<Combo  on:message={handleMessage}  
+			width = {_width} />
+		<!-- multiple --color="red" -->
+		<!-- <Combo options={['one','two']} on:message={handleMessage}/> -->
+		</td>
+		<td></td>
+	</tr>
+</table>
+
 <p>Примеры использования:</p>
 <p>1. {'<'}Combo{'>'}</p>
 <p>2. {'<'}Combo options={'{'}{'['}"'one','two','three'"{'}'}{']'}{'>'} </p>

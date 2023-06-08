@@ -1,6 +1,7 @@
 <script  lang="ts">
     //import dialogPolyfill from 'dialog-polyfill';
 	import Checkbox from './../checkbox/Checkbox.svelte';
+	import Combo from './../комбобокс/Combo.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
    
 	export let canClose = true;                                
@@ -134,7 +135,7 @@
 					<label> {fld.header}</label><br>
 					{@debug}
 					{#if fld.fld[0] == '_'}
-						<p>vocab</p>
+						<Combo  width = 200px /><br>
 					{:else if fld.type == 'bool'}
 						<!-- {#if DS[fld.fld] === '1'} 
 						<Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
