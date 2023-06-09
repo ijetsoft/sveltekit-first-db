@@ -15,7 +15,7 @@
 		_div.setAttribute('background-color', 'maroon');
 	});
   </script>
-{@debug _input}     
+<!-- {@debug _input}      -->
    <label class="container">{text}
      <input bind:this={_input} type="checkbox" checked={checked} style='accent-color: green'>
      <span bind:this={_div} class="checkmark"></span>

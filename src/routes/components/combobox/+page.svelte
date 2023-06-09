@@ -37,8 +37,8 @@
 <table>
 	<tr>
 		<td>
-			<!-- options={items} -->
 			<Combo  on:message={handleMessage}  
+			options={items} 
 			width = {_width} />
 		<!-- multiple --color="red" -->
 		<!-- <Combo options={['one','two']} on:message={handleMessage}/> -->

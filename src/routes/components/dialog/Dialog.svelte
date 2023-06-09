@@ -1,7 +1,7 @@
 <script  lang="ts">
     //import dialogPolyfill from 'dialog-polyfill';
 	import Checkbox from './../checkbox/Checkbox.svelte';
-	import Combo from './../комбобокс/Combo.svelte';
+	import Combo from './../combobox/Combo.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
    
 	export let canClose = true;                                
@@ -83,11 +83,11 @@
 			options.push({ind:el[nameKey],val:el[nameVal]});
 			retVal += el[nameKey]+":"+el[nameVal]+', '
 		});
-		console.log(options)
+		//console.log(options)
 		//retVal = vocabRecs[nameVal]
 	}
 
-    return retVal
+    return options
   }
   function checkBool(parmFld: any, parmRow: any){
 	let val = parmRow[parmFld.fld]
@@ -112,9 +112,10 @@
 		}
 	};
 // body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
-  </script>
+	function handleMessage(event: any) {}
+</script>
 
-{@debug title}
+<!-- {@debug title} -->
   
   <dialog bind:this={dialog} class={classNames}>               
   	<header bind:this={header}>
@@ -133,9 +134,11 @@
 			{#each dsc.col as fld}
 				{#if !(fld.type == 'key' || fld.type == 'image' || fld.ref)}  
 					<label> {fld.header}</label><br>
-					{@debug}
 					{#if fld.fld[0] == '_'}
-						<Combo  width = 200px /><br>
+						<!-- <Combo  width = 200px /><br> -->
+						<Combo options={getVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
+						selected={DS[fld.fld.slice(1)]}
+						on:message={handleMessage}  /><br> 
 					{:else if fld.type == 'bool'}
 						<!-- {#if DS[fld.fld] === '1'} 
 						<Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>

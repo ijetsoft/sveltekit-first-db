@@ -13,7 +13,7 @@
     thisRecord = DS[currRow-1]
     dialog.showModal()}
 </script>
- {@debug currRow}
+ <!-- {@debug currRow} -->
 <div>
   <button class="btn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
@@ -30,7 +30,7 @@
 <button class="btn" title="добавить запись"><i class="far fa-plus-square"></i></button>
 <button class="btn" title="опции сетки"><i class="fab fa-stack-exchange"></i></button>
 </div>
-{@debug dsc}
+<!-- {@debug dsc} -->
 <Dialog title="Test Dialog assa"  
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dsc} DS={thisRecord} voc={voc}>

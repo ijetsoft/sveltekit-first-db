@@ -3,8 +3,7 @@
   import {setContext} from 'svelte';
   import Navigator from './../navigator/+page.svelte';
   
-    import { debug } from 'svelte/internal';
-    export let dscFlds : any
+  export let dscFlds : any
   export let tblRows : any
   export let Width = '400px;'
   export let Height = '240px;'
@@ -21,6 +20,7 @@
   let tTable: any
   setContext('masterTable', 
     {myTable: tTable, mark: setMarkRow, dsc: dscFlds, DS: thisDS, voc: thisVoc});
+
   
   function setMarkRow(parm: any) {
     // let tBody = event.target.parentNode.parentNode ;
@@ -140,7 +140,6 @@ function handleMessage(event: any) {
   let thisCol = {}
   if (dscFlds) thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
 </script>
-{@debug currRow}
 
 <div>
   <dialog>

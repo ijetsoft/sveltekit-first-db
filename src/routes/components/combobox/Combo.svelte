@@ -1,16 +1,17 @@
 <script lang="ts">
-	import {onMount} from 'svelte';
+ 	import {onMount} from 'svelte';
 	// import { faTimes } from "@fortawesome/free-solid-svg-icons/faTimes";
 	// https://freefrontend.com/css-select-boxes/
 	// https://codepen.io/5t3ph/pen/MWyyYNz
 	export let options = [{ind:0,val:'comboItem1'}, {ind:1,val:'comboItem2'}, {ind:2,val:'comboItem3'}, {ind:3,val:'comboItem4'},];
-	//export let options = ['item1', 'item2', 'item3', 'item4'];
+	// export let options = ['item1', 'item2', 'item3', 'item4'];
 	export let color = 'maroon';
 	export let bkgColor = 'lemonchiffon'
 	export let borderColor = 'maroon'
 	export let multiple = false;
 	export let height = '34px';
 	export let width = "250px;"
+	export let selected: number = 0;
 	let thisCombo: any
 	
 	let mode = typeof(options[0])=="string" ? 0 : 1
@@ -75,23 +76,22 @@
 			/* alert(options[0].val)
 			alert(myPlace.innerHTML) */
 		});
-		 function addHTML() {
-			let ret = '<select';
-			ret += ' style ="width:'+width+';"'
-			ret += '>'
-			let sN = '';
-			for (let index = 0; index < options.length; index++) {
-				sN = index.toString()
-				ret += '<option value='+sN+'> '+options[index].val+'</option>';
+		//  function addHTML() {
+		// 	let ret = '<select';
+		// 	ret += ' style ="width:'+width+';"'
+		// 	ret += '>'
+		// 	let sN = '';
+		// 	for (let index = 0; index < options.length; index++) {
+		// 		sN = index.toString()
+		// 		ret += '<option value='+sN+'> '+options[index].val+'</option>';
 				
-			}
-      	 	return ret+'</select>'
-    	 }  
+		// 	}
+      	//  	return ret+'</select>'
+    	//  }  
 	</script>
 	
 	<!-- <p class='placeHold'>****</p> -->
-	{@debug thisCombo}
-	
+	<!-- {@debug thisCombo} -->
 	<select bind:this={thisCombo} 
 		style="width: {width}; height:{height};" on:change={onChange} 
 		{multiple}>
@@ -101,7 +101,12 @@
 				<option value={i}> {option}</option>
 			{/if}
 			{#if mode === 1} 	
+				
+				{#if selected === option.ind}
+				<option value={option.ind} selected>  {option.val} </option>
+				{:else}
 				<option value={option.ind}>  {option.val}</option>
+				{/if}
 			{/if}
 			<!-- {#if i === 0} 
 			<option value={i+100} selected> {option}</option>
@@ -116,7 +121,7 @@
 		<option value="audi">Audi</option>
 	  </select> -->
 	<dialog>
-		{@debug width}
+		
 		<span>You can see me</span>
 	</dialog>
 <style>
@@ -167,13 +172,13 @@ option:focus {
 } */
 
 @media screen and (min-width: 601px) {
-      table {
+	select {
     font-size: 1em;
   }
 }
 
 @media screen and (max-width: 600px) {
-  table {
+	select {
     font-size: 2em;
   }
 }
