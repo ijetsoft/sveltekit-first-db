@@ -101,11 +101,10 @@
 				<option value={i}> {option}</option>
 			{/if}
 			{#if mode === 1} 	
-				
 				{#if selected === option.ind}
-				<option value={option.ind} selected>  {option.val} </option>
+					<option value={option.ind} selected>  {option.val} </option>
 				{:else}
-				<option value={option.ind}>  {option.val}</option>
+					<option value={option.ind}>  {option.val}</option>
 				{/if}
 			{/if}
 			<!-- {#if i === 0} 
@@ -173,13 +172,14 @@ option:focus {
 
 @media screen and (min-width: 601px) {
 	select {
-    font-size: 1em;
+     font-size: 1em; 
   }
 }
 
 @media screen and (max-width: 600px) {
 	select {
-    font-size: 2em;
-  }
+     font-size: 1em; 
+	 height: 32px;
+  } 
 }
 </style>

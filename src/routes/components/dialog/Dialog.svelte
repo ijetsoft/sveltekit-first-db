@@ -221,6 +221,20 @@
 	input {
 		background-color:lemonchiffon;color:maroon;
 	}
-  </style>
+@media screen and (min-width: 601px) {
+	dialog, header {
+    font-size: 1em;
+  }
+}
+
+@media screen and (max-width: 600px) {
+	header {font-size: 2em;}
+	dialog, header {
+    font-size: 2em;
+	width: 450px;
+  }
+}
+</style>
+
   
   
