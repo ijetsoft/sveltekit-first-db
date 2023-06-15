@@ -1,7 +1,7 @@
 <script  lang="ts">
   import {onMount} from 'svelte';
   import {setContext} from 'svelte';
-  import Navigator from './../navigator/+page.svelte';
+  import Navigator from './../navigator/Navigator.svelte';
   
   export let dscFlds : any
   export let tblRows : any

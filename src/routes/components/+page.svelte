@@ -3,11 +3,12 @@
 </script>
 <div class="vertical-menu">
 <a href="../components/счетчик" class="active">Счетчик</a>
-<a href="../components/комбобокс">комбобокс</a>
+<a href="../components/combobox">комбобокс</a>
+<a href="../components/comboboxAria">комбобокс Aria</a>
 <a href="../components/комбобокс1">комбобокс1</a> 
 <a href="../components/комбобокс2">комбобокс2</a> 
 <a href="../components/мойКомбобокс">Test</a>
-<a href="../components/навигатор">БД-навигатор</a>
+<a href="../components/navigator">БД-навигатор</a>
 <a href="../components/JetDBTable">JetDBTable</a>  
 <a href="../components/dialog">Диалог-бокс</a>  
 <a href="../components/checkbox">Чекбокс</a>  
