@@ -604,7 +604,7 @@ onMount(() => {
    }
 } )
 </script>
-<label for="cb1-input">State</label>
+<label for="cb1-input">*State</label>
 <div class="combobox combobox-list">
  <div class="group">
    <input id="cb1-input" class="cb_edit" type="text" role="combobox" aria-autocomplete="both" aria-expanded="false" aria-controls="cb1-listbox">
@@ -779,7 +779,7 @@ ul[role="listbox"] li[role="option"] {
   }
 }
 
-@media screen and (max-width: 400px) {
+@media screen and (max-width: 600px) {
 	label, div, ul, li {
      font-size: 1.3em; 
   } 
