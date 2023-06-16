@@ -779,7 +779,7 @@ ul[role="listbox"] li[role="option"] {
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
 	label, div, ul, li {
      font-size: 1.3em; 
   } 
