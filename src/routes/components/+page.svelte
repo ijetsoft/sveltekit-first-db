@@ -5,6 +5,7 @@
 <a href="../components/счетчик" class="active">Счетчик</a>
 <a href="../components/combobox">комбобокс</a>
 <a href="../components/comboboxAria">комбобокс Aria</a>
+<a href="../components/comboboxAriaMulti">комбобокс Aria multiselect</a>
 <a href="../components/комбобокс1">комбобокс1</a> 
 <a href="../components/комбобокс2">комбобокс2</a> 
 <a href="../components/мойКомбобокс">Test</a>

@@ -772,4 +772,16 @@ ul[role="listbox"] li[role="option"] {
  padding-bottom: 0;
  border-top: 2px solid currentcolor;
  border-bottom: 2px solid currentcolor;
-}</style>
+}
+ @media screen and (min-width: 601px) {
+	label, div, ul, li {
+     font-size: 1em; 
+  }
+}
+
+@media screen and (max-width: 600px) {
+	label, div, ul, li {
+     font-size: 1.3em; 
+  } 
+}
+</style>
