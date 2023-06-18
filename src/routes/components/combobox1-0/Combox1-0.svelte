@@ -148,9 +148,9 @@
   /* --selectedCol: red; */
   /* width: 100%; 
   font-size: 1em;*/
-  padding: 0.3em;
+  margin: 0px;
+  padding: 0px;
   background-color: #fff;
-  padding-bottom: 0.5em;
 }
 
 select:focus {
