@@ -51,14 +51,14 @@
     .btn {
       width: 30px; 
       height: 30px; 
-      font-size: 1em; 
+      font-size: 1em;  
   }
 }
 @media screen and (max-width: 600px) {
 	.btn {
     width: 50px; 
     height: 50px; 
-    font-size: 2em; 
+    font-size: 2em;  
   } 
 }  
 
