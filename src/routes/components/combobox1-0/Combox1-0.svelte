@@ -10,7 +10,7 @@
     export let onChange: any;
       export let multiple = false;
       export let height = '24px';
-      export let width = "350px;"
+      export let width = "320px;"
       export let color = "maroon"
       export let bkgColor = "LemonChiffon"
       export let selectColor = "#b65555";
@@ -150,7 +150,7 @@
   font-size: 1em;*/
   margin: 0px;
   padding: 0px;
-  background-color: #fff;
+  /* background-color: #fff; */
 }
 
 select:focus {

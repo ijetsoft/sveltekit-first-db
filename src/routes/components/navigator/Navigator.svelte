@@ -41,10 +41,26 @@
   background-color: FireBrick;
   border: none;
   color: Gold;
-  font-size: 16px;
+  
   cursor: pointer;
   padding: 3px 4px;
   border-radius: 5px;
-  width: 30px;
+ 
 }
+@media screen and (min-width: 601px) {
+    .btn {
+      width: 30px; 
+      height: 30px; 
+      font-size: 1em; 
+  }
+}
+
+@media screen and (max-width: 600px) {
+	.btn {
+    width: 50px; 
+    height: 50px; 
+    font-size: 2em; 
+  } 
+}  
+
   </style>

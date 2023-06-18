@@ -10,13 +10,15 @@
 	export let header: any = null                               
 	export let icon: any = undefined;                               
 	export let title: any = '***';     
+	export let bkgColor = "LemonChiffon"
+	export let color = "maroon"
    export let body = ''  
 
    export let bkgHeaderColor = '';   
    export let dsc: any = null
    export let DS: any = null
    export let voc: any = null
-   const thisCSS = ' style="background-color:lemonchiffon;color:maroon;"'
+   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
    let _bool = true
   
 	const  dispatch = createEventDispatcher();
@@ -172,7 +174,7 @@
 	  border: none;
 	  color: white;
 	  cursor: pointer;
-	  font-size: 18px;
+	  font-size: 0.3em;
 	  outline: none;
 	  margin: 0;
 	  padding: 0;
@@ -187,7 +189,8 @@
 	  border: none;
 	  box-shadow: 0 0 10px darkgray;
 	  padding: 0;
-	  width: 400px;
+	  
+	  width: 600px;
 	}
    
 	header {
@@ -198,7 +201,7 @@
 	  background-color: cornflowerblue;
 	  box-sizing: border-box;
 	  color: white;
-	  font-weight: bold;
+	  /* font-weight: bold; */
 	  padding: 10px;
 	  width: 100%;
 	}
@@ -209,8 +212,8 @@
    
 	.title {
 	  flex-grow: 1;
-	  font-size: 18px;
-	  margin-right: 10px;
+	  font-size: 0.5em;
+	  margin-right: 1em;
 	}
    
 	dialog::backdrop,
@@ -229,9 +232,9 @@
 
 @media screen and (max-width: 600px) {
 	header {font-size: 2em;}
-	dialog, header {
+	dialog, header, input {
     font-size: 2em;
-	width: 450px;
+	width: 380px;
   }
 }
 </style>
