@@ -54,7 +54,6 @@
       font-size: 1em; 
   }
 }
-
 @media screen and (max-width: 600px) {
 	.btn {
     width: 50px; 
