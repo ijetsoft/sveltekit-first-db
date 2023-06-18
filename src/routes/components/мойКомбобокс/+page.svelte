@@ -21,8 +21,8 @@
 	<!-- {@debug dialog} -->
 	<span>You can see me</span>
 </dialog>
-<!-- <Combo on:message={handleMessage}></Combo> -->
-<Combo options={items} on:message={handleMessage} multiple width = "350px;"  />
+<!-- <Combo on:message={handleMessage}></Combo> multiple -->
+<Combo options={items} on:message={handleMessage}  width = "350px;"  />
 <style>
 	
 

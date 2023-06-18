@@ -4,6 +4,7 @@
 <div class="vertical-menu">
 <a href="../components/счетчик" class="active">Счетчик</a>
 <a href="../components/combobox">комбобокс</a>
+<a href="../components/combobox1-0">комбобокс 1.0</a>
 <a href="../components/comboboxAria">комбобокс Aria</a>
 <a href="../components/comboboxAriaMulti">комбобокс Aria multiselect</a>
 <a href="../components/комбобокс1">комбобокс1</a> 

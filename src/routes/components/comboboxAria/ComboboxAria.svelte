@@ -604,7 +604,7 @@ onMount(() => {
    }
 } )
 </script>
-<label for="cb1-input">*State</label>
+<label for="cb1-input">State</label>
 <div class="combobox combobox-list">
  <div class="group">
    <input id="cb1-input" class="cb_edit" type="text" role="combobox" aria-autocomplete="both" aria-expanded="false" aria-controls="cb1-listbox">
@@ -702,7 +702,7 @@ onMount(() => {
  width: 150px;
  border-right: none;
  outline: none;
- font-size: 87.5%;
+ /* font-size: 87.5%; */
  padding: 1px 3px;
 }
 
@@ -732,7 +732,7 @@ ul[role="listbox"] {
  width: 168px;
  overflow: scroll;
  overflow-x: hidden;
- font-size: 87.5%;
+ /* font-size: 87.5%; */
  cursor: pointer;
 }
 

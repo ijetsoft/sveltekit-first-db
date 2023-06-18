@@ -1,52 +1,31 @@
-
 <script lang="ts">
-  import {onMount} from 'svelte';
-  import type { AdapterEntry } from '@sveltejs/kit/types/private';
-  // https://stackoverflow.com/questions/10484053/change-select-list-option-background-colour-on-hover
-	// https://freefrontend.com/css-select-boxes/
-	// https://codepen.io/5t3ph/pen/MWyyYNz
-	
-	export let options = ['main1', 'main2', 'main3', 'main4'];
-  export let multiple = false;
+    import {onMount} from 'svelte';
+    import type { AdapterEntry } from '@sveltejs/kit/types/private';
+    import { createEventDispatcher } from 'svelte';
+    export let options = [{ind:0,val:'comboItem1'}, {ind:1,val:'comboItem2'}, {ind:2,val:'comboItem3'}, {ind:3,val:'comboItem4'},];
+	// export let options = ['item1', 'item2', 'item3', 'item4'];
+	export let color = 'maroon';
+	export let bkgColor = 'lemonchiffon'
+	export let borderColor = 'maroon'
+	export let multiple = false;
 	export let height = '34px';
 	export let width = "250px;"
-	export let fontSize = "1em;"//"16px;"
-	export let color = "maroon"
-	export let backgroundColor = "LemonChiffon"
-	import { createEventDispatcher } from 'svelte';
+	export let selected: number = 0;
+	let thisCombo: any
+    let mode = typeof(options[0])=="string" ? 0 : 1
+    
 	const dispatch = createEventDispatcher();
-	function onChange(event: { currentTarget: HTMLSelectElement }) {
-		// let x = event.currentTarget.selectedOptions[0].text
-		// dispatch('message', {
-		// 	index: event.currentTarget.value,
-		// 	text: event.currentTarget.selectedOptions[0].text
-		// });
-	}
-	function handleClick() {
-		alert('clicked');
-	}
-  let mode = typeof(options[0])=="string" ? 0 : 1
-  //if (multiple) height = '100px';
-  let sSheet = document.styleSheets[0];
-		if (sSheet.insertRule) {
-      let ret = 'width:'+width+';'
-			ret += ' border-radius: 10px;'
-			ret += ' border: 1px solid #19247c;'
-			ret += ' background-color: '+backgroundColor+';' 
-			ret += ' --selectedCol: '+'maroon'+';'     
-      ret += ' color: '+color+';'
-      ret += ' font-size: '+fontSize+';'      
-      //ret += ' height:'+height+';'
-			// ret += ' padding: 5px 100px 5px 5px;'
-     	sSheet.insertRule('select {'+ret+'}', sSheet.cssRules.length);
-     	sSheet.insertRule('select:focus {border-radius: 10px;}', sSheet.cssRules.length);
-		}
+
+    function onChange(event: { currentTarget: HTMLSelectElement }) {
+
+    }
     function setSelectHover(selector = "select") {
       let selects : any; selects = document.querySelectorAll(selector);
       let lenSelect = selects.length;
       
       for (let index = 0; index < selects.length; index++) {
         let select = selects[index];
+       
         let selectWrap: any;
         if (select.parentNode) selectWrap = select.parentNode.closest(".select-wrap");
         // wrap select element if not previously wrapped
@@ -62,7 +41,6 @@
           const getSelectHeight = () => {
             //selectWrap.style.height = "auto";
             let selectHeight = select.getBoundingClientRect();
-            console.log(selectHeight)
             selectWrap.style.height = selectHeight.height + "px";
           };
           getSelectHeight();
@@ -102,37 +80,81 @@
           });
         }
     }
-    //onMount(() => setSelectHover());
     onMount(async () => {
+        let sSheet = document.styleSheets[0];
+		if (sSheet.insertRule) {
+            sSheet.insertRule('option:checked {background-color:'+borderColor+';}', sSheet.cssRules.length);
+            sSheet.insertRule('option:not(:checked) {background-color:'+bkgColor+';}', sSheet.cssRules.length);
+        }
+        let r:any = document.querySelector(':root');
+        r.style.setProperty('--selectHoverCol', '#999');
+
       setSelectHover()
     })
+    /* onMount(() => {
+        let sSheet = document.styleSheets[0];
+		if (sSheet.insertRule) {
+            sSheet.insertRule('option:checked {background-color:'+borderColor+';}', sSheet.cssRules.length);
+            sSheet.insertRule('option:not(:checked) {background-color:'+bkgColor+';}', sSheet.cssRules.length);
+        }
+        let r:any = document.querySelector(':root');
+        r.style.setProperty('--selectHoverCol', '#999');
+        setSelectHover()
+    }); */
 </script>
-{@debug height}
-<!-- <div class="box">
-	<select class="selectHovercolor" on:change={onChange} multiple={multiple}>
-		{#each options as option, i}
-				<option value={i}> {option}</option>
-		{/each}
-		
-	</select>
-  </div> -->
-  <select {multiple}>
+{@debug multiple}
+<select bind:this={thisCombo} 
+		style="width: {width}; height:{height}; background:{bkgColor}; color:{color}" 
+        on:change={onChange} 
+		{multiple}>
     {#each options as option, i}
 			{#if mode === 0} 	
 				<option value={i}> {option}</option>
 			{/if}
 			{#if mode === 1} 	
-				<!-- <option value={option.ind}> * {option.val}</option> -->
+				{#if selected === option.ind}
+					<option value={option.ind} selected>  {option.val} </option>
+				{:else}
+					<option value={option.ind}>  {option.val}</option>
+				{/if}
 			{/if}
-		{/each}
-  </select> 
-  <!-- <select class="selectHovercolor">
-    <option value="volvo" selected>Volvo</option>
-    <option value="saab">Saab</option>
-    <option value="opel">Opel</option>
-    <option value="audi">Audi</option>
-  </select>  -->
+			<!-- {#if i === 0} 
+			<option value={i+100} selected> {option}</option>
+			{/if} -->
+	{/each}
+</select>
 <style>
+select {
+    --selectHoverCol: #999;
+	padding: 5px 100px 5px 5px; 
+	height: 24px;
+	width: 250px;
+	border-radius: 10px;
+	appearance: button;
+}
+option:checked{ color: white; }
+option:hover {
+  background-color: var(--selectHoverCol);
+  color: #fff;
+}
+
+select:focus {
+  /* border-radius: 0px; */
+  border-color: red;
+  background: #fff;
+  outline: none;
+}
+.select-wrap {
+  position: relative;
+}
+
+.select-wrap:focus-within select {
+  position: absolute;
+  top: 0;
+  left: 0;
+  z-index: 10
+}
+
 select {
   --selectHoverCol: #999;
   /* --selectedCol: red; */
@@ -169,4 +191,16 @@ option:checked {
   box-shadow: 0 0 1em 100px var(--selectedCol) inset;
   color: yellow;
 }
+/* @media screen and (min-width: 601px) {
+	p, select {
+     font-size: 1em; 
+  }
+}
+
+@media screen and (max-width: 600px) {
+	p, select {
+     font-size: 1em; 
+	 height: 32px;
+  } 
+} */
 </style>

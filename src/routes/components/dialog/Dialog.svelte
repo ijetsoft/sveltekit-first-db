@@ -1,7 +1,7 @@
 <script  lang="ts">
     //import dialogPolyfill from 'dialog-polyfill';
 	import Checkbox from './../checkbox/Checkbox.svelte';
-	import Combo from './../combobox/Combo.svelte';
+	import Combo from './../combobox1-0/Combox1-0.svelte';
 	import {createEventDispatcher, onMount} from 'svelte';
    
 	export let canClose = true;                                
@@ -138,7 +138,7 @@
 						<!-- <Combo  width = 200px /><br> -->
 						<Combo options={getVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
 						selected={DS[fld.fld.slice(1)]}
-						on:message={handleMessage}  /><br> 
+						on:message={handleMessage}  /><br>
 					{:else if fld.type == 'bool'}
 						<!-- {#if DS[fld.fld] === '1'} 
 						<Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
