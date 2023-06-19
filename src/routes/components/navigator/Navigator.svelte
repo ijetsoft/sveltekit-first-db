@@ -34,8 +34,7 @@
 <Dialog title="Test Dialog assa"  
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dsc} DS={thisRecord} voc={voc}>
-
-  </Dialog>
+</Dialog>
   <style>
     .btn {
   background-color: FireBrick;
