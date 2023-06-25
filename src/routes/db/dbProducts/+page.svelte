@@ -16,7 +16,7 @@
   <!-- {@debug db} -->
   <JetDBTable dscFlds={dscProducts} 
     tblRows={db} 
-    Width='500px'
+    Width='100%'
     Height='400px'>
   </JetDBTable>
   <!-- <Navigator></Navigator> -->

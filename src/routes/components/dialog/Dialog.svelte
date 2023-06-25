@@ -2,7 +2,7 @@
     //import dialogPolyfill from 'dialog-polyfill';
 	import Checkbox from './../checkbox/Checkbox.svelte';
 	import Combo from './../combobox1-0/Combox1-0.svelte';
-	import {createEventDispatcher, onMount} from 'svelte';
+	import {createEventDispatcher, onMount, beforeUpdate} from 'svelte';
    
 	export let canClose = true;                                
 	export let className = '';                                 
@@ -12,6 +12,7 @@
 	export let title: any = '***';     
 	export let bkgColor = "LemonChiffon"
 	export let color = "maroon"
+	export let Add:any = false
    export let body = ''  
 
    export let bkgHeaderColor = '';   
@@ -20,6 +21,7 @@
    export let voc: any = null
    const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
    let _bool = true
+   
   
 	const  dispatch = createEventDispatcher();
    
@@ -28,17 +30,19 @@
 	//onMount(() => dialogPolyfill.registerDialog(dialog));      
     
 	function close() {
-	  dispatch('close');                                       
+	  dispatch('close'); Add = false                                      
   	  dialog.close();
 	}
     let stylish=''
     onMount(() => {
+
 		header.style.backgroundColor = bkgHeaderColor
 		//if (dsc) body = dsc.col.length+' *'
 		//header.setAttribute('background-color', 'maroon');
 	});
   function sayCell(parmFld: any, parmRow: any){
     let val = parmRow[parmFld.fld]
+	if (val=== undefined) val = ''
 	let _text = 'text', _required = 'required', ret =''
 	let _val =' value="'+val+'"'
 	switch (parmFld.type) {
@@ -67,7 +71,7 @@
 		default:
 	}
 	ret = '<input type="'+_text+'" name="'+parmFld.fld+'" id="'+parmFld.fld+'"'+
-				_val + thisCSS+'><br>'	
+				_val + thisCSS+' onchange=myFunction()><br>'	
 	
 				
 				return ret
@@ -80,14 +84,14 @@
     let nameVal = Object.entries(vocQry[0])[1][0]
     let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
 	let options:any = []
-    let retVal = ''; if (vocabRecs) {
+    let retVal = ''; //if (vocabRecs) {
 		vocQry.forEach(el => {
 			options.push({ind:el[nameKey],val:el[nameVal]});
 			retVal += el[nameKey]+":"+el[nameVal]+', '
 		});
 		//console.log(options)
 		//retVal = vocabRecs[nameVal]
-	}
+	//}
 
     return options
   }
@@ -101,6 +105,8 @@
 	}
 	return ''
   }
+  	// Action
+	
 	let thisCol = [], el = ''
 	// очистить заголовок
     if (dsc) {
@@ -115,14 +121,29 @@
 	};
 // body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
 	function handleMessage(event: any) {}
+	function Save() { 
+		alert('Save')
+	}
+	beforeUpdate(() => {
+		// if (Add && dsc) {
+		// 	let element: any
+		// 	for (let index = 0; index < dsc.col.length; index++) {
+		// 		element = dsc.col[index];
+		// 		if (element.type = 'string') DS[element.fld] = ''
+		// 	}
+		// }
+//alert('afterUpdate '+Add)
+}); 
+
 </script>
 
-<!-- {@debug title} -->
+{@debug Add}
   
   <dialog bind:this={dialog} class={classNames}>               
   	<header bind:this={header}>
 	  {#if icon}{icon}{/if}
 	  <div class="title">{title}</div>
+	  
 	  {#if canClose}
 		<button class="close-btn" on:click={close}>
 		  &#x2716;                                             
@@ -157,14 +178,19 @@
 						" required value="{sayCell(DS, fld)}"><br>			   -->
 					{/if}   
 				{/if}  
+				 
 			{/each}
+			<button class="btn" title="сохранить" on:click={Save}>
+				<i class="fa-regular fa-floppy-disk" ></i></button>  
 		{/if}                                   
   	  <slot />                                                 
-  
+      
 	</main>
+	
   </dialog>
-  
+ 
   <style>
+	
 	.body {
 	  /* padding: 10px; */
 	}
@@ -174,7 +200,7 @@
 	  border: none;
 	  color: white;
 	  cursor: pointer;
-	  font-size: 0.3em;
+	  font-size: 1em;
 	  outline: none;
 	  margin: 0;
 	  padding: 0;
@@ -190,7 +216,7 @@
 	  box-shadow: 0 0 10px darkgray;
 	  padding: 0;
 	  
-	  width: 600px;
+	  width: 400px;
 	}
    
 	header {
@@ -212,7 +238,7 @@
    
 	.title {
 	  flex-grow: 1;
-	  font-size: 0.5em;
+	  font-size: 1m;
 	  margin-right: 1em;
 	}
    
@@ -223,19 +249,32 @@
 	}
 	input {
 		background-color:lemonchiffon;color:maroon;
+		
+	}
+	.btn {
+		margin-top: 5px;
+  		background-color: FireBrick;
+  		border: none;
+ 		 color: Gold;
+  
+  		cursor: pointer;
+  		padding: 3px 4px;
+  		border-radius: 5px;
+ 
 	}
 @media screen and (min-width: 601px) {
-	dialog, header {
-    font-size: 1em;
-  }
+	.close-btn {font-size: 1em;}
+	dialog {font-size: 2em;  } 
+	dialog, header, .btn {
+    	font-size: 1em;
+  	}
+	.btn{ width: 1.5em; height: 1.5em; margin-top:  1.2em;}
 }
 
 @media screen and (max-width: 600px) {
-	header {font-size: 2em;}
-	dialog, header, input {
-    font-size: 2em;
-	width: 380px;
-  }
+	.close-btn {font-size: 0.8em;}
+	dialog {font-size: 2em;  } 
+	.btn {font-size: 1em;  width: 50px; height: 50px; margin-top: 20px;}
 }
 </style>
 

@@ -5,7 +5,7 @@
   
   export let dscFlds : any
   export let tblRows : any
-  export let Width = '400px;'
+  export let Width = '100%;'
   export let Height = '240px;'
 
   export let headerFlds : any;// = ['nameCol1', 'nameCol2', 'nameCol3'];
@@ -260,6 +260,7 @@ tbody {
 @media screen and (min-width: 601px) {
       table {
     font-size: 1em;
+    width: 100%
   }
 }
 

@@ -5,12 +5,18 @@
   const {myTable, mark, dsc, DS, voc} = getContext('masterTable');
   export let currRow: any
   let thisRecord = {}
+  let titleDialog = ''
+  let flagAdd = false
   function myFirst() { mark(1); }
   function myLast() { mark(-1); }
   function myPrev() { mark(currRow-1); }
   function myNext() { mark(currRow+1); }
   function thisView() {
     thisRecord = DS[currRow-1]
+    dialog.showModal()}
+  function thisAdd() {
+    thisRecord = {}; flagAdd = true
+    titleDialog = 'новая запись'
     dialog.showModal()}
 </script>
  <!-- {@debug currRow} -->
@@ -27,11 +33,11 @@
   <i class="fa fa-eye fa-fw"></i></button>
 
 <button class="btn" title="редактировать запись"><i class="fa">&#xf044;</i></button>
-<button class="btn" title="добавить запись"><i class="far fa-plus-square"></i></button>
+<button class="btn" title="добавить запись" on:click={thisAdd}><i class="far fa-plus-square"></i></button>
 <button class="btn" title="опции сетки"><i class="fab fa-stack-exchange"></i></button>
 </div>
 <!-- {@debug dsc} -->
-<Dialog title="Test Dialog assa"  
+<Dialog title={titleDialog} Add ={flagAdd}
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dsc} DS={thisRecord} voc={voc}>
 </Dialog>

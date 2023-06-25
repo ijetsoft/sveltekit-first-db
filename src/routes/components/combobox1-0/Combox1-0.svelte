@@ -40,7 +40,8 @@
         ret += ' border-radius: 10px;'
         ret += ' border: 1px solid '+color+';' 
         ret += ' background-color: '+bkgColor+';' 
-        ret += ' --selectHoverCol: '+selectColor+';'     
+        ret += ' --selectHoverCol: '+selectColor+';'  
+        ret += ' --selectedCol: '+'maroon'+';'      
         ret += ' color: '+color+';' 
         //ret += ' font-size: '+fontSize+';'      
         //ret += ' height:'+height+';'
@@ -144,7 +145,7 @@
     </select>  -->
   <style>
   select {
-  /*--selectHoverCol: #999;*/
+  --selectHoverCol: #999;
   /* --selectedCol: red; */
   /* width: 100%; 
   font-size: 1em;*/
@@ -158,10 +159,12 @@ select:focus {
   border-color: red;
   background: #fff;
   outline: none;
+  
 }
 
 .select-wrap {
   position: relative;
+ 
 }
 
 .select-wrap:focus-within select {
@@ -181,7 +184,7 @@ option:checked {
   color: yellow;
   background-color:maroon;
 }
-  @media screen and (min-width: 601px) {
+@media screen and (min-width: 601px) {
 	p, select {
      font-size: 1em; 
   }
