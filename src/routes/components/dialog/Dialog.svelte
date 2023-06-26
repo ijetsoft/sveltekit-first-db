@@ -134,7 +134,9 @@
 		// }
 //alert('afterUpdate '+Add)
 }); 
-
+function onChange(val:any) {
+alert(val)
+}
 </script>
 
 {@debug Add}
@@ -173,9 +175,9 @@
 					<!-- <input type="checkbox" name="+{fld.fld}+" id="+{fld.fld}+ 
 						"checked	><br>	-->
 					{:else }
-					{@html sayCell(fld, DS)}
-						<!-- <input type="text" name="+{fld.fld}+" id="+{fld.fld}+
-						" required value="{sayCell(DS, fld)}"><br>			   -->
+					  {@html sayCell(fld, DS)}  
+						 <input type="text" name={fld.fld} id={fld.fld}
+						 required value="{DS[fld.fld]}" on:change={onChange}><br>			   
 					{/if}   
 				{/if}  
 				 
@@ -249,7 +251,8 @@
 	}
 	input {
 		background-color:lemonchiffon;color:maroon;
-		
+		width: 300px;
+		/* width: 300px; fit-content; */
 	}
 	.btn {
 		margin-top: 5px;
