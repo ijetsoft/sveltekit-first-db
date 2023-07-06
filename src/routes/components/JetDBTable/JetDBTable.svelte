@@ -1,5 +1,6 @@
 <script  lang="ts">
-  import {onMount} from 'svelte';
+//  import {onMount} from 'svelte';
+  import {onMount, afterUpdate, beforeUpdate} from 'svelte';
   import {setContext} from 'svelte';
   import Navigator from './../navigator/Navigator.svelte';
   
@@ -18,18 +19,24 @@
   let currRow = 1;
   let tBody: any
   let tTable: any
+  let dbTableUpdated = {mode: false} 
   setContext('masterTable', 
-    {myTable: tTable, mark: setMarkRow, dsc: dscFlds, DS: thisDS, voc: thisVoc});
+    {myTable: tTable, mark: setMarkRow, 
+      dsc: dscFlds, DS: thisDS, voc: thisVoc,
+      lastKey: tblRows.lastKey
+    });
 
   
   function setMarkRow(parm: any) {
     // let tBody = event.target.parentNode.parentNode ;
-    if (parm === 0 || parm > tBody.childElementCount) return
-    if (tTable && parm === -1) {
-      parm = tBody.childElementCount
-      tTable.scrollTop = tTable.scrollHeight;
-    }
     if (tBody) {
+      // первая и последняя строка
+      if (parm === 0 || parm > tBody.childElementCount) return
+      if (tTable && parm === -1) {
+        parm = tBody.childElementCount
+        tTable.scrollTop = tTable.scrollHeight;
+      }
+
       tBody.children[currRow-1].children[0].innerHTML = ""
        currRow = parm //event.target.parentNode.rowIndex
        tBody.children[currRow-1].children[0].innerHTML = triangle
@@ -139,6 +146,17 @@ function handleMessage(event: any) {
     } )
   let thisCol = {}
   if (dscFlds) thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
+  /* function handleInsert (event: any) {
+    alert('dbTableInsert Insert')
+  } */
+  afterUpdate(() => {
+    //alert('afterUpdate')
+  }); 
+  $: if (dbTableUpdated.mode) alert('$ dbTableUpdated')
+  
+  function thisAdd() {
+    let dialog: any = document.querySelector("dialog")
+    dialog.showModal()}
 </script>
 
 <div>
@@ -148,11 +166,17 @@ function handleMessage(event: any) {
       <button>OK</button>
     </form>
   </dialog>
- 
-  <Navigator bind:currRow={currRow} ></Navigator>
- 
+   
+  <Navigator bind:currRow={currRow} 
+   bind:naviUpdated={dbTableUpdated}></Navigator>
+
+<button class="btn" title="добавить запись" on:click={thisAdd}>
+    <i class="far fa-plus-square"></i>
+</button>
+
 <table bind:this={tTable} on:click={handleMessage} 
    style ="max-width:{Width}; height:{Height}">
+   <!-- on:insert={handleInsert}> -->
     <tr>
       <th> </th>
       {#if dscFlds} 
@@ -169,7 +193,7 @@ function handleMessage(event: any) {
 
       {/if} 
     </tr>
-      <tbody bind:this={tBody}>
+    <tbody bind:this={tBody}>
         {#if tblRows} 
           {#each thisDS as row, j}
             

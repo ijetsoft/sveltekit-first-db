@@ -1,23 +1,71 @@
 <script  lang="ts">
-  import Dialog from './../dialog/Dialog.svelte'
+  import Dialog from './../dialog/Dialog2.svelte'
+  import { createEventDispatcher } from 'svelte';
+	const dispatch = createEventDispatcher();
   let dialog: any;
   import {getContext} from 'svelte'; 
-  const {myTable, mark, dsc, DS, voc} = getContext('masterTable');
-  export let currRow: any
+  const {myTable, mark, dsc, DS, voc, lastKey} = getContext('masterTable');
+  export let currRow: any;
+  export let ModeUpdate : string = ''
+  export let naviUpdated = {mode: false, record: {key:8888}}
+
   let thisRecord = {}
   let titleDialog = ''
   let flagAdd = false
+  
+  let newRecord : any = {}
+    
   function myFirst() { mark(1); }
   function myLast() { mark(-1); }
   function myPrev() { mark(currRow-1); }
   function myNext() { mark(currRow+1); }
   function thisView() {
     thisRecord = DS[currRow-1]
+    titleDialog = ''
     dialog.showModal()}
   function thisAdd() {
-    thisRecord = {}; flagAdd = true
+    AddNewRecord(dsc) 
+    console.log(newRecord)
+    thisRecord = newRecord; flagAdd = true
+    ModeUpdate = 'insert'
     titleDialog = 'новая запись'
     dialog.showModal()}
+  function handleInsert (event: any) {
+    alert('Navy Insert')
+  }
+  function AddNewRecord(parmDSC: any){
+      //let myObject = DS
+      let myObject = DS[0]
+      //let keys = Object.keys(myObject);
+      let keys = [], it = {};
+      for(var key in myObject){
+        newRecord[key] = ''
+        it =  dsc.col.find((item:any) => item.fld == key);
+        if (it) {
+          switch (it.type) {
+            case 'key':
+              newRecord[key] = lastKey+1
+              break;
+            case 'string':
+              newRecord[key] = '?'
+              break;
+            case 'number':
+              newRecord[key] = 0
+              break;
+            default:
+              break;
+          }
+        }
+        keys.push(key);
+      }
+      /* let ret = {}
+      for (let index = 0; index < parmDSC.col.length; index++) {
+        const el = parmDSC.col[index];
+        newRecord[el.fld] = 'XXX'
+      }
+      return ret */
+    }
+    // $: if (naviUpdated) alert('$ naviUpdated key'+naviUpdated.record.key)
 </script>
  <!-- {@debug currRow} -->
 <div>
@@ -33,13 +81,17 @@
   <i class="fa fa-eye fa-fw"></i></button>
 
 <button class="btn" title="редактировать запись"><i class="fa">&#xf044;</i></button>
-<button class="btn" title="добавить запись" on:click={thisAdd}><i class="far fa-plus-square"></i></button>
+<button class="btn" title="добавить запись" on:click={thisAdd} 
+  on:insert={handleInsert}>
+  <i class="far fa-plus-square"></i></button>
 <button class="btn" title="опции сетки"><i class="fab fa-stack-exchange"></i></button>
 </div>
-<!-- {@debug dsc} -->
+ {@debug naviUpdated} 
 <Dialog title={titleDialog} Add ={flagAdd}
   bind:dialog bkgHeaderColor = 'maroon' 
-  dsc={dsc} DS={thisRecord} voc={voc}>
+  dsc={dsc} DS={thisRecord} voc={voc}
+  bind:dialogUpdated={naviUpdated}
+  parmUpdate ={ModeUpdate}>
 </Dialog>
   <style>
     .btn {

@@ -1,8 +1,8 @@
 {
-"name": "product",
+"name": "Product",
 "SQL": "SELECT * FROM Products ORDER BY ProductName",
 "col": [
-  {"fld": "ProductID", "header": "id", "type": "key" },
+  {"fld": "Id", "header": "id", "type": "key" },
   {"fld": "ProductName", "header": "название","type": "string"},
   {"fld": "_CategoryId", "header": "категория","type": "string"},
   {"fld": "_SupplierId", "header": "поставщик","type": "string"},

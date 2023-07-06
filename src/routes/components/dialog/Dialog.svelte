@@ -1,7 +1,7 @@
 <script  lang="ts">
     //import dialogPolyfill from 'dialog-polyfill';
 	import Checkbox from './../checkbox/Checkbox.svelte';
-	import Combo from './../combobox1-0/Combox1-0.svelte';
+	import Combo from './../combobox1-0/Combox2.svelte';
 	import {createEventDispatcher, onMount, beforeUpdate} from 'svelte';
    
 	export let canClose = true;                                
@@ -19,6 +19,7 @@
    export let dsc: any = null
    export let DS: any = null
    export let voc: any = null
+   export let dialogUpdated = {mode: false}
    const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
    let _bool = true
    
@@ -122,7 +123,9 @@
 // body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
 	function handleMessage(event: any) {}
 	function Save() { 
-		alert('Save')
+		dispatch('insert');
+		dialogUpdated.mode = true
+		alert('dialogUpdated ='+dialogUpdated.mode)
 	}
 	beforeUpdate(() => {
 		// if (Add && dsc) {
@@ -135,13 +138,13 @@
 //alert('afterUpdate '+Add)
 }); 
 function onChange(val:any) {
-alert(val)
+alert(val.target.value)
 }
 </script>
 
 {@debug Add}
   
-  <dialog bind:this={dialog} class={classNames}>               
+  <dialog bind:this={dialog} class={classNames} >               
   	<header bind:this={header}>
 	  {#if icon}{icon}{/if}
 	  <div class="title">{title}</div>
