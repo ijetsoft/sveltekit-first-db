@@ -1,202 +1,410 @@
+<script>
+  import { uid, onClickOutside } from "./Context.svelte";
+  export let width = "320px;"
+  export let onChange = undefined;
+  export let NameField = '';
+  //----------------------------------
+  export let disabled = undefined;
+  export let error = undefined;
+  export let expand = true;
+  export let id = uid();
+  export let label = "";
+  export let loading = false;
+  export let name = '';
+  export let options = [];
+  export let placeholder = undefined;
+  export let readonly = undefined;
+  export let required = undefined;
+  export let value = "";
+  /* export let onChange = (value) => {
+    alert(value)
+  } */
 
-<script lang="ts">
-    import {onMount} from 'svelte';
-     import type { AdapterEntry } from '@sveltejs/kit/types/private';
-         
-    export let options = ['*main1', 'main2', 'main3', 'main4'];
-    export let onChange: any;
-    export let multiple = false;
-    export let height = '24px';
-    export let width = "320px;"
-    export let color = "maroon"
-    export let bkgColor = "LemonChiffon"
-    export let selectColor = "#b65555";
-      //export let backgroundColor = "LemonChiffon"
-      let att = {'thisCombo': {}}
-      let thisCombo: any
-      let _style: any;
-      import { createEventDispatcher } from 'svelte';
-      const dispatch = createEventDispatcher();
-      //function onChange(event: { currentTarget: HTMLSelectElement }) {
-          // let x = event.currentTarget.selectedOptions[0].text
-          // dispatch('message', {
-          // 	index: event.currentTarget.value,
-          // 	text: event.currentTarget.selectedOptions[0].text
-          // });
-      //}
-    
-    let mode = typeof(options[0])=="string" ? 0 : 1
-    //if (multiple) height = '100px';
-    //_style.setAttribute('background', 'LemonChiffon');
-    if (document) {
-      let sSheet = document.styleSheets[0];
-      if (sSheet.insertRule) {
-        let ret = ''
-        ret += 'width:'+width
-        ret += ' border-radius: 10px;'
-        ret += ' border: 1px solid '+color+';' 
-        ret += ' background-color: '+bkgColor+';' 
-        ret += ' --selectHoverCol: '+selectColor+';'     
-        ret += ' color: '+color+';' 
-        //ret += ' font-size: '+fontSize+';'      
-        //ret += ' height:'+height+';'
-              // ret += ' padding: 5px 100px 5px 5px;'
-        sSheet.insertRule('select {'+ret+'}', sSheet.cssRules.length);
-        sSheet.insertRule('select:focus {border-radius: 10px;}', sSheet.cssRules.length);
-        //sSheet.insertRule('select:focus {background-color: '+bkgColor+'}', sSheet.cssRules.length);
-        //sSheet.insertRule('option:checked {background-color: '+bkgColor+'}', sSheet.cssRules.length);
-      }
+  export let filter = (text) => {
+    const sanitized = text.trim().toLowerCase();
+        
+        return options.reduce((a, o) => {
+            let match;
+            
+            if (o.options) {
+                const options = o.options.filter((o) => o.text.toLowerCase().includes(sanitized));
+                
+                if (options.length) {
+                    match = { ...o, options }
+                }
+            } else if (o.text.toLowerCase().includes(sanitized)) {
+                match = o;
+            }
+            
+            match && a.push(match);
+            
+            return a;
+        }, [])
+  };
+
+  let listElement;
+  let inputElement;
+  let list = [];
+  let isListOpen = false;
+    let selectedOption;
+
+  async function onInputKeyup(event) {
+    switch (event.key) {
+      case "Escape":
+      case "ArrowUp":
+      case "ArrowLeft":
+      case "ArrowRight":
+      case "Enter":
+      case "Tab":
+      case "Shift":
+        break;
+      case "ArrowDown":
+        await showList(event.target.value);
+        listElement.querySelector(`[role="option"]:not([aria-disabled="true"])`)?.focus();
+
+        event.preventDefault();
+        event.stopPropagation();
+        break;
+
+      default:
+        await showList(event.target.value);
     }
-    function handleClick() {
-          alert('clicked');
-    }
-    function setSelectHover(selector = "select") {
-      let select = thisCombo
-      let selectWrap: any;
-      if (select.parentNode) selectWrap = select.parentNode.closest(".select-wrap");
-      // wrap select element if not previously wrapped
-      if (!selectWrap) {
-        selectWrap = document.createElement("div");
-        selectWrap.classList.add("select-wrap");
-        if (select.parentNode) select.parentNode.insertBefore(selectWrap, select);
-        selectWrap.appendChild(select);
-      }
-      // set expanded height according to options
-      let size = select.querySelectorAll("option").length;
-      // adjust height on resize
-      const getSelectHeight = () => {
-        //selectWrap.style.height = "auto";
-        let selectHeight = select.getBoundingClientRect();
-        selectWrap.style.height = selectHeight.height + "px";
-      };
-      getSelectHeight();
-      window.addEventListener("resize", (e) => {
-        getSelectHeight();
-      });
-      /**
-      * focus and click events will coincide
-      * adding a delay via setTimeout() enables the handling of
-      * clicks events after the select is focused
-      */
-      let hasFocus = false;
-      select.addEventListener("focus", () => {
-        select.setAttribute("size", size);
-        setTimeout(() => {
-          hasFocus = true;
-        }, 150);
-      });
-      // close select if already expanded via focus event
-      select.addEventListener("click", () => {
-        if (hasFocus) {
-          select.blur(); hasFocus = false;
-        }
-      });
-      // close select if selection was set via keyboard controls
-      select.addEventListener("keydown", (e:any) => {
-        if (e.key === "Enter") {
-          select.removeAttribute("size");
-          select.blur();
-        }
-      });
-      // collapse select
-      select.addEventListener("blur", () => {
-        select.removeAttribute("size");
-        hasFocus = false;
-      });
-
-    }
-      //onMount(() => setSelectHover());
-      onMount(async () => {
-        setSelectHover()
-      })
-  </script>
- 
-  <!-- <div class="box">
-      <select class="selectHovercolor" on:change={onChange} multiple={multiple}>
-          {#each options as option, i}
-                  <option value={i}> {option}</option>
-          {/each}
-          
-      </select>
-    </div> -->
-    <!-- style="width: {width}; height:{height}; background:{bkgColor}; color:{color}"  -->
-    <select bind:this={thisCombo}  
-    style="width: {width};"    
-    on:change={onChange}
-    {multiple}>
-      {#each options as option, i}
-              {#if mode === 0} 	
-                  <option value={i}> {option}</option>
-              {:else}
-                  <option value={option.ind}>  {option.val}</option>
-              {/if}
-              {#if mode === 1} 	
-                  <!-- <option value={option.ind}> * {option.val}</option> -->
-              {/if}
-          {/each}
-    </select> 
-    <!-- <select class="selectHovercolor">
-      <option value="volvo" selected>Volvo</option>
-      <option value="saab">Saab</option>
-      <option value="opel">Opel</option>
-      <option value="audi">Audi</option>
-    </select>  -->
-  <style>
-  select {
-  /*--selectHoverCol: #999;*/
-  /* --selectedCol: red; */
-  /* width: 100%; 
-  font-size: 1em;*/
-  margin: 0px;
-  padding: 0px;
-  /* background-color: #fff; */
-}
-
-select:focus {
-  border-radius: 0px; 
-  border-color: red;
-  background: #fff;
-  outline: none;
-}
-
-.select-wrap {
-  position: relative;
-  z-index: 10
-}
-
-.select-wrap:focus-within select {
-  position: absolute;
-  top: 0;
-  left: 0;
- 
-}
-
-option:hover {
-  background-color: var(--selectHoverCol);
-  color: #fff;
-}
-
-option:checked {
-  box-shadow: 0 0 1em 100px var(--selectedCol) inset;
-  color: yellow;
-  background-color:maroon;
-}
-  @media screen and (min-width: 601px) {
-    option {
-     font-size: 1em; 
-    }
-    select {
-     font-size: 1em; 
-    } 
   }
 
-@media screen and (max-width: 600px) {
-	option {
-     font-size: 2em; 
-	
-  } 
-  select {
-     font-size: 1em; 
+  function onInputKeydown(event) {
+    let flag = false;
+
+    switch (event.key) {
+      case "Escape":
+        hideList();
+        flag = true;
+        break;
+
+      case "Tab":
+        hideList();
+        break;
     }
-}  
-  </style>
+
+    if (flag) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  async function onInputClick(event) {
+    await showList(event.target.value);
+    // Scroll selected option into view.
+    listElement.querySelector(`[role="option"][data-value="${value}"]`)?.scrollIntoView();
+  }
+
+  function onOptionClick(event) {
+        if (!event.target.matches(`[role="option"]:not([aria-disabled="true"])`)) return
+        if (onChange) onChange(name, event.target.dataset.value);
+        
+        selectOption(event.target);
+        hideList();
+  }
+
+  function onListKeyDown(event) {
+    let flag = false;
+
+    switch (event.key) {
+      case "ArrowUp":
+        let prevOptionElement = event.target.previousElementSibling;
+
+        while (prevOptionElement) {
+          if (prevOptionElement.matches(`[role="option"]:not([aria-disabled="true"])`)) break;
+          prevOptionElement = prevOptionElement.previousElementSibling;
+        }
+
+        prevOptionElement?.focus();
+        flag = true;
+        break;
+
+      case "ArrowDown":
+        let nextOptionElement = event.target.nextElementSibling;
+
+        while (nextOptionElement) {
+          if (nextOptionElement.matches(`[role="option"]:not([aria-disabled="true"])`)) break;
+          nextOptionElement = nextOptionElement.nextElementSibling;
+        }
+
+        nextOptionElement?.focus();
+        flag = true;
+        break;
+
+      case "Enter":
+        selectOption(event.target);
+        hideList();
+        flag = true;
+        break;
+
+      case "Escape":
+        hideList();
+        flag = true;
+        break;
+
+      case "Tab":
+        hideList();
+        break;
+
+      default:
+        inputElement.focus();
+    }
+
+    if (flag) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  }
+
+  async function showList(inputValue) {
+    const isExactMatch = options.some((o) =>
+      o.options ? o.options.some((o) => o.text === inputValue) : o.text === inputValue
+    );
+
+    list = inputValue === "" || isExactMatch ? options : await filter(inputValue);
+        isListOpen = true;
+  }
+
+  function hideList() {
+    if (!isListOpen) return;
+
+    if (selectedOption) {
+      inputElement.value = selectedOption.text;
+    }
+
+    isListOpen = false;
+    inputElement.focus();
+  }
+
+  function selectOption(optionElement) {
+        value = optionElement.dataset.value;
+        
+    selectedOption = {
+      text: optionElement.dataset.text,
+      value: optionElement.dataset.value
+    };
+    }
+</script>
+{@debug list} 
+<div class="combobox">
+  <label class="combobox__label label" for={id}>
+    {label}
+    {#if error}
+      <span class="form-validation-error">
+        {error}
+      </span>
+    {/if}
+  </label>
+
+  <div class="input-container" use:onClickOutside={hideList}>
+    <slot name="icon-start" />
+
+    <input
+      bind:this={inputElement}
+      on:focus
+      on:blur
+      on:input
+      on:keyup={onInputKeyup}
+      on:keydown={onInputKeydown}
+      on:mousedown={onInputClick}
+      class="combobox__input"
+      {id}
+      {name}
+      type="text"
+      {disabled}
+      autocapitalize="none"
+      autocomplete="off"
+      {readonly}
+      {placeholder}
+      spellcheck="false"
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={isListOpen}
+      aria-required={required ? "true" : undefined}
+    />
+
+    <ul
+      class="combobox__list"
+      role="listbox"
+            aria-label={label}
+      hidden={!isListOpen}
+      on:click={onOptionClick}
+      on:keydown={onListKeyDown}
+      bind:this={listElement}
+    >
+      {#each list as option (option)}
+        {#if option.options}
+          <li class="list__option-heading">
+                        <slot name="group" group={option}>
+                            {option.text}
+                        </slot>
+          </li>
+          {#each option.options as option (option)}
+            <li
+              class="list__option"
+                            class:--disabled={option.disabled}
+              role="option"
+              tabindex={option.disabled ? undefined : "-1"}
+              data-text={option.text}
+              data-value={option.value}
+              aria-selected={value === option.value}
+                            aria-disabled={option.disabled}
+            >
+              <slot name="option" {option}>
+                {option.text}
+              </slot>
+                            {#if option.value === value}
+                <svg viewBox="0 0 24 24" class="icon">
+                                  <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+              {/if}
+            </li>
+          {/each}
+        {:else}
+          <li
+            class="list__option"
+                        class:--disabled={option.disabled}
+            role="option"
+            tabindex={option.disabled === true ? undefined : "-1"}
+            data-text={option.text}
+            data-value={option.value}
+            aria-selected={value === option.value}
+                        aria-disabled={option.disabled}
+          >
+                <slot name="option" {option}>
+                {option.text}
+              </slot>
+                            {#if option.value === value}
+                <svg viewBox="0 0 24 24" class="icon">
+                                  <polyline points="20 6 9 17 4 12"></polyline>
+                                </svg>
+              {/if}
+          </li>
+        {/if}
+            {:else}
+                <li class="list__no-results">
+                    No results available
+                </li>
+      {/each}
+    </ul>
+
+    <div class="visually-hidden" role="status" aria-live="polite">
+      {list.length} results available.
+    </div>
+  </div>
+</div>
+
+<style>
+    .combobox {
+        --accent-color: #06113C;
+        --background-color: white; /*white; LemonChiffon */
+        --border-radius: 1em;
+        
+        --option-border: ;
+        --option-padding: ;
+        
+        display: flex;
+        flex-direction: column;
+        gap: 0; /*.5em;*/
+        color: maroon;
+        height: 32px;
+    }
+    
+  .input-container {
+    position: relative;
+    
+  }
+    
+    .combobox__input {
+        margin: 0;
+        width: 330px; /*100%;*/
+        padding: 0.8rem 1rem;
+        border: 0.175rem solid gray;
+        border-radius: 0.3rem;
+        background-color: lemonchiffon;
+        color: maroon;
+        
+    }
+    
+    .combobox__input:focus {
+        outline: none;
+    }
+    
+    .combobox:focus-within .combobox__input {
+        border-color: var(--accent-color);
+    }
+
+  .combobox__list {
+        /* Reset */
+        list-style: none;
+        margin: 0;
+    /*padding: 0.3rem;*/
+        /* Position and Size */
+    position: absolute;
+    inset-inline-start: 0;
+    inset-block-start: calc(100% + 0.3rem);
+        min-width: 100%;
+        max-height: 40vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    z-index: 100;
+    
+    background-color:  var(--background-color); /*yellow;*/
+    border-radius: 0.3em;
+        border: 0.175rem solid var(--accent-color);
+    box-shadow: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;    
+    background-color: lemonchiffon;
+  }
+
+  .list__option-heading {
+        font-size: 0.9em;
+    padding-inline: 1rem;
+        padding-block-start: 0.4rem;
+        color: gray;
+        
+  }
+    
+    .list__no-results {
+        padding: 0.8rem 1rem;
+    }
+
+  .list__option {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+        padding: 0.8rem 1rem;
+        border: 0.2rem solid transparent;
+        border-radius: 0.3rem;
+        color: maroon;
+  }
+
+  .list__option > :global(*) {
+    pointer-events: none;
+  }
+    
+    .list__option.--disabled {
+        pointer-events: none;
+        opacity: 0.4;
+    }
+
+  .list__option:focus,
+  .list__option:not([aria-disabled="true"]):hover {
+        outline: none;
+    cursor: pointer;
+    background-color: rgba(0, 0, 0, 0.1); /* red;*/
+  }
+    
+    .list__option:active {
+    cursor: pointer;
+    outline: none;
+    color: white;
+    background-color: var(--accent-color) !important;/* black;*/
+  }
+
+  .list__option:focus :global(svg),
+  .list__option:hover :global(svg) {
+    --icon-color: white !important;
+  }
+</style>

@@ -17,6 +17,7 @@
     let nameTable = ''
     let nameKeyTable = ''
     let newRecord : any = {}
+    let thisRecord = {}
     let thisCol = [{}]
         if (dscFlds) {
             nameTable = dscFlds.name
@@ -108,11 +109,19 @@ function getVocab(parmName: string, parmVal: any) {
     let retVal = ''; if (vocabRecs) retVal = vocabRecs[nameVal]
     return retVal
 }    
-
+function myFirst() { setMarkRow(1); }
+function myLast() { setMarkRow(-1); }
+function myPrev() { setMarkRow(currRow-1); }
+function myNext() { setMarkRow(currRow+1); } 
+function thisView() {
+    thisRecord = thisDS[currRow-1]
+    //titleDialog = ''
+    dialog.showModal()}
 function addNewRecord() {
     //GetRecordDB(5)
     
     //const dialog = document.querySelector("dialog")
+    //parmUpdate
     if (dialog) dialog.showModal() 
 }
 
@@ -165,7 +174,7 @@ async function GetRecordDB(parmKeyValue: any) {
   return data
 }
 </script>
-{@debug nameTable, nameKeyTable}
+{@debug nameTable, nameKeyTable, thisDS}
 <!--                Dialog -->
 <dialog>
       <p>Greetings, one and all!</p>
@@ -174,9 +183,21 @@ async function GetRecordDB(parmKeyValue: any) {
       </form>
 </dialog>
 <!--                Navigate -->
+<section id="parentbox">
+  <button class="navibtn" title="первая запись" on:click={myFirst}>
+    <i class="fa fa-step-backward fa-fw" ></i></button>
+  <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
+    <i class="fa fa-chevron-left fa-fw"></i></button>
+  <button class="navibtn" title="следующая запись" on:click={myNext}>
+    <i class="fa fa-chevron-right fa-fw" ></i></button>
+  <button class="navibtn" title="последняя запись" on:click={myLast}>
+    <i class="fa fa-step-forward fa-fw"></i></button>
+  <button class="navibtn" title="просмотреть запись" on:click={thisView}>
+    <i class="fa fa-eye fa-fw"></i></button>
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
+</section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
     on:click={onClick} 
@@ -214,7 +235,8 @@ async function GetRecordDB(parmKeyValue: any) {
 </table>
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 
-  dsc={dscFlds} DS={currRow} voc={thisVoc}
+  dsc={dscFlds} DS={thisRecord} voc={thisVoc}
+  parmUpdate=''
   ></Dialog>
 <style>
 .navibtn {
@@ -225,7 +247,8 @@ async function GetRecordDB(parmKeyValue: any) {
   cursor: pointer;
   padding: 3px 4px;
   border-radius: 5px;
- 
+  float: left;
+  margin: 2px;
 }
 tr:nth-child(even) {
   background-color: #dddddd;

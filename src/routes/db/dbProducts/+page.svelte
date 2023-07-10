@@ -57,7 +57,7 @@
      return data
    }
   </script>
-   <!-- {@debug newRecord}  -->
+   {@debug db}  
   <JetDBTable dscFlds={dscProducts} 
     tblRows={db} 
     Width='100%'

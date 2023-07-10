@@ -1,10 +1,13 @@
 <script  lang="ts">
-  	import {onMount} from 'svelte';
-	export let text: string = 'One'
+  import {onMount} from 'svelte';
+	export let name: string = ''
+  export let text: string = 'One'
 	export let checked: boolean = false
   export let bkgHeaderColor = 'maroon'
+  export let onChange: any;
   let _input: any
   let _div: any;
+  $: checked
   onMount(() => {
     
     let cssRules = document.styleSheets
@@ -14,10 +17,17 @@
 		//if (dsc) body = dsc.col.length+' *'
 		_div.setAttribute('background-color', 'maroon');
 	});
+  function OnInnerChange(event: any){
+   
+    if (onChange) onChange(name, event.target.dataset.value); 
+  }
   </script>
 <!-- {@debug _input}      -->
    <label class="container">{text}
-     <input bind:this={_input} type="checkbox" checked={checked} style='accent-color: green'>
+     <input bind:this={_input} type="checkbox" 
+      checked={checked} style='accent-color: green'
+      on:change={OnInnerChange}
+      >
      <span bind:this={_div} class="checkmark"></span>
    </label>
    

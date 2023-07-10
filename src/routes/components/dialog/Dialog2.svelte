@@ -24,6 +24,7 @@
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
   let _bool = true
+  let _currVocabValue = ''
  
    const  dispatch = createEventDispatcher();
   
@@ -87,14 +88,32 @@
    let options:any = []
    let retVal = ''; //if (vocabRecs) {
        vocQry.forEach(el => {
-           options.push({ind:el[nameKey],val:el[nameVal]});
+           options.push({value:el[nameKey],text:el[nameVal]});
            retVal += el[nameKey]+":"+el[nameVal]+', '
+           if (el[nameKey]===parmVal) _currVocabValue = el[nameVal]
        });
        //console.log(options)
        //retVal = vocabRecs[nameVal]
    //}
 
    return options
+ }
+ function currVocabValue(parmName: string, parmVal: any) {
+  let a =  voc.find((item:any) => item.name == parmName);
+   let vocQry = a.qry.data
+   let nameKey = Object.entries(vocQry[0])[0][0]
+   let nameVal = Object.entries(vocQry[0])[1][0]
+   let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+   let options:any = []
+   let retVal = ''; //if (vocabRecs) {
+       vocQry.forEach(el => {
+           if (el[nameKey]===parmVal) retVal = el[nameVal]
+       });
+       //console.log(options)
+       //retVal = vocabRecs[nameVal]
+   //}
+
+   return retVal
  }
  function checkBool(parmFld: any, parmRow: any){
    let val = parmRow[parmFld.fld]
@@ -135,6 +154,12 @@
    function onChange(val:any) {
        alert(getKey())
    }
+   function onChangeCombo2(name: string, value:any) {
+		alert('Main.Combo2: '+name+' = '+value);
+	}
+  function onChangeCheckBox(name: string, value:any) {
+		alert('Main.CheckBox: '+name+' = '+value);
+	}
    async function getKey() {
    
        const { data, count: any } = await supabase
@@ -170,10 +195,13 @@
     dialogUpdated.mode = true
 	  alert('Save')
    }
+   function inputChange(event: any){
+    alert('Dialog: '+event.target.name+'='+event.target.value)
+   }
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
 
-{@debug parmUpdate, title} 
+{@debug parmUpdate, DS} 
  
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
@@ -195,9 +223,13 @@
                 {#if fld.fld[0] == '_'}
                   <!-- <Combo  width = 200px /><br> -->
                   <div>
+                    <!-- selected={DS[fld.fld.slice(1)]} -->
                     <Combo options={getVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
-                      selected={DS[fld.fld.slice(1)]}
+                      onChange = {onChangeCombo2}
+                      name={fld.fld.slice(1)}
+                      placeholder={currVocabValue(fld.fld.slice(1), DS[fld.fld.slice(1)])}
                       on:message={handleMessage}  />
+                   
                   </div><br>                  
               <!-- {:else if fld.type == 'date'} -->
 
@@ -206,7 +238,9 @@
                        <Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
                        {:else} -->
                        {checkBool(fld, DS)}
-                       <Checkbox text="" checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
+                       <Checkbox text="" name="myCheckBoxField"
+                       onChange={onChangeCheckBox}
+                       checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
                        <!-- {/if} -->
                    
                    <!-- <input type="checkbox" name="+{fld.fld}+" id="+{fld.fld}+ 
@@ -214,6 +248,7 @@
                    {:else }
                    <!-- {@html sayCell(fld, DS)} -->
                    <input type="text" name={fld.fld} id={fld.fld}
+                   on:change={inputChange}
                    required value="{sayValCell(fld, DS)}" on:change={onChange}><br>
                        <!-- <input type="text" name="+{fld.fld}+" id="+{fld.fld}+
                        " required value="{sayCell(DS, fld)}"><br>			   -->
