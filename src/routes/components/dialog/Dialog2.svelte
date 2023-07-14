@@ -1,8 +1,9 @@
 <script  lang="ts">
+  import {createEventDispatcher, onMount} from 'svelte';
   import { supabase } from "$lib/supabaseClient.js";
    import Checkbox from './../checkbox/Checkbox.svelte';
    import Combo from './../combobox1-0/Combox2.svelte';
-   import {createEventDispatcher, onMount} from 'svelte';
+
   
    export let canClose = true;                                
    export let className  = '';                                 
@@ -19,15 +20,20 @@
   export let dsc: any = null
   export let DS: any = null
   export let voc: any = null
-  export let dialogUpdated = {mode: false, record: {key:9999}}
-  export let parmUpdate = ''
+  export let dialogUpdatedKey = 0
+  export let modeUpdate = ''
+  export let mapDialog = new Map()
+  //export let RetDialog = 9999
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
   let _bool = true
   let _currVocabValue = ''
- 
+   
    const  dispatch = createEventDispatcher();
-  
+   function sendEvent() {
+    	dispatch('MapReady', mapDialog); 
+  	}
+
    $: classNames = 'dialog' + (className ? ' ' + className : '');
   
    //onMount(() => dialogPolyfill.registerDialog(dialog));      
@@ -36,6 +42,7 @@
    let stylish=''
    onMount(() => {
        header.style.backgroundColor = bkgHeaderColor
+       
        //if (dsc) body = dsc.col.length+' *'
        //header.setAttribute('background-color', 'maroon');
    });
@@ -105,20 +112,17 @@
    let nameVal = Object.entries(vocQry[0])[1][0]
    let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
    let options:any = []
-   let retVal = ''; //if (vocabRecs) {
+   let retVal = ''; 
        vocQry.forEach(el => {
            if (el[nameKey]===parmVal) retVal = el[nameVal]
        });
        //console.log(options)
        //retVal = vocabRecs[nameVal]
-   //}
-
-   return retVal
+      return retVal
  }
  function checkBool(parmFld: any, parmRow: any){
    let val = parmRow[parmFld.fld]
-   console.log(parmRow[parmFld.fld])
-   if (parmRow[parmFld.fld] === "1") {
+    if (parmRow[parmFld.fld] === "1") {
        _bool = true }
    else {
        _bool = false
@@ -126,7 +130,8 @@
    return ''
  }
    let thisCol = [], el = ''
-   // очистить заголовок
+   mapDialog.clear()
+   // очистить заголовок от <br>
    if (dsc) {
        thisCol = dsc.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
        for (let index = 0; index < thisCol.length; index++) {
@@ -152,14 +157,24 @@
    }
    
    function onChange(val:any) {
-       alert(getKey())
+       //alert(getKey())
+   }
+   function AddMap(name: string, value:any){
+    if (mapDialog.has(name)) mapDialog.delete(name) 
+    mapDialog.set(name, value) 
    }
    function onChangeCombo2(name: string, value:any) {
+    AddMap(name, value)
 		alert('Main.Combo2: '+name+' = '+value);
 	}
   function onChangeCheckBox(name: string, value:any) {
+    AddMap(name, value)
 		alert('Main.CheckBox: '+name+' = '+value);
 	}
+  function inputChange(event: any){
+    AddMap(event.target.name, event.target.value)
+    alert('Dialog: '+event.target.name+'='+event.target.value)
+   }
    async function getKey() {
    
        const { data, count: any } = await supabase
@@ -185,28 +200,41 @@
      console.log(data)
      return data
    }
+   function show() {
+    alert(JSON.stringify([...mapDialog]))
+   }
    function close() {
+    let mustSave : boolean = false
+		if (mapDialog.size > 0) mustSave = confirm("Сохранить данные?");
+		if (mustSave) Save()
     dispatch('close');  
     // dialogUpdated = false
 	// alert('dialogUpdated ='+dialogUpdated)
+    
     dialog.close();
    }
    function Save() {
-    dialogUpdated.mode = true
-	  alert('Save')
+    sendEvent()
+    alert('map Dialog: '+JSON.stringify([...mapDialog]))
+    mapDialog = mapDialog
+    dispatch('close');  
+    dialog.close();
+    alert('CLOSE')
+    /* dialogUpdatedKey = 9999
+	  RetDialog = 8888
+		alert('Save '+RetDialog) */
+    close()
    }
-   function inputChange(event: any){
-    alert('Dialog: '+event.target.name+'='+event.target.value)
-   }
+   
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
 
-{@debug parmUpdate, DS} 
+{@debug mapDialog} 
  
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
     {#if icon}{icon}{/if}
-    <div class="title">{title}</div>
+    <div class="title">{title}{modeUpdate}</div>
     {#if canClose}
       <button class="close-btn" on:click={close}>
          &#x2716;                                             
@@ -255,10 +283,8 @@
                    {/if}   
                {/if}  
            {/each}
-           {#if  !(parmUpdate === '') }
-               <button class="btn" title="сохранить" on:click={Save}>
-                   <i class="fa-regular fa-floppy-disk" ></i></button>
-           {/if}
+           <button class="btn" title="сохранить" on:click={Save}>
+            <i class="fa-regular fa-floppy-disk" ></i></button>
        {/if}                                   
        <slot />                                                 
  

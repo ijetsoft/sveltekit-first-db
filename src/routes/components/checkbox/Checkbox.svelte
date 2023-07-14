@@ -19,10 +19,10 @@
 	});
   function OnInnerChange(event: any){
    
-    if (onChange) onChange(name, event.target.dataset.value); 
+    if (onChange) onChange(name, _input.checked); 
   }
   </script>
-<!-- {@debug _input}      -->
+ <!-- {@debug name}       -->
    <label class="container">{text}
      <input bind:this={_input} type="checkbox" 
       checked={checked} style='accent-color: green'

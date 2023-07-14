@@ -1,6 +1,6 @@
 <script  lang="ts">
     import { supabase } from "$lib/supabaseClient.js";
-    import {onMount} from 'svelte';
+    import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
     import {setContext} from 'svelte';
 
@@ -27,11 +27,28 @@
     let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
     let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
     let dialog: any;
-    
+    let modeUpdate = 'UPDATE'
+    let mapDBTable = new Map()
+    let RetTable = 0
+    //$: ModifyRecord(RetTable)
+    $: ModifyRedord(mapDBTable, mapDBTable.size)//alert('dollar: '+RetTable); 
 // -------------------------------------------------------------    
+const  dispatch = createEventDispatcher();
+  function onMapReady(event:any) {
+    mapDBTable = event.detail
+    alert('mapDBTable: '+JSON.stringify(event.detail))
+  }
 onMount(() => {
     setMarkRow(1)
 })
+function ModifyRedord(parmKey:any, parmLen: number){
+   if (mapDBTable.size > 0) {
+    //alert('mapDBTable: '+JSON.stringify([...mapDBTable]))
+    
+    mapDBTable.clear()
+    mapDBTable = mapDBTable
+   }
+}
 function sayHeader(parm: string){
     return   parm
 }
@@ -115,43 +132,48 @@ function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
 function thisView() {
     thisRecord = thisDS[currRow-1]
-    //titleDialog = ''
+    modeUpdate = 'UPDATE'
+    mapDBTable.clear
+    mapDBTable = mapDBTable
     dialog.showModal()}
 function addNewRecord() {
     //GetRecordDB(5)
-    
+    thisRecord = thisDS[currRow-1]
+    FormNewRecord(dscFlds)
+    thisRecord = newRecord
+    modeUpdate = 'INSERT'
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
 }
 
 function FormNewRecord(parmDSC: any){
-      /* let myObject = db.product.data[0]
-      //let keys = Object.keys(myObject);
-      let keys = [], it = {};
-      for(var key in myObject){
-        newRecord[key] = ''
-        it =  parmDSC.col.find((item:any) => item.fld == key);
-        if (it) {
-          switch (it.type) {
-            case 'string':
-              newRecord[key] = 'XXX'
-              break;
-            case 'number':
-            newRecord[key] = '0'
-            default:
-              break;
-          }
-        }
-        
-        keys.push(key);
+  let myObject = thisRecord
+  //let keys = Object.keys(myObject);
+  let keys = [], it = {};
+  for(var key in myObject){
+    newRecord[key] = ''
+    it =  parmDSC.col.find((item:any) => item.fld == key);
+    if (it) {
+      switch (it.type) {
+        case 'string':
+          newRecord[key] = 'XXX'
+          break;
+        case 'number':
+          newRecord[key] = '0'
+        default:
+          break;
       }
+    }
+        
+    //keys.push(key);
+  }
       let ret = {}
-      for (let index = 0; index < parmDSC.col.length; index++) {
+      /* for (let index = 0; index < parmDSC.col.length; index++) {
         const el = parmDSC.col[index];
         newRecord[el.fld] = 'XXX'
-      }
-      return ret */
+      } */
+      return ret 
     }
 async function InsertDB() {
        const { data, error } = await supabase
@@ -236,8 +258,11 @@ async function GetRecordDB(parmKeyValue: any) {
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dscFlds} DS={thisRecord} voc={thisVoc}
-  parmUpdate=''
+  modeUpdate={modeUpdate}
+  bind:mapDialog={mapDBTable} 
+  on:MapReady={onMapReady} 
   ></Dialog>
+   <!-- bind:RetDialog={RetTable}  -->
 <style>
 .navibtn {
   background-color: FireBrick;
