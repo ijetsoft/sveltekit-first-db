@@ -90,7 +90,7 @@
 <Dialog title={titleDialog} Add ={flagAdd}
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dsc} DS={thisRecord} voc={voc}
-  bind:dialogUpdated={naviUpdated}
+  bind:dialogUpdatedKey={naviUpdated}
   parmUpdate ={ModeUpdate}>
 </Dialog>
   <style>

@@ -187,7 +187,7 @@
     };
     }
 </script>
-{@debug list} 
+<!-- {@debug list}  -->
 <div class="combobox">
   <label class="combobox__label label" for={id}>
     {label}

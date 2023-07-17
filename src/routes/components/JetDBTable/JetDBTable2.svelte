@@ -1,11 +1,11 @@
 <script  lang="ts">
     import { supabase } from "$lib/supabaseClient.js";
-    import {onMount} from 'svelte';
+    import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
     import {setContext} from 'svelte';
 
     export let Width = '100%;'
-    export let Height = '440px;'
+    export let Height = '450px;'
     export let dscFlds : any
     export let tblRows : any
     export let headerFlds : any; // для автономных таблиц
@@ -27,11 +27,56 @@
     let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
     let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
     let dialog: any;
-    
+    let modeUpdate = 'UPDATE'
+    let mapDBTable = new Map()
+    let RetTable = 0
+    //$: ModifyRecord(RetTable)
+    $: ModifyReсord(mapDBTable)//, mapDBTable.size 
 // -------------------------------------------------------------    
+const  dispatch = createEventDispatcher();
+  function onMapReady(event:any) {
+    mapDBTable = event.detail
+    //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    //alert('mapDBTable: '+JSON.stringify(mapDBTable))
+    ModifyReсord()
+  }
 onMount(() => {
     setMarkRow(1)
 })
+function ModifyReсord(){
+   if (mapDBTable.size > 0) {
+    let _row = tBody.children[currRow-1]
+    for (let index = 0; index < thisCol.length; index++) {
+      const el = thisCol[index];
+      let nameFld =  el.fld[0]==='_' ? el.fld.slice(1) : el.fld
+      if (mapDBTable.has(nameFld)) {
+        let subEl = _row.children[index+1].firstChild
+        subEl.parentNode.innerText = mapDBTable.get(nameFld)
+        if (el.fld[0]==='_') {
+          let x = getVocab(nameFld, Number(mapDBTable.get(nameFld)))
+          _row.children[index+1].firstChild.nodeValue = getVocab(nameFld, Number(mapDBTable.get(nameFld)))
+          //alert(subEl.nodeValue)
+          //alert(getVocab(nameFld, Number(mapDBTable.get(nameFld))))
+        } else if (el.type === 'bool') {
+          let ret = mapDBTable.get(nameFld) === 'false' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(ret, 'text/html');
+          _row.children[index+1].innerHTML = ret
+        }
+/*         alert(_row.children[index+1].firstChild.textContent)
+        alert(' ModifyReсord['+(index+1)+']:' +el.fld+'='+mapDBTable.get(nameFld) )
+ */        //alert(_row.children[1].firstChild.textContent)
+      }
+    }
+    // thisCol
+    
+    console.log(_row)
+    //alert('mapDBTable: '+JSON.stringify([...mapDBTable]))
+    
+    mapDBTable.clear()
+    mapDBTable = mapDBTable
+   }
+}
 function sayHeader(parm: string){
     return   parm
 }
@@ -115,43 +160,48 @@ function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
 function thisView() {
     thisRecord = thisDS[currRow-1]
-    //titleDialog = ''
+    modeUpdate = 'UPDATE'
+    mapDBTable.clear
+    mapDBTable = mapDBTable
     dialog.showModal()}
 function addNewRecord() {
     //GetRecordDB(5)
-    
+    thisRecord = thisDS[currRow-1]
+    FormNewRecord(dscFlds)
+    thisRecord = newRecord
+    modeUpdate = 'INSERT'
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
 }
 
 function FormNewRecord(parmDSC: any){
-      /* let myObject = db.product.data[0]
-      //let keys = Object.keys(myObject);
-      let keys = [], it = {};
-      for(var key in myObject){
-        newRecord[key] = ''
-        it =  parmDSC.col.find((item:any) => item.fld == key);
-        if (it) {
-          switch (it.type) {
-            case 'string':
-              newRecord[key] = 'XXX'
-              break;
-            case 'number':
-            newRecord[key] = '0'
-            default:
-              break;
-          }
-        }
-        
-        keys.push(key);
+  let myObject = thisRecord
+  //let keys = Object.keys(myObject);
+  let keys = [], it = {};
+  for(var key in myObject){
+    newRecord[key] = ''
+    it =  parmDSC.col.find((item:any) => item.fld == key);
+    if (it) {
+      switch (it.type) {
+        case 'string':
+          newRecord[key] = 'XXX'
+          break;
+        case 'number':
+          newRecord[key] = '0'
+        default:
+          break;
       }
+    }
+        
+    //keys.push(key);
+  }
       let ret = {}
-      for (let index = 0; index < parmDSC.col.length; index++) {
+      /* for (let index = 0; index < parmDSC.col.length; index++) {
         const el = parmDSC.col[index];
         newRecord[el.fld] = 'XXX'
-      }
-      return ret */
+      } */
+      return ret 
     }
 async function InsertDB() {
        const { data, error } = await supabase
@@ -174,7 +224,8 @@ async function GetRecordDB(parmKeyValue: any) {
   return data
 }
 </script>
-{@debug nameTable, nameKeyTable, thisDS}
+ {@debug nameTable, nameKeyTable, thisDS} 
+
 <!--                Dialog -->
 <dialog>
       <p>Greetings, one and all!</p>
@@ -197,6 +248,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
+<p>Home</p>
 </section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
@@ -222,6 +274,8 @@ async function GetRecordDB(parmKeyValue: any) {
             {#each thisCol as colFld, i}
                 {#if (colFld.type == 'number')}
                     <td class='r'> {@html sayCell(row,colFld)} </td>
+                {:else if (colFld.type == 'bool')}
+                    <td class='c'> {@html sayCell(row,colFld)} </td>                
                 {:else}  
                     <td> {@html sayCell(row,colFld)} </td>
                 {/if}
@@ -236,8 +290,11 @@ async function GetRecordDB(parmKeyValue: any) {
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dscFlds} DS={thisRecord} voc={thisVoc}
-  parmUpdate=''
+  modeUpdate={modeUpdate}
+  bind:mapDialog={mapDBTable} 
+  on:MapReady={onMapReady} 
   ></Dialog>
+   <!-- bind:RetDialog={RetTable}  -->
 <style>
 .navibtn {
   background-color: FireBrick;
