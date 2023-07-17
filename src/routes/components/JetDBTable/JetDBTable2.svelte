@@ -5,7 +5,7 @@
     import {setContext} from 'svelte';
 
     export let Width = '100%;'
-    export let Height = '440px;'
+    export let Height = '450px;'
     export let dscFlds : any
     export let tblRows : any
     export let headerFlds : any; // для автономных таблиц
@@ -31,18 +31,46 @@
     let mapDBTable = new Map()
     let RetTable = 0
     //$: ModifyRecord(RetTable)
-    $: ModifyRedord(mapDBTable, mapDBTable.size)//alert('dollar: '+RetTable); 
+    $: ModifyReсord(mapDBTable)//, mapDBTable.size 
 // -------------------------------------------------------------    
 const  dispatch = createEventDispatcher();
   function onMapReady(event:any) {
     mapDBTable = event.detail
-    alert('mapDBTable: '+JSON.stringify(event.detail))
+    //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    //alert('mapDBTable: '+JSON.stringify(mapDBTable))
+    ModifyReсord()
   }
 onMount(() => {
     setMarkRow(1)
 })
-function ModifyRedord(parmKey:any, parmLen: number){
+function ModifyReсord(){
    if (mapDBTable.size > 0) {
+    let _row = tBody.children[currRow-1]
+    for (let index = 0; index < thisCol.length; index++) {
+      const el = thisCol[index];
+      let nameFld =  el.fld[0]==='_' ? el.fld.slice(1) : el.fld
+      if (mapDBTable.has(nameFld)) {
+        let subEl = _row.children[index+1].firstChild
+        subEl.parentNode.innerText = mapDBTable.get(nameFld)
+        if (el.fld[0]==='_') {
+          let x = getVocab(nameFld, Number(mapDBTable.get(nameFld)))
+          _row.children[index+1].firstChild.nodeValue = getVocab(nameFld, Number(mapDBTable.get(nameFld)))
+          //alert(subEl.nodeValue)
+          //alert(getVocab(nameFld, Number(mapDBTable.get(nameFld))))
+        } else if (el.type === 'bool') {
+          let ret = mapDBTable.get(nameFld) === 'false' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
+          const parser = new DOMParser();
+          const htmlDoc = parser.parseFromString(ret, 'text/html');
+          _row.children[index+1].innerHTML = ret
+        }
+/*         alert(_row.children[index+1].firstChild.textContent)
+        alert(' ModifyReсord['+(index+1)+']:' +el.fld+'='+mapDBTable.get(nameFld) )
+ */        //alert(_row.children[1].firstChild.textContent)
+      }
+    }
+    // thisCol
+    
+    console.log(_row)
     //alert('mapDBTable: '+JSON.stringify([...mapDBTable]))
     
     mapDBTable.clear()
@@ -196,7 +224,8 @@ async function GetRecordDB(parmKeyValue: any) {
   return data
 }
 </script>
-{@debug nameTable, nameKeyTable, thisDS}
+ {@debug nameTable, nameKeyTable, thisDS} 
+
 <!--                Dialog -->
 <dialog>
       <p>Greetings, one and all!</p>
@@ -219,6 +248,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
+<p>Home</p>
 </section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
@@ -244,6 +274,8 @@ async function GetRecordDB(parmKeyValue: any) {
             {#each thisCol as colFld, i}
                 {#if (colFld.type == 'number')}
                     <td class='r'> {@html sayCell(row,colFld)} </td>
+                {:else if (colFld.type == 'bool')}
+                    <td class='c'> {@html sayCell(row,colFld)} </td>                
                 {:else}  
                     <td> {@html sayCell(row,colFld)} </td>
                 {/if}

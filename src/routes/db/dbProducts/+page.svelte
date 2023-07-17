@@ -61,7 +61,7 @@
   <JetDBTable dscFlds={dscProducts} 
     tblRows={db} 
     Width='100%'
-    Height='400px'>
+    Height='470px'>
   </JetDBTable>
   <!-- <Navigator></Navigator> -->
   <p class='placeHold'>xx</p>

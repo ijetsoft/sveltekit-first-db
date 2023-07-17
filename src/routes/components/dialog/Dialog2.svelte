@@ -32,6 +32,7 @@
    const  dispatch = createEventDispatcher();
    function sendEvent() {
     	dispatch('MapReady', mapDialog); 
+      mapDialog.clear()
   	}
 
    $: classNames = 'dialog' + (className ? ' ' + className : '');
@@ -165,15 +166,15 @@
    }
    function onChangeCombo2(name: string, value:any) {
     AddMap(name, value)
-		alert('Main.Combo2: '+name+' = '+value);
+		//alert('Main.Combo2: '+name+' = '+value);
 	}
   function onChangeCheckBox(name: string, value:any) {
     AddMap(name, value)
-		alert('Main.CheckBox: '+name+' = '+value);
+		//alert('Main.CheckBox: '+name+' = '+value);
 	}
   function inputChange(event: any){
     AddMap(event.target.name, event.target.value)
-    alert('Dialog: '+event.target.name+'='+event.target.value)
+    //alert('Dialog: '+event.target.name+'='+event.target.value)
    }
    async function getKey() {
    
@@ -201,10 +202,10 @@
      return data
    }
    function show() {
-    alert(JSON.stringify([...mapDialog]))
+    //alert(JSON.stringify([...mapDialog]))
    }
    function close() {
-    let mustSave : boolean = false
+    let mustSave : boolean = (mapDialog.size > 0)
 		if (mapDialog.size > 0) mustSave = confirm("Сохранить данные?");
 		if (mustSave) Save()
     dispatch('close');  
@@ -215,11 +216,14 @@
    }
    function Save() {
     sendEvent()
-    alert('map Dialog: '+JSON.stringify([...mapDialog]))
+    // отладка
+    if (mapDialog.size > 0) {
+          //alert('map Dialog: '+JSON.stringify([...mapDialog]))
+    }
     mapDialog = mapDialog
     dispatch('close');  
     dialog.close();
-    alert('CLOSE')
+    //alert('CLOSE')
     /* dialogUpdatedKey = 9999
 	  RetDialog = 8888
 		alert('Save '+RetDialog) */
@@ -228,8 +232,8 @@
    
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
-
-{@debug mapDialog} 
+<!-- 
+{@debug mapDialog}  -->
  
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
@@ -266,7 +270,7 @@
                        <Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
                        {:else} -->
                        {checkBool(fld, DS)}
-                       <Checkbox text="" name="myCheckBoxField"
+                       <Checkbox text="" name={fld.fld}
                        onChange={onChangeCheckBox}
                        checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
                        <!-- {/if} -->
