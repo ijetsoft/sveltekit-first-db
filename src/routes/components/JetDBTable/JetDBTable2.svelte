@@ -182,7 +182,6 @@ async function GetRecordDB(parmKeyValue: any) {
         <button>OK</button>
       </form>
 </dialog>
-<p>14-07 work</p>
 <!--                Navigate -->
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
