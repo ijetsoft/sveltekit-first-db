@@ -184,9 +184,10 @@ async function addNewRecord() {
     keyActiveRecord = data[0]['Id']
     //alert(keyNewRedord)
     thisRecord = thisDS[currRow-1]
+    modeUpdate = 'INSERT'
     FormNewRecord(dscFlds)
     thisRecord = newRecord
-    modeUpdate = 'INSERT'
+    
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
@@ -197,8 +198,10 @@ function FormNewRecord(parmDSC: any){
   let myObject = thisRecord
   //let keys = Object.keys(myObject);
   let keys = [], it = {};
+  
+  if (modeUpdate = 'INSERT') newRecord[nameKeyTable] = keyActiveRecord
   for(var key in myObject){
-    newRecord[key] = ''
+    if (key !== nameKeyTable) newRecord[key] = ''
     it =  parmDSC.col.find((item:any) => item.fld == key);
     if (it) {
       switch (it.type) {
