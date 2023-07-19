@@ -13,6 +13,7 @@
    export let title: any = '***';     
    export let bkgColor = "LemonChiffon"
    export let color = "maroon"
+   export let parmKey = 0
    
   export let body = ''  
 
@@ -238,7 +239,7 @@
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
     {#if icon}{icon}{/if}
-    <div class="title">{title}{modeUpdate}</div>
+    <div class="title">{title}{modeUpdate} {parmKey}</div>
     {#if canClose}
       <button class="close-btn" on:click={close}>
          &#x2716;                                             
