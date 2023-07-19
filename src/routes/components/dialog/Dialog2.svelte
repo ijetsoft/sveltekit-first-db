@@ -3,6 +3,7 @@
   import { supabase } from "$lib/supabaseClient.js";
    import Checkbox from './../checkbox/Checkbox.svelte';
    import Combo from './../combobox1-0/Combox2.svelte';
+    import { json } from '@sveltejs/kit';
 
   
    export let canClose = true;                                
@@ -43,6 +44,9 @@
   
    let stylish=''
    onMount(() => {
+    alert('onMount: '+parmKey+' DS '+JSON.stringify(DS))
+    mapDialog.clear()
+    AddMap('Id', parmKey)
        header.style.backgroundColor = bkgHeaderColor
        
        //if (dsc) body = dsc.col.length+' *'
@@ -132,7 +136,7 @@
    return ''
  }
    let thisCol = [], el = ''
-   mapDialog.clear()
+   
    // очистить заголовок от <br>
    if (dsc) {
        thisCol = dsc.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
@@ -233,8 +237,8 @@
    
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
-<!-- 
-{@debug mapDialog}  -->
+
+{@debug mapDialog}  
  
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
