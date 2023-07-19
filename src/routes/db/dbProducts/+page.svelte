@@ -15,7 +15,7 @@
       GetNewKey()
     });
     function AddNewRecord(parmDSC: any){
-      console.log(newKey)
+      /* console.log(newKey)
       let myObject = db.product.data[0]
       //let keys = Object.keys(myObject);
       let keys = [], it = {};
@@ -37,13 +37,14 @@
           }
         }
         
-        keys.push(key);
+        keys.push(key); 
       }
-      let ret = {}
+      
      /*  for (let index = 0; index < parmDSC.col.length; index++) {
         const el = parmDSC.col[index];
         newRecord[el.fld] = 'XXX'
       } */
+      let ret = {}
       return ret
     }
     async function GetNewKey() {

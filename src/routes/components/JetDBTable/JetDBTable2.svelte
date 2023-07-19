@@ -29,20 +29,30 @@
     let dialog: any;
     let modeUpdate = 'UPDATE'
     let mapDBTable = new Map()
+    let keyActiveRecord = 0
     let RetTable = 0
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable)//, mapDBTable.size 
 // -------------------------------------------------------------    
 const  dispatch = createEventDispatcher();
-  function onMapReady(event:any) {
+function onMapReady(event:any) {
     mapDBTable = event.detail
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
+    if (modeUpdate === 'INSERT') {
+      alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    }
     ModifyReсord()
-  }
+}
 onMount(() => {
     setMarkRow(1)
 })
+// -------------------------------------------------------------    
+function AddNewRowTable(){
+  // let row = document.createElement(tagName[, options]);
+  //tBody.appendChild(row);
+//var row = table.insertRow(0);
+}
 function ModifyReсord(){
    if (mapDBTable.size > 0) {
     let _row = tBody.children[currRow-1]
@@ -160,12 +170,19 @@ function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
 function thisView() {
     thisRecord = thisDS[currRow-1]
+    keyActiveRecord = thisRecord[nameKeyTable]
     modeUpdate = 'UPDATE'
     mapDBTable.clear
     mapDBTable = mapDBTable
     dialog.showModal()}
-function addNewRecord() {
-    //GetRecordDB(5)
+async function addNewRecord() {
+    const { data, error } = await supabase
+        .from('Product')
+        .select('Id')
+        .order('Id', { ascending: false })
+        .limit(1);
+    keyActiveRecord = data[0]['Id']
+    //alert(keyNewRedord)
     thisRecord = thisDS[currRow-1]
     FormNewRecord(dscFlds)
     thisRecord = newRecord
@@ -173,6 +190,7 @@ function addNewRecord() {
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
+    AddNewRowTable()
 }
 
 function FormNewRecord(parmDSC: any){
@@ -204,15 +222,15 @@ function FormNewRecord(parmDSC: any){
       return ret 
     }
 async function InsertDB() {
-       const { data, error } = await supabase
-      .from('Product')
-      .insert([
-        { 'ProductName': '????***' } //, 'Id': 9999
-      ])
+  const { data, error } = await supabase
+    .from('Product')
+    .insert([
+     { 'ProductName': '????***' } //, 'Id': 9999
+    ])
       
-      if (error) throw new Error(error.message); 
-      console.log(data)
-      return data
+  if (error) throw new Error(error.message); 
+  console.log(data)
+  return data
 }
 async function GetRecordDB(parmKeyValue: any) {
    const { data, error } = await supabase
@@ -293,6 +311,7 @@ async function GetRecordDB(parmKeyValue: any) {
   modeUpdate={modeUpdate}
   bind:mapDialog={mapDBTable} 
   on:MapReady={onMapReady} 
+  parmKey={keyActiveRecord}
   ></Dialog>
    <!-- bind:RetDialog={RetTable}  -->
 <style>
