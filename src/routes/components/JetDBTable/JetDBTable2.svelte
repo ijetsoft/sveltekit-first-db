@@ -266,7 +266,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home</p>
+<p>Home+</p>
 </section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
