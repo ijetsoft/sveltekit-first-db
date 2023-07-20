@@ -41,6 +41,7 @@ function onMapReady(event:any) {
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
     if (modeUpdate === 'INSERT') {
       alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+      if (mapDBTable.size > 0) AddNewRowTable()
     }
     ModifyReсord()
 }
@@ -50,8 +51,14 @@ onMount(() => {
 // -------------------------------------------------------------    
 function AddNewRowTable(){
   // let row = document.createElement(tagName[, options]);
-  //tBody.appendChild(row);
-//var row = table.insertRow(0);
+  tBody.appendChild(tBody.children[0]);
+  //let _tbl = document.createElement('table');
+  //let row = _tbl.insertRow(0);//tblRows.length
+  //tBody.children[currRow-1]
+  tTable.insertRow(-1)
+  tTable.scrollTop = tTable.scrollHeight;
+
+  console.log(row)
 }
 function ModifyReсord(){
    if (mapDBTable.size > 0) {
@@ -191,7 +198,7 @@ async function addNewRecord() {
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
-    AddNewRowTable()
+    
 }
 
 function FormNewRecord(parmDSC: any){
@@ -245,7 +252,7 @@ async function GetRecordDB(parmKeyValue: any) {
   return data
 }
 </script>
- {@debug nameTable, nameKeyTable, thisDS} 
+ <!-- {@debug nameTable, nameKeyTable, thisDS}  -->
 
 <!--                Dialog -->
 <dialog>
@@ -269,7 +276,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home+</p>
+<p>Work</p>
 </section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
@@ -305,8 +312,6 @@ async function GetRecordDB(parmKeyValue: any) {
     {/each}
   {/if}
 </tbody>
-
-
 </table>
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 

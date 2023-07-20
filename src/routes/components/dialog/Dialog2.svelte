@@ -44,7 +44,7 @@
   
    let stylish=''
    onMount(() => {
-    alert('onMount: '+parmKey+' DS '+JSON.stringify(DS))
+    // alert('onMount: '+parmKey+' DS '+JSON.stringify(DS))
     mapDialog.clear()
     AddMap('Id', parmKey)
        header.style.backgroundColor = bkgHeaderColor
@@ -238,7 +238,7 @@
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
 
-{@debug mapDialog}  
+<!-- {@debug mapDialog}   -->
  
  <dialog bind:this={dialog} class={classNames}>               
     <header bind:this={header}>
