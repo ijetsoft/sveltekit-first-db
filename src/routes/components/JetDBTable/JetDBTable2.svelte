@@ -54,7 +54,6 @@ function AddNewRowTable(){
   tBody.appendChild(tBody.children[0]);
   //let _tbl = document.createElement('table');
   //let row = _tbl.insertRow(0);//tblRows.length
-  //tBody.children[currRow-1]
   tTable.insertRow(-1)
   tTable.scrollTop = tTable.scrollHeight;
 
