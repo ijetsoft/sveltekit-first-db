@@ -55,15 +55,24 @@ function AddNewRowTable(){
 //var row = table.insertRow(0);
   let row =  tTable.insertRow(tBody.children[0])
   row =  tBody.children[0]
-  for (let index = 1; index < row.children.length; index++) {
-    const el = row.children[index];
-    el.innerText = ''
-    if (thisCol[index].fld) {
+  // временно
+  for (let index = 0; index < row.children.length; index++) {
+    row.children[index].innerText = ''
+  }
+  let tHead = tTable.children[1], nameFld = ''
+  for (let index = 0; index < tHead.children.length; index++) {
+    const el = tHead.children[index];
+    if (el.dataset['fld']) {
+      nameFld = el.dataset['fld']
+      if (mapDBTable.has(nameFld)) {row.children[index].innerText = mapDBTable.get(nameFld)}
+    }
+    //el.innerText = ''
+    /* if (thisCol[index].fld) {
       if (mapDBTable.has(thisCol[index].fld))  {
         el.innerText = mapDBTable.get(thisCol[index].fld)
       }
     }
-    
+     */
   }
   tBody.appendChild(row);
  
@@ -104,6 +113,7 @@ function ModifyReсord(){
    }
 }
 function sayHeader(parm: string){
+
     return   parm
 }
 function sayCell(parmRow: any, parmDSCCol: any){
@@ -285,7 +295,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home 21.07</p>
+<p>Work 21.07</p>
 </section>
 <!--                 Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
@@ -295,7 +305,7 @@ async function GetRecordDB(parmKeyValue: any) {
     <th> </th>
     {#if dscFlds} 
       {#each thisCol as fld, i}
-          <th> {@html sayHeader(fld.header)} </th>
+          <th data-fld={fld.fld}> {@html sayHeader(fld.header)} </th>
       {/each}
     {:else if headerFlds} 
       {#each headerFlds as fld, i}
