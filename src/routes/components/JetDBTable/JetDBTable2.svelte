@@ -287,7 +287,7 @@ async function GetRecordDB(parmKeyValue: any) {
 </button>
 <p>Home 21.07</p>
 </section>
-<!--                Table -->
+<!--                 Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
     on:click={onClick} 
 >
