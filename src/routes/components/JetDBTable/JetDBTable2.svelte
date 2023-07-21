@@ -41,6 +41,7 @@ function onMapReady(event:any) {
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
     if (modeUpdate === 'INSERT') {
       alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+      AddNewRowTable()
     }
     ModifyReсord()
 }
@@ -52,6 +53,21 @@ function AddNewRowTable(){
   // let row = document.createElement(tagName[, options]);
   //tBody.appendChild(row);
 //var row = table.insertRow(0);
+  let row =  tTable.insertRow(tBody.children[0])
+  row =  tBody.children[0]
+  for (let index = 1; index < row.children.length; index++) {
+    const el = row.children[index];
+    el.innerText = ''
+    if (thisCol[index].fld) {
+      if (mapDBTable.has(thisCol[index].fld))  {
+        el.innerText = mapDBTable.get(thisCol[index].fld)
+      }
+    }
+    
+  }
+  tBody.appendChild(row);
+ 
+  tTable.scrollTop = tTable.scrollHeight;
 }
 function ModifyReсord(){
    if (mapDBTable.size > 0) {
@@ -269,7 +285,7 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home+</p>
+<p>Home 21.07</p>
 </section>
 <!--                Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
