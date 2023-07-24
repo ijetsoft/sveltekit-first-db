@@ -182,14 +182,14 @@ function clickSort(el:any) {
   if (el.childElementCount > 0) el.removeChild(el.lastChild);
 
       if (el.getAttribute("data-dir") == "desc") {
-        alert(el.id+' '+el.innerHTML)
+        //alert(el.id+' '+el.innerHTML)
         //el.innerText.slice(0, -1);
         //sortData(response.pokedata, e.target.id, "desc");
         el.setAttribute("data-dir", "asc");
         el.innerHTML += '<i class="fa-solid fa-caret-up"></i>'
       } else {
         //sortData(response.pokedata, e.target.id, "asc");
-        alert(el.id+' '+el.innerHTML)
+        //alert(el.id+' '+el.innerHTML)
         //el.innerText.slice(0, -1);
         el.innerHTML += '<i class="fa-solid fa-caret-down"></i>'
         el.setAttribute("data-dir", "desc");
