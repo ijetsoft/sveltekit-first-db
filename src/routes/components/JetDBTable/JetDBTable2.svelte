@@ -1,4 +1,5 @@
 <script  lang="ts">
+    import {date2str} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
@@ -35,6 +36,10 @@
     $: ModifyReсord(mapDBTable)//, mapDBTable.size 
 // -------------------------------------------------------------    
 const  dispatch = createEventDispatcher();
+/* function sendEvent() {
+    	dispatch('MapReady', {}); 
+      
+  	} */
 function onMapReady(event:any) {
     mapDBTable = event.detail
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
@@ -139,22 +144,7 @@ function sayCell(parmRow: any, parmDSCCol: any){
     }
     return  ret
 }
-function date2str(parmDate: any, y:any) {
-    let x = new Date(parmDate);
-    let z: any = {
-        M: x.getMonth() + 1,
-        d: x.getDate(),
-        h: x.getHours(),
-        m: x.getMinutes(),
-        s: x.getSeconds()
-    };
-    y = y.replace(/(M+|d+|h+|m+|s+)/g, function (v: any) {
-        return ((v.length > 1 ? "0" : "") + z[v.slice(-1)]).slice(-2)
-    });
-    return y.replace(/(y+)/g, function (v) {
-        return x.getFullYear().toString().slice(-v.length)
-    });
-  }
+
 function setMarkRow(parm: any) {
     if (parm === 0 || parm > tBody.childElementCount) return
     if (tTable && parm === -1) {
@@ -173,13 +163,40 @@ function onClick(event: any) {
   let p = el.parentNode.parentNode.parentNode.parentNode.parentNode
   let dialog = p.children[0]
   if (el.tagName === "BUTTON") {
-    dialog.children[0].innerHTML = el.dataset.value
-    dialog.showModal() 
-  }
-  else {
+    if (el.parentNode.tagName === 'TH'){
+      clickSort(el)
+    } else {
+      dialog.children[0].innerHTML = el.dataset.value
+      dialog.showModal() 
+    }
+  } else if (el.tagName === "TH") {
+
+    alert('th '+el.dataset['fld'])
+  } else {
     let ind = event.target.parentNode.rowIndex
     setMarkRow(ind)
   }
+}
+function clickSort(el:any) {
+  let ind = el.parentNode.cellIndex
+  if (el.childElementCount > 0) el.removeChild(el.lastChild);
+
+      if (el.getAttribute("data-dir") == "desc") {
+        alert(el.id+' '+el.innerHTML)
+        //el.innerText.slice(0, -1);
+        //sortData(response.pokedata, e.target.id, "desc");
+        el.setAttribute("data-dir", "asc");
+        el.innerHTML += '<i class="fa-solid fa-caret-up"></i>'
+      } else {
+        //sortData(response.pokedata, e.target.id, "asc");
+        alert(el.id+' '+el.innerHTML)
+        //el.innerText.slice(0, -1);
+        el.innerHTML += '<i class="fa-solid fa-caret-down"></i>'
+        el.setAttribute("data-dir", "desc");
+      }
+      sortGridDoIt(ind, el.getAttribute("data-dir")) 
+      
+      return ''
 }
 function getVocab(parmName: string, parmVal: any) {
     let a =  thisVoc.find((item:any) => item.name == parmName);
@@ -270,6 +287,55 @@ async function GetRecordDB(parmKeyValue: any) {
   console.log(data)
   return data
 }
+function sortGridDoIt(colNum:number, sortMode:string) {
+  let type = thisCol[colNum-1].type
+  let rowsArray = Array.from(tBody.rows);
+  let compare
+    switch (type) {
+      case 'number':
+        compare = function(rowA:any, rowB:any) {
+          if (sortMode=== 'asc') return rowB.cells[colNum].innerText - rowA.cells[colNum].innerText
+             else return rowA.cells[colNum].innerText - rowB.cells[colNum].innerText
+        }
+        break;
+      case 'string':
+        compare = function(rowA:any, rowB:any) {
+          if (sortMode=== 'asc') return rowB.cells[colNum].innerHTML > rowA.cells[colNum].innerHTML ? 1 : -1;
+          else return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;
+        }
+        break;
+      case 'bool':
+        compare = function(rowA:any, rowB:any) {
+          if (sortMode=== 'asc') return rowB.cells[colNum].innerHTML > rowA.cells[colNum].innerHTML ? 1 : -1;
+          else return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;          
+        }
+        break;
+      case 'date':
+        compare = function(rowA:any, rowB:any) {
+          let cell1 = rowA.cells[colNum].innerHTML
+          let cell2 = rowB.cells[colNum].innerHTML
+          let year1 = +cell1.substr(6,4), year2 = +cell2.substr(6,4)
+          let month1 = +cell1.substr(4,2), month2 = +cell2.substr(4,2)
+          let day1 = +cell1.substr(0,2), day2 = +cell2.substr(0,2)
+          if (year1 == year2) {
+            if (month1 == month2) {
+              if (sortMode=== 'desc') return day1 >= day2 ? 1 : -1;
+              else return day2 >= day1 ? 1 : -1;
+            } else {
+              if (sortMode=== 'desc') return month1 > month2 ? 1 : -1;
+              else return month2 > month1 ? 1 : -1;
+            }
+          } else {
+            if (sortMode=== 'desc') return year1 > year2 ? 1 : -1;
+            else return year2 > year1 ? 1 : -1;
+          }
+        }
+        break;
+    }
+  rowsArray.sort(compare);
+  tBody.append(...rowsArray);
+}
+
 </script>
  <!-- {@debug nameTable, nameKeyTable, thisDS}  -->
 
@@ -295,7 +361,8 @@ async function GetRecordDB(parmKeyValue: any) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Work 21.07</p>
+<p>Home 24.07 </p>
+<!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
 <!--                 Table -->
 <table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
@@ -305,7 +372,7 @@ async function GetRecordDB(parmKeyValue: any) {
     <th> </th>
     {#if dscFlds} 
       {#each thisCol as fld, i}
-          <th data-fld={fld.fld}> {@html sayHeader(fld.header)} </th>
+          <th data-fld={fld.fld}><button class='th' id={fld.fld}>{@html sayHeader(fld.header)}</button>  </th>
       {/each}
     {:else if headerFlds} 
       {#each headerFlds as fld, i}
@@ -407,8 +474,46 @@ tbody {
     width: 50px; 
     height: 50px; 
     font-size: 2em;  
-  } 
+  }  
   table { font-size: 2em; }
 } 
-
+th button {
+  background-color: maroon;color:white;
+  border: none;
+  cursor: pointer;
+  display: block;
+  font: inherit;
+  height: 100%;
+  margin: 0;
+  min-width: max-content;
+  padding: 0.5rem 1rem;
+  position: relative;
+  text-align: left;
+  width: 100%;
+}
+/* th button::after {
+  position: absolute;
+  right: 0.5rem;
+} */
+th > button[data-dir="asc"]::after {
+  /* content: url("data:image/svg+xml,%3Csvg xmlns='https://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpolygon points='0, 0 8,0 4,8 8' fill='%23818688'/%3E%3C/svg%3E");
+   content: '<i class="fa-solid fa-caret-up"></i>';*/
+   color:white;
+   background-color: blue;
+   content: "v"
+}
+th > button[data-dir="desc"]::after {
+ /* content: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='8' height='8'%3E%3Cpolygon points='4 0,8 8,0 8' fill='%23818688'/%3E%3C/svg%3E");*/
+  color:white;
+  background-color: red;
+   content: "^"
+}
+.boring-text[data-dir="desc"]::after {
+  content: " <- BORING";
+  color: green;
+}
+.boring-text[data-dir="asc"]::after {
+  content: " <- ASC";
+  color: red;
+}
 </style>

@@ -240,7 +240,7 @@
 
 <!-- {@debug mapDialog}   -->
  
- <dialog bind:this={dialog} class={classNames}>               
+ <dialog bind:this={dialog} class={classNames} >               
     <header bind:this={header}>
     {#if icon}{icon}{/if}
     <div class="title">{title}{modeUpdate} {parmKey}</div>
