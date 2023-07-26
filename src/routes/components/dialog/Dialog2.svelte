@@ -1,4 +1,6 @@
 <script  lang="ts">
+  import {getVocabTextValue, GetLastKey, InsertDBRecord} from './helper.svelte';
+
   import {createEventDispatcher, onMount} from 'svelte';
   import { supabase } from "$lib/supabaseClient.js";
    import Checkbox from './../checkbox/Checkbox.svelte';
@@ -203,17 +205,7 @@
 
          return data
    }
-   async function Insert() {
-      const { data, error } = await supabase
-     .from('Product')
-     .insert([
-       { 'ProductName': '????***' } //, 'Id': 9999
-     ])
-     
-     if (error) throw new Error(error.message); 
-     console.log(data)
-     return data
-   }
+   
    function show() {
     //alert(JSON.stringify([...mapDialog]))
    }

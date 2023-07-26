@@ -17,7 +17,22 @@
         return x.getFullYear().toString().slice(-v.length)
     });
   }
-export async function GetLastKey() {
+  export function getVocabTextValue(parmVoc:any, parmName: string, parmVal: any) {
+  let a =  parmVoc.find((item:any) => item.name == parmName);
+   let vocQry = a.qry.data
+   let nameKey = Object.entries(vocQry[0])[0][0]
+   let nameVal = Object.entries(vocQry[0])[1][0]
+   let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+   let options:any = []
+   let retVal = ''; 
+       vocQry.forEach(el => {
+           if (el[nameKey]===parmVal) retVal = el[nameVal]
+       });
+       //console.log(options)
+       //retVal = vocabRecs[nameVal]
+      return retVal
+ }
+export async function GetLastKey(parmTableName: string, parmKeyName: string) {
       const { data, error } = await supabase
         .from('Product')
         .select('Id')
@@ -33,4 +48,15 @@ export async function Count(parmName: string) {
   .select('*', { count: 'exact', head: true })
   return count
 }
+export async function InsertDBRecord() {
+      const { data, error } = await supabase
+     .from('Product')
+     .insert([
+       { 'ProductName': '????***' } //, 'Id': 9999
+     ])
+     
+     if (error) throw new Error(error.message); 
+     console.log(data)
+     return data
+   }
 </script>

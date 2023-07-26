@@ -99,7 +99,7 @@
 
   function onOptionClick(event) {
         if (!event.target.matches(`[role="option"]:not([aria-disabled="true"])`)) return
-        if (onChange) onChange(name, event.target.dataset.value, '*');
+        if (onChange) onChange(name, event.target.dataset.value);
         
         selectOption(event.target);
         hideList();
