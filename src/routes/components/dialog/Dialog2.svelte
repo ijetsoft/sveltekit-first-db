@@ -25,6 +25,7 @@
   export let dialogUpdatedKey = 0
   export let modeUpdate = ''
   export let mapDialog = new Map()
+  let mapUpdate = new Map()
   //export let RetDialog = 9999
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
@@ -165,9 +166,16 @@
    function onChange(val:any) {
        //alert(getKey())
    }
-   function AddMap(name: string, value:any){
+   function AddMap(name: string, value:any, altValue = ''){
     if (mapDialog.has(name)) mapDialog.delete(name) 
     mapDialog.set(name, value) 
+    let _name = name
+    if (name[0] === '_') {
+      _name = name.slice(1) 
+      value = altValue
+    } 
+    if (mapUpdate.has(_name)) mapUpdate.delete(_name) 
+    mapUpdate.set(_name, value) 
    }
    function onChangeCombo2(name: string, value:any) {
     AddMap(name, value)
@@ -238,7 +246,7 @@
    //$: if (dialogUpdated) alert('$ dialogUpdated key'+dialogUpdated.record.key)
 </script>
 
-<!-- {@debug mapDialog}   -->
+ {@debug mapDialog}   
  
  <dialog bind:this={dialog} class={classNames} >               
     <header bind:this={header}>

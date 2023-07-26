@@ -60,10 +60,10 @@
   </script>
    {@debug db}  
   <JetDBTable dscFlds={dscProducts} 
-    tblRows={db} 
-    Width='100%'
+    tblRows={db} ></JetDBTable>
+    <!-- Width='100%'
     Height='470px'>
-  </JetDBTable>
+  </JetDBTable> -->
   <!-- <Navigator></Navigator> -->
   <p class='placeHold'>xx</p>
   <!-- <table style="width: 30%; margin-top: 50px;">

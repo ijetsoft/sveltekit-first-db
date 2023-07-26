@@ -1,12 +1,12 @@
 <script  lang="ts">
-    import {date2str} from './helper.svelte';
+    import {date2str, GetLastKey, Count} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
     import {setContext} from 'svelte';
 
     export let Width = '100%;'
-    export let Height = '450px;'
+    export let Height = '470px;'
     export let dscFlds : any
     export let tblRows : any
     export let headerFlds : any; // для автономных таблиц
@@ -44,14 +44,21 @@ function onMapReady(event:any) {
     mapDBTable = event.detail
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
+    alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     if (modeUpdate === 'INSERT') {
-      alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+   
       AddNewRowTable()
     }
     ModifyReсord()
 }
 onMount(() => {
     setMarkRow(1)
+   /*  let x = ''; Count('Order')
+    .then(result => {
+    x = result;
+    alert('onMount '+x)}       
+    })
+*/
 })
 // -------------------------------------------------------------    
 function AddNewRowTable(){
@@ -361,7 +368,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home 24.07 </p>
+<p>Home 26.07 </p>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
 <!--                 Table -->

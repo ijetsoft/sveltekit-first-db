@@ -12,11 +12,11 @@
   </script>
   {@debug data}
   <JetDBTable dscFlds={dscEmployees} 
-    tblRows={db} 
-    Width='100%'
+    tblRows={db} ></JetDBTable>
+<!--     Width='100%'
     Height='470px'>
   </JetDBTable>
-    <!-- <table style="width: 30%; margin-top: 50px;">
+ -->    <!-- <table style="width: 30%; margin-top: 50px;">
     <tr><th>название</th> <th>код</th></tr>
     {#each prducts as prduct}
       <tr><td>{country.name}</td> <td>{country.iso2}</td></tr>

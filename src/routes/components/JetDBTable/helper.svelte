@@ -1,4 +1,5 @@
 <script context="module" lang="ts">
+    import { supabase } from "$lib/supabaseClient.js";
 	let current;
     export function date2str(parmDate: any, y:any) {
     let x = new Date(parmDate);
@@ -16,4 +17,20 @@
         return x.getFullYear().toString().slice(-v.length)
     });
   }
+export async function GetLastKey() {
+      const { data, error } = await supabase
+        .from('Product')
+        .select('Id')
+        .order('Id', { ascending: false })
+        .limit(1);
+        let newKey = data[0]['Id']
+        
+     return newKey
+  }
+export async function Count(parmName: string) {
+  const { count, error } = await supabase
+  .from(parmName)
+  .select('*', { count: 'exact', head: true })
+  return count
+}
 </script>
