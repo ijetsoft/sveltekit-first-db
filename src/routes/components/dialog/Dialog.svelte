@@ -26,7 +26,7 @@
   
 	const  dispatch = createEventDispatcher();
    
-	$: classNames = 'dialog' + (className ? ' ' + className : '');
+	$: classNames =  'dialog' + (className ? ' ' + className : '');
    
 	//onMount(() => dialogPolyfill.registerDialog(dialog));      
     
