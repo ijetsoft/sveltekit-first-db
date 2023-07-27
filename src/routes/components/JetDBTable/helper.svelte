@@ -17,36 +17,45 @@
         return x.getFullYear().toString().slice(-v.length)
     });
   }
-  export function getVocabTextValue(parmVoc:any, parmName: string, parmVal: any) {
-  let a =  parmVoc.find((item:any) => item.name == parmName);
+export function getVocabTextValue(parmVoc:any, parmFldName: string, parmFldVal: any) {
+  let a =  parmVoc.find((item:any) => item.name == parmFldName);
    let vocQry = a.qry.data
    let nameKey = Object.entries(vocQry[0])[0][0]
    let nameVal = Object.entries(vocQry[0])[1][0]
-   let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmVal);
+   let vocabRecs = vocQry.find((itemV:any) => itemV[nameKey] === parmFldVal);
    let options:any = []
    let retVal = ''; 
        vocQry.forEach(el => {
-           if (el[nameKey]===parmVal) retVal = el[nameVal]
+           if (el[nameKey]===parmFldVal) retVal = el[nameVal]
        });
        //console.log(options)
        //retVal = vocabRecs[nameVal]
       return retVal
- }
+}
 export async function GetLastKey(parmTableName: string, parmKeyName: string) {
       const { data, error } = await supabase
-        .from('Product')
-        .select('Id')
-        .order('Id', { ascending: false })
+        .from(parmTableName)
+        .select(parmKeyName)
+        .order(parmKeyName, { ascending: false })
         .limit(1);
-        let newKey = data[0]['Id']
+        let newKey = data[0][parmKeyName]
         
      return newKey
   }
-export async function Count(parmName: string) {
+export async function Count(parmTableName: string, parmName: string) {
   const { count, error } = await supabase
   .from(parmName)
   .select('*', { count: 'exact', head: true })
   return count
+}
+async function GetRecordDB(parmKeyValue: any) {
+   const { data, error } = await supabase
+  .from(nameTable)
+  .select()
+  .eq(nameKeyTable, parmKeyValue)
+  if (error) throw new Error(error.message); 
+  console.log(data)
+  return data
 }
 export async function InsertDBRecord() {
       const { data, error } = await supabase

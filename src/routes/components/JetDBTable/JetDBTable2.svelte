@@ -1,5 +1,5 @@
 <script  lang="ts">
-    import {date2str, GetLastKey, Count} from './helper.svelte';
+    import {date2str, GetLastKey, Count, getVocabTextValue} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
@@ -133,7 +133,8 @@ function sayCell(parmRow: any, parmDSCCol: any){
     if (parmDSCCol.fld[0] == '_') {
          let vocFld = parmDSCCol.fld.slice(1); 
          let vocVal = parmRow[vocFld]
-         ret = getVocab(vocFld, vocVal);
+         ret = getVocabTextValue(thisVoc, vocFld, vocVal);
+         //ret = getVocab(vocFld, vocVal);
     }
     else {
         switch (parmDSCCol.type) {
@@ -285,15 +286,7 @@ async function InsertDB() {
   console.log(data)
   return data
 }
-async function GetRecordDB(parmKeyValue: any) {
-   const { data, error } = await supabase
-  .from(nameTable)
-  .select()
-  .eq(nameKeyTable, parmKeyValue)
-  if (error) throw new Error(error.message); 
-  console.log(data)
-  return data
-}
+
 function sortGridDoIt(colNum:number, sortMode:string) {
   let type = thisCol[colNum-1].type
   let rowsArray = Array.from(tBody.rows);
@@ -368,7 +361,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home 26.07 </p>
+<button title="добавить запись">
+  верия 27.07 w
+</button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
 <!--                 Table -->
