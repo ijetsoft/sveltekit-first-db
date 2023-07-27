@@ -33,7 +33,7 @@
     let keyActiveRecord = 0
     let RetTable = 0
     //$: ModifyRecord(RetTable)
-    $: ModifyReсord(mapDBTable)//, mapDBTable.size 
+    $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
 const  dispatch = createEventDispatcher();
 /* function sendEvent() {
@@ -44,7 +44,8 @@ function onMapReady(event:any) {
     mapDBTable = event.detail
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
-    alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
    
       AddNewRowTable()
@@ -90,7 +91,31 @@ function AddNewRowTable(){
  
   tTable.scrollTop = tTable.scrollHeight;
 }
+function UpdateTableReсord(){
+  if (mapDBTable.size === 0) return
+  mapDBTable.forEach((value, key, map) => {
+    //alert(`${key}: ${value}`); // огурец: 500 и так далее
+    if (tblRows[key]) {
+      tblRows[key] = value
+    }
+  });
+
+ /*  for (let entry of mapDBTable) { // то же самое, что и reci-peMap.entries()
+    alert(entry); // огурец,500 (и так далее)
+  }
+
+  for (let index = 0; index < mapDBTable.size; index++) {
+    const element = mapDBTable[index];
+    
+  } */
+  // запись DataSet
+  /* {#if tblRows}
+    {#each thisDS as row, j}
+  tBody.children[currRow-1] */
+}
 function ModifyReсord(){
+  console.log('ModifyReсord size='+mapDBTable.size)
+  UpdateTableReсord()
    if (mapDBTable.size > 0) {
     let _row = tBody.children[currRow-1]
     for (let index = 0; index < thisCol.length; index++) {
@@ -117,7 +142,7 @@ function ModifyReсord(){
     }
     // thisCol
     
-    console.log(_row)
+    //console.log(_row)
     //alert('mapDBTable: '+JSON.stringify([...mapDBTable]))
     
     mapDBTable.clear()
@@ -337,7 +362,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 }
 
 </script>
- <!-- {@debug nameTable, nameKeyTable, thisDS}  -->
+  {@debug thisDS}  
 
 <!--                Dialog -->
 <dialog>

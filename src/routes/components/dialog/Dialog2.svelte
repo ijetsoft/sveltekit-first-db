@@ -224,11 +224,13 @@
    }
    function Save() {
     if (mapSQLUpdate.size > 0) {
-      alert('map Dialog: '+JSON.stringify([...mapSQLUpdate]))
+      
+      //alert('map Dialog: '+JSON.stringify([...mapSQLUpdate]))
     }
     sendEvent()
     // отладка 
     if (mapDialog.size > 0) {
+      console.log('dialog size='+mapDialog.size)
           //alert('map Dialog: '+JSON.stringify([...mapDialog]))
     }
     mapDialog = mapDialog
