@@ -1,5 +1,5 @@
 <script  lang="ts">
-    import {date2str, GetLastKey, Count} from './helper.svelte';
+    import {date2str, GetLastKey, Count, getVocabTextValue} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
@@ -33,7 +33,7 @@
     let keyActiveRecord = 0
     let RetTable = 0
     //$: ModifyRecord(RetTable)
-    $: ModifyReсord(mapDBTable)//, mapDBTable.size 
+    $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
 const  dispatch = createEventDispatcher();
 /* function sendEvent() {
@@ -44,7 +44,8 @@ function onMapReady(event:any) {
     mapDBTable = event.detail
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
-    alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
    
       AddNewRowTable()
@@ -90,7 +91,31 @@ function AddNewRowTable(){
  
   tTable.scrollTop = tTable.scrollHeight;
 }
+function UpdateTableReсord(){
+  if (mapDBTable.size === 0) return
+  mapDBTable.forEach((value, key, map) => {
+    //alert(`${key}: ${value}`); // огурец: 500 и так далее
+    if (tblRows[key]) {
+      tblRows[key] = value
+    }
+  });
+
+ /*  for (let entry of mapDBTable) { // то же самое, что и reci-peMap.entries()
+    alert(entry); // огурец,500 (и так далее)
+  }
+
+  for (let index = 0; index < mapDBTable.size; index++) {
+    const element = mapDBTable[index];
+    
+  } */
+  // запись DataSet
+  /* {#if tblRows}
+    {#each thisDS as row, j}
+  tBody.children[currRow-1] */
+}
 function ModifyReсord(){
+  console.log('ModifyReсord size='+mapDBTable.size)
+  UpdateTableReсord()
    if (mapDBTable.size > 0) {
     let _row = tBody.children[currRow-1]
     for (let index = 0; index < thisCol.length; index++) {
@@ -117,7 +142,7 @@ function ModifyReсord(){
     }
     // thisCol
     
-    console.log(_row)
+    //console.log(_row)
     //alert('mapDBTable: '+JSON.stringify([...mapDBTable]))
     
     mapDBTable.clear()
@@ -133,7 +158,8 @@ function sayCell(parmRow: any, parmDSCCol: any){
     if (parmDSCCol.fld[0] == '_') {
          let vocFld = parmDSCCol.fld.slice(1); 
          let vocVal = parmRow[vocFld]
-         ret = getVocab(vocFld, vocVal);
+         ret = getVocabTextValue(thisVoc, vocFld, vocVal);
+         //ret = getVocab(vocFld, vocVal);
     }
     else {
         switch (parmDSCCol.type) {
@@ -285,15 +311,7 @@ async function InsertDB() {
   console.log(data)
   return data
 }
-async function GetRecordDB(parmKeyValue: any) {
-   const { data, error } = await supabase
-  .from(nameTable)
-  .select()
-  .eq(nameKeyTable, parmKeyValue)
-  if (error) throw new Error(error.message); 
-  console.log(data)
-  return data
-}
+
 function sortGridDoIt(colNum:number, sortMode:string) {
   let type = thisCol[colNum-1].type
   let rowsArray = Array.from(tBody.rows);
@@ -344,7 +362,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 }
 
 </script>
- <!-- {@debug nameTable, nameKeyTable, thisDS}  -->
+  {@debug thisDS}  
 
 <!--                Dialog -->
 <dialog>
@@ -368,7 +386,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
-<p>Home 26.07 </p>
+<button title="добавить запись">
+  верия 27.07 w
+</button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
 <!--                 Table -->

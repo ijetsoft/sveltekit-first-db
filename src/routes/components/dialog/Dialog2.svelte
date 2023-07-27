@@ -1,5 +1,5 @@
 <script  lang="ts">
-  import {getVocabTextValue, GetLastKey, InsertDBRecord} from './helper.svelte';
+  import {getVocabTextValue, GetLastKey, InsertDBRecord} from './../JetDBTable/helper.svelte';
 
   import {createEventDispatcher, onMount} from 'svelte';
   import { supabase } from "$lib/supabaseClient.js";
@@ -27,7 +27,7 @@
   export let dialogUpdatedKey = 0
   export let modeUpdate = ''
   export let mapDialog = new Map()
-  let mapUpdate = new Map()
+  let mapSQLUpdate = new Map()
   //export let RetDialog = 9999
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
@@ -82,7 +82,7 @@
            if (parmFld.fld[0] == '_') {
                let vocFld = parmFld.fld.slice(1); 
                 let vocVal = parmRow[vocFld]
-               let val = getVocab(vocFld, vocVal);
+               let val = formOptionsFromVocab(vocFld, vocVal);
 // console.log(vocFld+"="+vocVal+', '+val)
            }
                break;
@@ -95,7 +95,7 @@
                return ret
    
  }
- function getVocab(parmName: string, parmVal: any) {
+ function formOptionsFromVocab(parmName: string, parmVal: any) {
    let a =  voc.find((item:any) => item.name == parmName);
    let vocQry = a.qry.data
    let nameKey = Object.entries(vocQry[0])[0][0]
@@ -169,18 +169,21 @@
        //alert(getKey())
    }
    function AddMap(name: string, value:any, altValue = ''){
+    if (name[0] !== '_') {
+      if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
+      mapSQLUpdate.set(name, value) 
+    }
     if (mapDialog.has(name)) mapDialog.delete(name) 
     mapDialog.set(name, value) 
-    let _name = name
-    if (name[0] === '_') {
-      _name = name.slice(1) 
-      value = altValue
-    } 
-    if (mapUpdate.has(_name)) mapUpdate.delete(_name) 
-    mapUpdate.set(_name, value) 
+
    }
    function onChangeCombo2(name: string, value:any) {
     AddMap(name, value)
+    /* if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
+    mapSQLUpdate.set(name, value)  */
+    let x = getVocabTextValue(voc, name, DS[name])
+    AddMap('_'+name, x)
+    
 		//alert('Main.Combo2: '+name+' = '+value);
 	}
   function onChangeCheckBox(name: string, value:any) {
@@ -220,9 +223,14 @@
     dialog.close();
    }
    function Save() {
+    if (mapSQLUpdate.size > 0) {
+      
+      //alert('map Dialog: '+JSON.stringify([...mapSQLUpdate]))
+    }
     sendEvent()
-    // отладка
+    // отладка 
     if (mapDialog.size > 0) {
+      console.log('dialog size='+mapDialog.size)
           //alert('map Dialog: '+JSON.stringify([...mapDialog]))
     }
     mapDialog = mapDialog
@@ -261,12 +269,12 @@
                   <!-- <Combo  width = 200px /><br> -->
                   <div>
                     <!-- selected={DS[fld.fld.slice(1)]} -->
-                    <Combo options={getVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
+                    <Combo options={formOptionsFromVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
                       onChange = {onChangeCombo2}
                       name={fld.fld.slice(1)}
-                      placeholder={currVocabValue(fld.fld.slice(1), DS[fld.fld.slice(1)])}
+                      placeholder={getVocabTextValue(voc, fld.fld.slice(1), DS[fld.fld.slice(1)])}
                       on:message={handleMessage}  />
-                   
+                      <!-- placeholder={currVocabValue(fld.fld.slice(1), DS[fld.fld.slice(1)])}                    -->
                   </div><br>                  
               <!-- {:else if fld.type == 'date'} -->
 
