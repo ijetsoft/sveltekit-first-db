@@ -59,7 +59,7 @@
    }
   </script>
    {@debug db}  
-  <JetDBTable dscFlds={dscProducts} 
+  <JetDBTable dscFlds={dscProducts} Height='470px'
     tblRows={db} ></JetDBTable>
     <!-- Width='100%'
     Height='470px'>

@@ -181,7 +181,7 @@
     AddMap(name, value)
     /* if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
     mapSQLUpdate.set(name, value)  */
-    let x = getVocabTextValue(voc, name, DS[name])
+    let x = getVocabTextValue(voc, name, parseInt(value))
     AddMap('_'+name, x)
     
 		//alert('Main.Combo2: '+name+' = '+value);

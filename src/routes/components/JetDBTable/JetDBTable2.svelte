@@ -91,12 +91,34 @@ function AddNewRowTable(){
  
   tTable.scrollTop = tTable.scrollHeight;
 }
-function UpdateTableReсord(){
+function ColumnByNameFld(pamName: string) {
+  for (let index = 0; index < thisCol.length; index++) {
+    const el = thisCol[index];
+    if (el.fld === pamName) return index+1
+  }
+  return 0
+}
+function UpdateTableRow(){
   if (mapDBTable.size === 0) return
+  let ind = -1
+  let _row = tBody.children[currRow-1]
   mapDBTable.forEach((value, key, map) => {
     //alert(`${key}: ${value}`); // огурец: 500 и так далее
-    if (tblRows[key]) {
-      tblRows[key] = value
+    ind = ColumnByNameFld(key)
+    if (ind > 0) {
+      let subEl = _row.children[ind]
+      switch (thisCol[ind-1].type) {
+        case 'bool':
+          break;
+      
+        default:
+          break;
+      }
+      if (thisCol[ind-1].type === 'bool'){
+        let val = value === 'false' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
+          subEl.innerHTML = val
+      } else subEl.textContent = value
+      //tblRows[key] = value
     }
   });
 
@@ -114,8 +136,8 @@ function UpdateTableReсord(){
   tBody.children[currRow-1] */
 }
 function ModifyReсord(){
-  console.log('ModifyReсord size='+mapDBTable.size)
-  UpdateTableReсord()
+  //console.log('ModifyReсord size='+mapDBTable.size)
+  UpdateTableRow(); return
    if (mapDBTable.size > 0) {
     let _row = tBody.children[currRow-1]
     for (let index = 0; index < thisCol.length; index++) {
@@ -387,7 +409,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 27.07 w
+  верия 27.07 h
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
