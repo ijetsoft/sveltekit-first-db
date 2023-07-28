@@ -66,19 +66,25 @@ function AddNewRowTable(){
   // let row = document.createElement(tagName[, options]);
   //tBody.appendChild(row);
 //var row = table.insertRow(0);
+//alert('69. '+tBody.childElementCount)
+let _Row = tBody.children[0]
   let row =  tTable.insertRow(tBody.children[0])
+
+  //alert('71. '+JSON.stringify(row))
+  //console.log('71. '+JSON.stringify([...row]))
   row =  tBody.children[0]
   // временно
   for (let index = 0; index < row.children.length; index++) {
-    row.children[index].innerText = ''
+    row.children[index].innerText = 'X'
   }
-  let tHead = tTable.children[1], nameFld = ''
+  
+ /*  let tHead = tTable.children[1], nameFld = ''
   for (let index = 0; index < tHead.children.length; index++) {
     const el = tHead.children[index];
     if (el.dataset['fld']) {
       nameFld = el.dataset['fld']
       if (mapDBTable.has(nameFld)) {row.children[index].innerText = mapDBTable.get(nameFld)}
-    }
+    } */
     //el.innerText = ''
     /* if (thisCol[index].fld) {
       if (mapDBTable.has(thisCol[index].fld))  {
@@ -86,10 +92,16 @@ function AddNewRowTable(){
       }
     }
      */
-  }
-  tBody.appendChild(row);
- 
+  // }
+  //alert('90. '+tBody.childElementCount)
+  let tempRow = tBody.lastChild
+  tempRow.after(row)
+ // tBody.appendChild(row);
+  //alert('92. '+tBody.childElementCount)
+  currRow = tBody.children.length
   tTable.scrollTop = tTable.scrollHeight;
+  setMarkRow(-1)
+  //setMarkRow(currRow+1)
 }
 function ColumnByNameFld(pamName: string) {
   for (let index = 0; index < thisCol.length; index++) {
@@ -98,9 +110,40 @@ function ColumnByNameFld(pamName: string) {
   }
   return 0
 }
+function FormNewRecord(parmDSC: any){
+  let myObject = thisRecord
+  //let keys = Object.keys(myObject);
+  let keys = [], it = {};
+  
+  if (modeUpdate = 'INSERT') newRecord[nameKeyTable] = keyActiveRecord
+  for(var key in myObject){
+    if (key !== nameKeyTable) newRecord[key] = ''
+    it =  parmDSC.col.find((item:any) => item.fld == key);
+    if (it) {
+      switch (it.type) {
+        case 'string':
+          newRecord[key] = 'XXX'
+          break;
+        case 'number':
+          newRecord[key] = '0'
+        default:
+          break;
+      }
+    }
+        
+    //keys.push(key);
+  }
+      let ret = {}
+      /* for (let index = 0; index < parmDSC.col.length; index++) {
+        const el = parmDSC.col[index];
+        newRecord[el.fld] = 'XXX'
+      } */
+      return ret 
+    }
 function UpdateTableRow(){
   if (mapDBTable.size === 0) return
   let ind = -1
+ // if (modeUpdate === 'INSERT') {alert(tBody.children.length)}
   let _row = tBody.children[currRow-1]
   mapDBTable.forEach((value, key, map) => {
     //alert(`${key}: ${value}`); // огурец: 500 и так далее
@@ -226,7 +269,7 @@ function onClick(event: any) {
     }
   } else if (el.tagName === "TH") {
 
-    alert('th '+el.dataset['fld'])
+    //alert('th '+el.dataset['fld'])
   } else {
     let ind = event.target.parentNode.rowIndex
     setMarkRow(ind)
@@ -292,36 +335,7 @@ async function addNewRecord() {
     
 }
 
-function FormNewRecord(parmDSC: any){
-  let myObject = thisRecord
-  //let keys = Object.keys(myObject);
-  let keys = [], it = {};
-  
-  if (modeUpdate = 'INSERT') newRecord[nameKeyTable] = keyActiveRecord
-  for(var key in myObject){
-    if (key !== nameKeyTable) newRecord[key] = ''
-    it =  parmDSC.col.find((item:any) => item.fld == key);
-    if (it) {
-      switch (it.type) {
-        case 'string':
-          newRecord[key] = 'XXX'
-          break;
-        case 'number':
-          newRecord[key] = '0'
-        default:
-          break;
-      }
-    }
-        
-    //keys.push(key);
-  }
-      let ret = {}
-      /* for (let index = 0; index < parmDSC.col.length; index++) {
-        const el = parmDSC.col[index];
-        newRecord[el.fld] = 'XXX'
-      } */
-      return ret 
-    }
+
 async function InsertDB() {
   const { data, error } = await supabase
     .from('Product')
@@ -409,7 +423,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 27.07 h
+  верия 28.07 w
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
