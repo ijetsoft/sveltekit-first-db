@@ -45,6 +45,7 @@ function onMapReady(event:any) {
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
+    alert('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
    
@@ -110,36 +111,6 @@ function ColumnByNameFld(pamName: string) {
   }
   return 0
 }
-function FormNewRecord(parmDSC: any){
-  let myObject = thisRecord
-  //let keys = Object.keys(myObject);
-  let keys = [], it = {};
-  
-  if (modeUpdate = 'INSERT') newRecord[nameKeyTable] = keyActiveRecord
-  for(var key in myObject){
-    if (key !== nameKeyTable) newRecord[key] = ''
-    it =  parmDSC.col.find((item:any) => item.fld == key);
-    if (it) {
-      switch (it.type) {
-        case 'string':
-          newRecord[key] = 'XXX'
-          break;
-        case 'number':
-          newRecord[key] = '0'
-        default:
-          break;
-      }
-    }
-        
-    //keys.push(key);
-  }
-      let ret = {}
-      /* for (let index = 0; index < parmDSC.col.length; index++) {
-        const el = parmDSC.col[index];
-        newRecord[el.fld] = 'XXX'
-      } */
-      return ret 
-    }
 function UpdateTableRow(){
   if (mapDBTable.size === 0) return
   let ind = -1
@@ -315,7 +286,8 @@ function thisView() {
     modeUpdate = 'UPDATE'
     mapDBTable.clear
     mapDBTable = mapDBTable
-    dialog.showModal()}
+    dialog.showModal()
+}
 async function addNewRecord() {
     const { data, error } = await supabase
         .from('Product')
@@ -326,26 +298,35 @@ async function addNewRecord() {
     //alert(keyNewRedord)
     thisRecord = thisDS[currRow-1]
     modeUpdate = 'INSERT'
-    FormNewRecord(dscFlds)
-    thisRecord = newRecord
+    CreateOutRecord(dscFlds)
+    thisRecord = newRecord 
     
     //const dialog = document.querySelector("dialog")
     //parmUpdate
     if (dialog) dialog.showModal() 
     
 }
-
-
-async function InsertDB() {
-  const { data, error } = await supabase
-    .from('Product')
-    .insert([
-     { 'ProductName': '????***' } //, 'Id': 9999
-    ])
-      
-  if (error) throw new Error(error.message); 
-  console.log(data)
-  return data
+function CreateOutRecord(parmDSC: any){
+  let myObject = thisRecord
+  //let keys = Object.keys(myObject);
+  let keys = [], it = {};
+  
+  newRecord[nameKeyTable] = keyActiveRecord
+  for(var key in myObject){
+    if (key !== nameKeyTable) newRecord[key] = ''
+    it =  parmDSC.col.find((item:any) => item.fld == key);
+    if (it) {
+      switch (it.type) {
+        case 'string':
+          newRecord[key] = '-'
+          break;
+        case 'number':
+          newRecord[key] = '0'
+        default:
+          break;
+      }
+    }
+  
 }
 
 function sortGridDoIt(colNum:number, sortMode:string) {
@@ -423,7 +404,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 31.07 w
+  верия 28.07 w
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -464,7 +445,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 </table>
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 
-  dsc={dscFlds} DS={thisRecord} voc={thisVoc}
+  dsc={dscFlds} outerRecord={thisRecord} voc={thisVoc}
   modeUpdate={modeUpdate}
   bind:mapDialog={mapDBTable} 
   on:MapReady={onMapReady} 

@@ -48,7 +48,7 @@ export async function Count(parmTableName: string, parmName: string) {
   .select('*', { count: 'exact', head: true })
   return count
 }
-async function GetRecordDB(parmKeyValue: any) {
+export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmKeyValue: any) {
    const { data, error } = await supabase
   .from(nameTable)
   .select()
@@ -57,13 +57,47 @@ async function GetRecordDB(parmKeyValue: any) {
   console.log(data)
   return data
 }
-export async function InsertDBRecord() {
-      const { data, error } = await supabase
-     .from('Product')
-     .insert([
-       { 'ProductName': '????***' } //, 'Id': 9999
+ export async function InsertDBRecordNew(
+  nameTable: string, nameKeyTable: string, 
+  parmKeyValue: any) 
+  {
+    /*
+  const addCountry = async (countryName:string) => {
+  let { data: country } = await supabase
+    .from('countries')
+    .insert({ name: countryName })
+    .single();
+  setCountries([...countries, country]);
+  */
+};  
+  
+ 
+
+
+export async function InsertDBRecord(
+  nameTable: string, nameKeyTable: string, 
+  parmKeyValue: any, parmMap: any) 
+  {
+    let parm: any = {}
+    parm[nameKeyTable] = parmKeyValue
+    parmMap.forEach((value, key, map) => {
+      parm[key] = value
+      //alert(`${key}: ${value}`); // огурец: 500 и так далее
+    });
+
+ /*    let arr = [nameKeyTable, parmKeyValue]
+    arr = [...parmMap].map(([name, value]) => ({ name, value })); */
+    alert('InsertDBRecord: '+JSON.stringify(parm))
+    //alert('InsertDBRecord: '+JSON.stringify([...parmMap]))
+          
+    const { data, error } = await supabase
+     .from(nameTable)
+     .insert(parm)
+     .select()
+/*      .insert([
+       { 'ProductName': '???? ***' , 'Id': parmKeyValue}
      ])
-     
+ */     
      if (error) throw new Error(error.message); 
      console.log(data)
      return data
