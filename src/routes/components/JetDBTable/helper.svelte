@@ -57,23 +57,7 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
   console.log(data)
   return data
 }
- export async function InsertDBRecordNew(
-  nameTable: string, nameKeyTable: string, 
-  parmKeyValue: any) 
-  {
-    /*
-  const addCountry = async (countryName:string) => {
-  let { data: country } = await supabase
-    .from('countries')
-    .insert({ name: countryName })
-    .single();
-  setCountries([...countries, country]);
-  */
-};  
-  
  
-
-
 export async function InsertDBRecord(
   nameTable: string, nameKeyTable: string, 
   parmKeyValue: any, parmMap: any) 
@@ -82,7 +66,7 @@ export async function InsertDBRecord(
     parm[nameKeyTable] = parmKeyValue
     parmMap.forEach((value, key, map) => {
       parm[key] = value
-      //alert(`${key}: ${value}`); // огурец: 500 и так далее
+      //alert(`${key}: ${value}`); 
     });
 
  /*    let arr = [nameKeyTable, parmKeyValue]
