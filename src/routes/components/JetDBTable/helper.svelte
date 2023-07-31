@@ -57,7 +57,29 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
   console.log(data)
   return data
 }
- 
+
+export async function UpdateDBRecord(
+  nameTable: string, nameKeyTable: string, 
+  parmKeyValue: any, parmMap: any) {
+    let parm: any = {}
+    parmMap.forEach((value, key, map) => {
+      parm[key] = value
+      //alert(`${key}: ${value}`); 
+    });
+  const { error } = await supabase
+    .from(nameTable)
+    .update(parm)
+    .eq(nameKeyTable, parmKeyValue)
+}
+
+export async function DeleteDBRecord(
+  nameTable: string, nameKeyTable: string, 
+  parmKeyValue: any) {
+  const { error } = await supabase
+    .from(nameTable)
+    .delete()
+    .eq(nameKeyTable, parmKeyValue)
+}
 export async function InsertDBRecord(
   nameTable: string, nameKeyTable: string, 
   parmKeyValue: any, parmMap: any) 
