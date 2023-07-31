@@ -31,7 +31,7 @@
   let mapSQLUpdate = new Map()
   let nameTable: string =''
   let nameKeyTable: string = ''
-  let resultRecordTable = {}
+  let resultRecordTable: any
   //export let RetDialog = 9999
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
@@ -194,6 +194,7 @@
 	}
   function onChangeCheckBox(name: string, value:any) {
     AddMap(name, value)
+    AddMapSQL(name, value='true'?1:0)
 		//alert('Main.CheckBox: '+name+' = '+value);
 	}
   function inputChange(event: any){
@@ -239,7 +240,8 @@
           let newKey: number = result+1
           AddMapSQL(nameKeyTable, result+1)
           PrepareUpdateSQL()
-          alert('map mapSQLUpdate: '+JSON.stringify([...outerRecord]))
+          alert('map mapSQLUpdate: '+JSON.stringify(outerRecord))          
+          //alert('map mapSQLUpdate: '+JSON.stringify([...outerRecord]))
           //alert('248: '+newKey)
           //AddMap('Id', newKey)
           if (mapSQLUpdate.size > 0) {

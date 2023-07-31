@@ -76,7 +76,7 @@ let _Row = tBody.children[0]
   row =  tBody.children[0]
   // временно
   for (let index = 0; index < row.children.length; index++) {
-    row.children[index].innerText = 'X'
+    row.children[index].innerText = ''
   }
   
  /*  let tHead = tTable.children[1], nameFld = ''
@@ -308,6 +308,7 @@ async function addNewRecord() {
 }
 function CreateOutRecord(parmDSC: any){
   let myObject = thisRecord
+  alert('InsertDBRecord: '+JSON.stringify(thisRecord))
   //let keys = Object.keys(myObject);
   let keys = [], it = {};
   
@@ -318,15 +319,16 @@ function CreateOutRecord(parmDSC: any){
     if (it) {
       switch (it.type) {
         case 'string':
-          newRecord[key] = '-'
+          newRecord[key] = '?'
           break;
-        case 'number':
-          newRecord[key] = '0'
+        case 'number': newRecord[key] = 0; break;
+        case 'bool': newRecord[key] = 0; break;
         default:
           break;
       }
     }
-  
+  }
+  alert('330 newRecord : '+JSON.stringify(newRecord))
 }
 
 function sortGridDoIt(colNum:number, sortMode:string) {
@@ -371,11 +373,12 @@ function sortGridDoIt(colNum:number, sortMode:string) {
             if (sortMode=== 'desc') return year1 > year2 ? 1 : -1;
             else return year2 > year1 ? 1 : -1;
           }
-        }
+        } 
         break;
     }
+  
   rowsArray.sort(compare);
-  tBody.append(...rowsArray);
+  tBody.append(...rowsArray); 
 }
 
 </script>
