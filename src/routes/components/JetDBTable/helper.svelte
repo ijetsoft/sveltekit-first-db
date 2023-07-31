@@ -70,7 +70,7 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
   setCountries([...countries, country]);
   */
 };  
-  }
+  
  
 
 
