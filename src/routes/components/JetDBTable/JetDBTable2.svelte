@@ -423,7 +423,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 28.07 w
+  верия 31.07 w
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
