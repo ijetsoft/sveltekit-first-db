@@ -89,7 +89,7 @@
  {@debug naviUpdated} 
 <Dialog title={titleDialog} Add ={flagAdd}
   bind:dialog bkgHeaderColor = 'maroon' 
-  dsc={dsc} DS={thisRecord} voc={voc}
+  dsc={dsc} outerRecord={thisRecord} voc={voc}
   bind:dialogUpdatedKey={naviUpdated}
   parmUpdate ={ModeUpdate}>
 </Dialog>

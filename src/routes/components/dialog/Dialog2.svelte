@@ -1,5 +1,6 @@
 <script  lang="ts">
-  import {getVocabTextValue, GetLastKey, InsertDBRecord} from './../JetDBTable/helper.svelte';
+  import {getVocabTextValue, GetLastKey, 
+    InsertDBRecord, GetRecordDB} from './../JetDBTable/helper.svelte';
 
   import {createEventDispatcher, onMount} from 'svelte';
   import { supabase } from "$lib/supabaseClient.js";
@@ -22,12 +23,15 @@
 
   export let bkgHeaderColor = '';   
   export let dsc: any = null
-  export let DS: any = null
+  export let outerRecord: any = null
   export let voc: any = null
   export let dialogUpdatedKey = 0
   export let modeUpdate = ''
   export let mapDialog = new Map()
   let mapSQLUpdate = new Map()
+  let nameTable: string =''
+  let nameKeyTable: string = ''
+  let resultRecordTable = {}
   //export let RetDialog = 9999
 
   const thisCSS = ' style="background-color:'+bkgColor+';color:'+color+'; width: 320px;"'
@@ -48,8 +52,10 @@
    let stylish=''
    onMount(() => {
     // alert('onMount: '+parmKey+' DS '+JSON.stringify(DS))
+    nameTable =dsc.name
+    nameKeyTable = dsc.col.filter(fld => (fld.type == 'key'))[0].fld
     mapDialog.clear()
-    AddMap('Id', parmKey)
+    //AddMap('Id', parmKey)
        header.style.backgroundColor = bkgHeaderColor
        
        //if (dsc) body = dsc.col.length+' *'
@@ -154,28 +160,28 @@
 // body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
    function handleMessage(event: any) {}
    function sayValCell(parmFld: any, parmRow: any){
-       let val = parmRow[parmFld.fld]
-       if (val=== undefined) 
-       switch (parmFld.type) {
-           case 'string':
-           val = ''; break;
-           case 'number':
-           val = '0'; break;
-       }
-       return val
+    if (modeUpdate === 'UPDATE') {return parmRow[parmFld.fld]}
+    let val: any;
+    switch (parmFld.type) {
+      case 'string':
+        val = ''; break;
+      case 'number':
+        val = '0'; break;
+    }
+    return val
    }
    
    function onChange(val:any) {
        //alert(getKey())
    }
    function AddMap(name: string, value:any, altValue = ''){
-    if (name[0] !== '_') {
-      if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
-      mapSQLUpdate.set(name, value) 
-    }
+    if (name[0] !== '_') AddMapSQL(name, value)
     if (mapDialog.has(name)) mapDialog.delete(name) 
     mapDialog.set(name, value) 
-
+   }
+   function AddMapSQL(name: string, value:any, altValue = ''){
+    if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
+      mapSQLUpdate.set(name, value) 
    }
    function onChangeCombo2(name: string, value:any) {
     AddMap(name, value)
@@ -194,21 +200,7 @@
     AddMap(event.target.name, event.target.value)
     //alert('Dialog: '+event.target.name+'='+event.target.value)
    }
-   async function getKey() {
-   
-       const { data, count: any } = await supabase
-         .from('Product')
-         .select('*', { count: 'exact', head: true  })
-
-        /*  const { data, error, count } = await supabase
-   .from('table')
-   .select('*')
-   .gt('id', 10)
-   .count() */
-
-         return data
-   }
-   
+     
    function show() {
     //alert(JSON.stringify([...mapDialog]))
    }
@@ -222,7 +214,55 @@
     
     dialog.close();
    }
+   function PrepareUpdateSQL() {
+    mapSQLUpdate.forEach((value, key, map) => {
+      if (outerRecord[key]) outerRecord[key] = value
+    });
+   }
    function Save() {
+    if (modeUpdate === 'UPDATE') {
+      // Выполнить UPDATE с возвратом строки
+      GetRecordDB(nameTable, nameKeyTable, parmKey)
+        .then(result =>{
+          resultRecordTable = result
+          alert('Dialog2 239 : '+JSON.stringify(resultRecordTable))
+          sendEvent()
+          mapDialog = mapDialog
+          dispatch('close');  
+          dialog.close();
+        
+          close()
+        })
+    } else { // INSERT
+      GetLastKey(nameTable, nameKeyTable)
+        .then(result =>{
+          let newKey: number = result+1
+          AddMapSQL(nameKeyTable, result+1)
+          PrepareUpdateSQL()
+          alert('map mapSQLUpdate: '+JSON.stringify([...outerRecord]))
+          //alert('248: '+newKey)
+          //AddMap('Id', newKey)
+          if (mapSQLUpdate.size > 0) {
+            //alert('map mapSQLUpdate: '+JSON.stringify([...mapSQLUpdate]))
+          }
+
+          InsertDBRecord(nameTable, nameKeyTable, newKey, mapSQLUpdate)
+          .then(result =>{
+            resultRecordTable = result
+            //alert('Dialog2 256 : '+JSON.stringify(resultRecordTable))
+            sendEvent()
+            mapDialog = mapDialog
+            dispatch('close');  
+            dialog.close();
+        
+          close()
+
+          })
+        })
+    }
+    
+   }
+   function SaveOLD() {
     if (mapSQLUpdate.size > 0) {
       
       //alert('map Dialog: '+JSON.stringify([...mapSQLUpdate]))
@@ -269,10 +309,10 @@
                   <!-- <Combo  width = 200px /><br> -->
                   <div>
                     <!-- selected={DS[fld.fld.slice(1)]} -->
-                    <Combo options={formOptionsFromVocab(fld.fld.slice(1), DS[fld.fld.slice(1)])} 
+                    <Combo options={formOptionsFromVocab(fld.fld.slice(1), outerRecord[fld.fld.slice(1)])} 
                       onChange = {onChangeCombo2}
                       name={fld.fld.slice(1)}
-                      placeholder={getVocabTextValue(voc, fld.fld.slice(1), DS[fld.fld.slice(1)])}
+                      placeholder={getVocabTextValue(voc, fld.fld.slice(1), outerRecord[fld.fld.slice(1)])}
                       on:message={handleMessage}  />
                       <!-- placeholder={currVocabValue(fld.fld.slice(1), DS[fld.fld.slice(1)])}                    -->
                   </div><br>                  
@@ -282,7 +322,7 @@
                        <!-- {#if DS[fld.fld] === '1'} 
                        <Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
                        {:else} -->
-                       {checkBool(fld, DS)}
+                       {checkBool(fld, outerRecord)}
                        <Checkbox text="" name={fld.fld}
                        onChange={onChangeCheckBox}
                        checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
@@ -294,7 +334,7 @@
                    <!-- {@html sayCell(fld, DS)} -->
                    <input type="text" name={fld.fld} id={fld.fld}
                    on:change={inputChange}
-                   required value="{sayValCell(fld, DS)}" on:change={onChange}><br>
+                   required value="{sayValCell(fld, outerRecord)}" on:change={onChange}><br>
                        <!-- <input type="text" name="+{fld.fld}+" id="+{fld.fld}+
                        " required value="{sayCell(DS, fld)}"><br>			   -->
                    {/if}   
