@@ -1,5 +1,5 @@
 <script  lang="ts">
-    import {date2str, GetLastKey, Count, getVocabTextValue} from './helper.svelte';
+    import {date2str, GetLastKey, Count, DeleteDBRecord, getVocabTextValue} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
@@ -306,6 +306,17 @@ async function addNewRecord() {
     if (dialog) dialog.showModal() 
     
 }
+async function deleteRecord() {
+  let mustDelete = confirm("Подтвердите удаление");
+	if (!mustDelete) return
+  thisRecord = thisDS[currRow-1]
+  keyActiveRecord = thisRecord[nameKeyTable]
+  DeleteDBRecord(nameTable, nameKeyTable, keyActiveRecord)
+  let x = tBody.children[currRow-1]
+  tBody.removeChild(x)
+  myPrev()
+  
+}
 function CreateOutRecord(parmDSC: any){
   let myObject = thisRecord
   alert('InsertDBRecord: '+JSON.stringify(thisRecord))
@@ -406,8 +417,11 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="добавить запись">
     <i class="far fa-plus-square" on:click={addNewRecord}></i>
 </button>
+<button class="navibtn" title="удалить запись">
+  <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
+</button>
 <button title="добавить запись">
-  верия 31.07 evening
+  верия 1.08 ww
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
