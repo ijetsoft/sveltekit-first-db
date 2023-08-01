@@ -25,7 +25,7 @@
             nameKeyTable = dscFlds.col.filter(fld => (fld.type == 'key'))[0].fld
             thisCol = dscFlds.col.filter(fld => !(fld.type == 'key' || fld.type == 'image' || fld.ref));
         }
-    let thisDS = ''; if (dscFlds) thisDS = tblRows[dscFlds.name].data
+    let thisDS: any; if (dscFlds) thisDS = tblRows[dscFlds.name].data
     let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
     let dialog: any;
     let modeUpdate = 'UPDATE'
@@ -50,6 +50,9 @@ function onMapReady(event:any) {
     if (modeUpdate === 'INSERT') {
    
       AddNewRowTable()
+      // добавить новую запись newRecord в thisDS
+      thisDS.push(newRecord)
+      setMarkRow(-1)
     }
     ModifyReсord()
 }
@@ -101,7 +104,7 @@ let _Row = tBody.children[0]
   //alert('92. '+tBody.childElementCount)
   currRow = tBody.children.length
   tTable.scrollTop = tTable.scrollHeight;
-  setMarkRow(-1)
+  
   //setMarkRow(currRow+1)
 }
 function ColumnByNameFld(pamName: string) {
@@ -421,7 +424,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 1.08 ww
+  верия 1.08 hhh
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
