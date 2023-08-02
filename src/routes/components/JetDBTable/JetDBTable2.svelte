@@ -48,11 +48,13 @@ function onMapReady(event:any) {
     alert('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
-   
       AddNewRowTable()
       // добавить новую запись newRecord в thisDS
       thisDS.push(newRecord)
       setMarkRow(-1)
+    }
+    if (modeUpdate === 'UPDATE') {
+      // откорректировать текущую запись в thisDS
     }
     ModifyReсord()
 }
@@ -424,7 +426,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 1.08 hhh
+  верия 2.08 h
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
