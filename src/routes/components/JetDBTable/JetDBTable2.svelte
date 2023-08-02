@@ -45,7 +45,7 @@ function onMapReady(event:any) {
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
-    alert('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
+    //alert('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
       AddNewRowTable()
@@ -55,6 +55,7 @@ function onMapReady(event:any) {
     }
     if (modeUpdate === 'UPDATE') {
       // откорректировать текущую запись в thisDS
+      UpdateDSRexord()
     }
     ModifyReсord()
 }
@@ -116,6 +117,33 @@ function ColumnByNameFld(pamName: string) {
   }
   return 0
 }
+function UpdateDSRexord(){
+  /* alert('121 Rexord='+JSON.stringify(thisDS[currRow-1]))
+  alert('122 mapDBTable='+JSON.stringify([...mapDBTable])) */
+  let _thisFld: any
+  mapDBTable.forEach((value, key, map) => {
+    _thisFld = dscFlds.col.filter(el => (el.fld == key))[0]
+    // alert('126 _thisFld='+JSON.stringify(_thisFld))
+    switch (_thisFld.type) {
+      case 'string':
+        thisDS[currRow-1][key] = value
+        break;
+      case 'number':
+        thisDS[currRow-1][key] = value.parseInt
+        break;
+      case 'bool':
+        thisDS[currRow-1][key] = value
+        if (value === 'true')  thisDS[currRow-1][key] = 1
+        if (value === 'false')  thisDS[currRow-1][key] = 0        
+        break;
+      case 'date':
+        break;
+      default:
+        break;
+    }
+    //alert('121 Rexord='+JSON.stringify(thisDS[currRow-1]))
+  })
+}
 function UpdateTableRow(){
   if (mapDBTable.size === 0) return
   let ind = -1
@@ -134,7 +162,7 @@ function UpdateTableRow(){
           break;
       }
       if (thisCol[ind-1].type === 'bool'){
-        let val = value === 'false' ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
+        let val = value === 'false'||0 ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
           subEl.innerHTML = val
       } else subEl.textContent = value
       //tblRows[key] = value
@@ -303,7 +331,7 @@ async function addNewRecord() {
     //alert(keyNewRedord)
     thisRecord = thisDS[currRow-1]
     modeUpdate = 'INSERT'
-    CreateOutRecord(dscFlds)
+    CreateRecordForDialog(dscFlds)
     thisRecord = newRecord 
     
     //const dialog = document.querySelector("dialog")
@@ -322,7 +350,7 @@ async function deleteRecord() {
   myPrev()
   
 }
-function CreateOutRecord(parmDSC: any){
+function CreateRecordForDialog(parmDSC: any){
   let myObject = thisRecord
   alert('InsertDBRecord: '+JSON.stringify(thisRecord))
   //let keys = Object.keys(myObject);
@@ -426,7 +454,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 2.08 h
+  верия 2.08 w
 </button>
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
