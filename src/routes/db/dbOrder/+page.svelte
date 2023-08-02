@@ -1,7 +1,7 @@
 <script  lang="ts">
     import {onMount} from 'svelte';
       import dscOrders from './../../../json/Orders.json'
-      import JetDBTable from './../../components/JetDBTable/JetDBTable.svelte';
+      import JetDBTable from './../../components/JetDBTable/JetDBTable2.svelte';
       
       export let data;
       let { db } = data;
@@ -14,8 +14,7 @@
      {@debug db} 
     <JetDBTable dscFlds={dscOrders} 
       tblRows={db} 
-      Width='500px'
-      Height='400px'>
+      Height='465px'>
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
