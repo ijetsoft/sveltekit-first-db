@@ -436,11 +436,13 @@ function sortGridDoIt(colNum:number, sortMode:string) {
       </form>
 </dialog>
 <!--                Navigate -->
+
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
   <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
     <i class="fa fa-chevron-left fa-fw"></i></button>
+  <input class="navi_input" type="number" bind:value={currRow} />
   <button class="navibtn" title="следующая запись" on:click={myNext}>
     <i class="fa fa-chevron-right fa-fw" ></i></button>
   <button class="navibtn" title="последняя запись" on:click={myLast}>
@@ -454,8 +456,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 2.08 w
+  верия 3.08 h
 </button>
+
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
 <!--                 Table -->
@@ -503,6 +506,16 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   ></Dialog>
    <!-- bind:RetDialog={RetTable}  -->
 <style>
+.navi_input {
+  float: left; 
+  margin-top: 2px;
+  max-width: 60px; 
+  padding: 3px 4px;
+  border-radius: 5px;
+  color: maroon;
+  background-color:lemonchiffon;
+  border: 1px solid #777;
+}
 .navibtn {
   background-color: FireBrick;
   border: none;
