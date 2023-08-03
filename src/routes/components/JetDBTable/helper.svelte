@@ -75,7 +75,7 @@ export async function UpdateDBRecord(
 export async function DeleteDBRecord(
   nameTable: string, nameKeyTable: string, 
   parmKeyValue: any) {
-  const { error } = await supabase
+   const { error } = await supabase
     .from(nameTable)
     .delete()
     .eq(nameKeyTable, parmKeyValue)
