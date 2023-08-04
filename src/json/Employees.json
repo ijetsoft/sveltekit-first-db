@@ -1,9 +1,9 @@
 {
-	"name": "employee",
+	"name": "Employee",
 	"SQL": "SELECT * FROM Employees ORDER BY LastName",
 	"col": [
 		{
-			"fld": "EmployeeID",
+			"fld": "Id",
 			"header": "id",
 			"type": "key"
 		},
@@ -26,7 +26,7 @@
 		},
 		{
 			"fld": "TitleOfCourtesy",
-			"header": "обра- щение",
+			"header": "обра-<br>щение",
 			"type": "string"
 		},
 		{

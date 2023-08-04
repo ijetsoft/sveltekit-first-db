@@ -69,6 +69,11 @@
    switch (parmFld.type) {
        case 'date':
            _text = 'date'
+           ret = '<input type="date" name="'+parmFld.fld+'" id="'+parmFld.fld+'" '+
+           ' value="'+_val+'"></input>'
+           //<input type="date" id="start" name="trip-start" value="2018-07-22" min="2018-01-01" max="2018-12-31" />
+           console.log(ret)
+           return ret
            break
        case 'bool':
            if (val === '1') _val = ' checked'; 
@@ -332,11 +337,15 @@
                    
                    <!-- <input type="checkbox" name="+{fld.fld}+" id="+{fld.fld}+ 
                        "checked	><br>	-->
-                   {:else }
+                {:else if fld.type == 'date'}
+                  <input type="date" name={fld.fld} id={fld.fld}
+                  on:change={inputChange}
+                  value="{sayValCell(fld, outerRecord)}"><br>
+                {:else }
                    <!-- {@html sayCell(fld, DS)} -->
                    <input type="text" name={fld.fld} id={fld.fld}
                    on:change={inputChange}
-                   required value="{sayValCell(fld, outerRecord)}" on:change={onChange}><br>
+                   required value="{sayValCell(fld, outerRecord)}"><br>
                        <!-- <input type="text" name="+{fld.fld}+" id="+{fld.fld}+
                        " required value="{sayCell(DS, fld)}"><br>			   -->
                    {/if}   

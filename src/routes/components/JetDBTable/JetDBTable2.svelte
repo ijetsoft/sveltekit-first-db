@@ -456,7 +456,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
 <button title="добавить запись">
-  верия 3.08 h
+  верия 4.08 h
 </button>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
