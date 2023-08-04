@@ -329,8 +329,8 @@
                        <!-- {#if DS[fld.fld] === '1'} 
                        <Checkbox checked text='' --bkgHeaderColor='maroon'></Checkbox>
                        {:else} -->
-                       {checkBool(fld, outerRecord)}
-                       <Checkbox text="" name={fld.fld}
+                  {checkBool(fld, outerRecord)}
+                  <Checkbox text="" name={fld.fld}
                        onChange={onChangeCheckBox}
                        checked={_bool} --bkgHeaderColor='maroon'></Checkbox>
                        <!-- {/if} -->
