@@ -1,6 +1,6 @@
 <script  lang="ts">
-  import {getVocabTextValue, GetLastKey, 
-    InsertDBRecord, GetRecordDB} from './../JetDBTable/helper.svelte';
+  import {getVocabTextValue, GetLastKey, date2str,
+    InsertDBRecord, GetRecordDB, UpdateDBRecord} from './../JetDBTable/helper.svelte';
 
   import {createEventDispatcher, onMount} from 'svelte';
   import { supabase } from "$lib/supabaseClient.js";
@@ -42,7 +42,7 @@
    function sendEvent() {
     	dispatch('MapReady', mapDialog); 
       mapDialog.clear()
-  	}
+    }
 
    $: classNames = 'dialog' + (className ? ' ' + className : '');
   
@@ -165,7 +165,14 @@
 // body = "<Checkbox text='OneTwoThree' checked={true} --bkgHeaderColor='maroon'></Checkbox>"
    function handleMessage(event: any) {}
    function sayValCell(parmFld: any, parmRow: any){
-    if (modeUpdate === 'UPDATE') {return parmRow[parmFld.fld]}
+    if (modeUpdate === 'UPDATE') {
+      if (parmFld.type === 'date'){
+       /*  alert('170: '+parmFld.fld+'='+parmRow[parmFld.fld])
+        alert('171: '+date2str(parmRow[parmFld.fld], 'dd.MM.yy')) */
+        //alert('170: '+Date.parse(parmRow[parmFld.fld]))        
+      }
+      return parmRow[parmFld.fld]
+    }
     let val: any;
     switch (parmFld.type) {
       case 'string':
@@ -188,6 +195,7 @@
     if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
       mapSQLUpdate.set(name, value) 
    }
+  
    function onChangeCombo2(name: string, value:any) {
     AddMap(name, value)
     /* if (mapSQLUpdate.has(name)) mapSQLUpdate.delete(name) 
@@ -206,7 +214,11 @@
     AddMap(event.target.name, event.target.value)
     //alert('Dialog: '+event.target.name+'='+event.target.value)
    }
-     
+   function inputChangeDate(event: any){
+    let x = date2str(event.target.value, 'yyyy-MM-dd')
+    AddMap(event.target.name, x)
+    console.log('inputChangeDate: '+event.target.name+'='+event.target.value+' or '+x)
+   }
    function show() {
     //alert(JSON.stringify([...mapDialog]))
    }
@@ -227,11 +239,12 @@
    }
    function Save() {
     if (modeUpdate === 'UPDATE') {
-      // Выполнить UPDATE с возвратом строки
-      GetRecordDB(nameTable, nameKeyTable, parmKey)
-        .then(result =>{
+      UpdateDBRecord(nameTable, nameKeyTable, parmKey, mapSQLUpdate)
+      .then(result =>{
           resultRecordTable = result
-          alert('Dialog2 239 : '+JSON.stringify(resultRecordTable))
+         /*  alert('240: Dialog2: result=  '+JSON.stringify(resultRecordTable))
+          alert('246: Dialog2: mapSQLUpdate='+JSON.stringify([...mapSQLUpdate]))  
+          alert('247: Dialog2: '+JSON.stringify(outerRecord))      */
           sendEvent()
           mapDialog = mapDialog
           dispatch('close');  
@@ -239,13 +252,26 @@
         
           close()
         })
+      // Выполнить UPDATE с возвратом строки
+      /* GetRecordDB(nameTable, nameKeyTable, parmKey)
+        .then(result =>{
+          resultRecordTable = result
+          //alert('Dialog2 239 : '+JSON.stringify(resultRecordTable))
+          //alert('234: map mapSQLUpdate: '+JSON.stringify(outerRecord))     
+          sendEvent()
+          mapDialog = mapDialog
+          dispatch('close');  
+          dialog.close();
+        
+          close()
+        }) */
     } else { // INSERT
       GetLastKey(nameTable, nameKeyTable)
         .then(result =>{
           let newKey: number = result+1
           AddMapSQL(nameKeyTable, result+1)
           PrepareUpdateSQL()
-          alert('map mapSQLUpdate: '+JSON.stringify(outerRecord))          
+          //alert('map mapSQLUpdate: '+JSON.stringify(outerRecord))          
           //alert('map mapSQLUpdate: '+JSON.stringify([...outerRecord]))
           //alert('248: '+newKey)
           //AddMap('Id', newKey)
@@ -339,7 +365,8 @@
                        "checked	><br>	-->
                 {:else if fld.type == 'date'}
                   <input type="date" name={fld.fld} id={fld.fld}
-                  on:change={inputChange}
+                  on:change={inputChangeDate}
+                  title='не раньше 1.01.1900'
                   value="{sayValCell(fld, outerRecord)}"><br>
                 {:else }
                    <!-- {@html sayCell(fld, DS)} -->

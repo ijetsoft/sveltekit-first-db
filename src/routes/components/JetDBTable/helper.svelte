@@ -42,9 +42,9 @@ export async function GetLastKey(parmTableName: string, parmKeyName: string) {
         
      return newKey
   }
-export async function Count(parmTableName: string, parmName: string) {
+export async function Count(parmTableName: string) {
   const { count, error } = await supabase
-  .from(parmName)
+  .from(parmTableName)
   .select('*', { count: 'exact', head: true })
   return count
 }
@@ -61,15 +61,18 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
 export async function UpdateDBRecord(
   nameTable: string, nameKeyTable: string, 
   parmKeyValue: any, parmMap: any) {
+    //alert('UpdateDBRecord: '+JSON.stringify([...parmMap]))
     let parm: any = {}
     parmMap.forEach((value, key, map) => {
       parm[key] = value
       //alert(`${key}: ${value}`); 
     });
-  const { error } = await supabase
+  const { data, error } = await supabase
     .from(nameTable)
     .update(parm)
     .eq(nameKeyTable, parmKeyValue)
+    .select()
+    return data
 }
 
 export async function DeleteDBRecord(
@@ -93,7 +96,7 @@ export async function InsertDBRecord(
 
  /*    let arr = [nameKeyTable, parmKeyValue]
     arr = [...parmMap].map(([name, value]) => ({ name, value })); */
-    alert('InsertDBRecord: '+JSON.stringify(parm))
+    //alert('InsertDBRecord: '+JSON.stringify(parm))
     //alert('InsertDBRecord: '+JSON.stringify([...parmMap]))
           
     const { data, error } = await supabase

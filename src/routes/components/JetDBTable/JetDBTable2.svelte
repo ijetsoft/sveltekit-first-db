@@ -32,6 +32,7 @@
     let mapDBTable = new Map()
     let keyActiveRecord = 0
     let RetTable = 0
+    let countRecordDBTable = 0
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
@@ -46,7 +47,7 @@ function onMapReady(event:any) {
     //alert('mapDBTable: '+JSON.stringify(mapDBTable))
     //alert('mapDBTable: '+JSON.stringify(Array.from(mapDBTable.entries())))
     //alert('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
-    console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
+    //console.log('onMapReady mapDBTable='+JSON.stringify([...mapDBTable]))
     if (modeUpdate === 'INSERT') {
       AddNewRowTable()
       // добавить новую запись newRecord в thisDS
@@ -55,12 +56,25 @@ function onMapReady(event:any) {
     }
     if (modeUpdate === 'UPDATE') {
       // откорректировать текущую запись в thisDS
-      UpdateDSRexord()
+      UpdateDSRecord()
     }
     ModifyReсord()
 }
 onMount(() => {
     setMarkRow(1)
+  
+    Count(nameTable)
+    .then(result =>{
+      countRecordDBTable = result
+      let elements = document.getElementsByClassName('pagebutton');
+          for (let index = 0; index < elements.length; index++) {
+            let element = elements[index];
+            if (countRecordDBTable <= 1000) {
+              element.style.display = "none"
+            } else element.style.display = "block"//element.style.visibility = "visible";
+          }
+    })
+    
    /*  let x = ''; Count('Order')
     .then(result => {
     x = result;
@@ -117,7 +131,7 @@ function ColumnByNameFld(pamName: string) {
   }
   return 0
 }
-function UpdateDSRexord(){
+function UpdateDSRecord(){
   /* alert('121 Rexord='+JSON.stringify(thisDS[currRow-1]))
   alert('122 mapDBTable='+JSON.stringify([...mapDBTable])) */
   let _thisFld: any
@@ -137,6 +151,7 @@ function UpdateDSRexord(){
         if (value === 'false')  thisDS[currRow-1][key] = 0        
         break;
       case 'date':
+        thisDS[currRow-1][key] = date2str(value, 'yyyy-MM-dd')
         break;
       default:
         break;
@@ -164,9 +179,21 @@ function UpdateTableRow(){
       if (thisCol[ind-1].type === 'bool'){
         let val = value === 'false'||0 ? '<i class="fa-regular fa-square"></i>' : '<i class="fa-regular fa-square-check"></i>'
           subEl.innerHTML = val
+      } else if (thisCol[ind-1].type === 'date'){
+          let x = new Date(value);
+          subEl.innerText = date2str(x, 'dd.MM.yy')
+          
+          console.log('171: Update Table Row: '+subEl.innerText+' from '+value)
+          //alert('171 = '+subEl.innerText)
+         /*  let y = document.querySelector("table")
+          alert('172: UpdateTableRow: '+JSON.stringify(y))        */   
+          //console.log('172: UpdateTableRow: '+JSON.stringify(tBody.children[currRow-1].children[ind]))          
       } else subEl.textContent = value
       //tblRows[key] = value
     }
+    let x = tBody.children[currRow-1].chidren
+   // alert('map UpdateTableRow: '+JSON.stringify(x)) 
+     
   });
 
  /*  for (let entry of mapDBTable) { // то же самое, что и reci-peMap.entries()
@@ -234,6 +261,7 @@ function sayCell(parmRow: any, parmDSCCol: any){
         switch (parmDSCCol.type) {
           case 'date':
             ret = date2str(ret, 'dd.MM.yy')
+            //alert('244: '+parmRow[parmDSCCol.fld]+' - '+ret)            
             break;
           case 'memo':
             ret = '<button class="mini" data-value="'+ret+'">...</button>'
@@ -311,8 +339,14 @@ function getVocab(parmName: string, parmVal: any) {
 }    
 function myFirst() { setMarkRow(1); }
 function myLast() { setMarkRow(-1); }
+function myPrevPage() {
+  // число записей > 1000?
+}
 function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
+function myNextPage() {
+  // число записей > 1000?
+}
 function thisView() {
     thisRecord = thisDS[currRow-1]
     keyActiveRecord = thisRecord[nameKeyTable]
@@ -352,7 +386,7 @@ async function deleteRecord() {
 }
 function CreateRecordForDialog(parmDSC: any){
   let myObject = thisRecord
-  alert('InsertDBRecord: '+JSON.stringify(thisRecord))
+  //alert('InsertDBRecord: '+JSON.stringify(thisRecord))
   //let keys = Object.keys(myObject);
   let keys = [], it = {};
   
@@ -372,7 +406,7 @@ function CreateRecordForDialog(parmDSC: any){
       }
     }
   }
-  alert('330 newRecord : '+JSON.stringify(newRecord))
+  //alert('330 newRecord : '+JSON.stringify(newRecord))
 }
 
 function sortGridDoIt(colNum:number, sortMode:string) {
@@ -440,11 +474,15 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
+  <button class="navibtn pagebutton" title="предыдующая страница" on:click={myPrevPage}>
+    <i class="fa-solid fa-backward"></i></button>
   <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
     <i class="fa fa-chevron-left fa-fw"></i></button>
   <input class="navi_input" type="number" bind:value={currRow} />
   <button class="navibtn" title="следующая запись" on:click={myNext}>
     <i class="fa fa-chevron-right fa-fw" ></i></button>
+  <button class="navibtn pagebutton" title="следующая страница" on:click={myNextPage}>
+      <i class="fa-solid fa-forward"></i></button>
   <button class="navibtn" title="последняя запись" on:click={myLast}>
     <i class="fa fa-step-forward fa-fw"></i></button>
   <button class="navibtn" title="просмотреть запись" on:click={thisView}>
@@ -455,9 +493,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<button title="добавить запись">
-  верия 4.08 h
-</button>
+<div class="div_version" >версия 7.08 h</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -506,6 +542,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   ></Dialog>
    <!-- bind:RetDialog={RetTable}  -->
 <style>
+.div_version {
+  float: right;
+}
 .navi_input {
   float: left; 
   margin-top: 2px;
@@ -583,6 +622,7 @@ tbody {
     font-size: 2em;  
   }  
   table { font-size: 2em; }
+  .navi_input {height: 45px; font-size: 2em;}
 } 
 th button {
   background-color: maroon;color:white;
