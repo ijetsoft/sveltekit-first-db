@@ -366,6 +366,7 @@
                 {:else if fld.type == 'date'}
                   <input type="date" name={fld.fld} id={fld.fld}
                   on:change={inputChangeDate}
+                  title='не раньше 1.01.1900'
                   value="{sayValCell(fld, outerRecord)}"><br>
                 {:else }
                    <!-- {@html sayCell(fld, DS)} -->

@@ -42,9 +42,9 @@ export async function GetLastKey(parmTableName: string, parmKeyName: string) {
         
      return newKey
   }
-export async function Count(parmTableName: string, parmName: string) {
+export async function Count(parmTableName: string) {
   const { count, error } = await supabase
-  .from(parmName)
+  .from(parmTableName)
   .select('*', { count: 'exact', head: true })
   return count
 }

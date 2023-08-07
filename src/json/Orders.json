@@ -1,5 +1,5 @@
 {
-"name": "order",
+"name": "Order",
 "SQL": "",
 "col": [
   {"fld": "Id", "header": "id", "type": "key" },

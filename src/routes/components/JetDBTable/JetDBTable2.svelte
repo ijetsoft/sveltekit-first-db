@@ -32,6 +32,7 @@
     let mapDBTable = new Map()
     let keyActiveRecord = 0
     let RetTable = 0
+    let countRecordDBTable = 0
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
@@ -61,6 +62,19 @@ function onMapReady(event:any) {
 }
 onMount(() => {
     setMarkRow(1)
+  
+    Count(nameTable)
+    .then(result =>{
+      countRecordDBTable = result
+      let elements = document.getElementsByClassName('pagebutton');
+          for (let index = 0; index < elements.length; index++) {
+            let element = elements[index];
+            if (countRecordDBTable <= 1000) {
+              element.style.display = "none"
+            } else element.style.display = "block"//element.style.visibility = "visible";
+          }
+    })
+    
    /*  let x = ''; Count('Order')
     .then(result => {
     x = result;
@@ -325,8 +339,14 @@ function getVocab(parmName: string, parmVal: any) {
 }    
 function myFirst() { setMarkRow(1); }
 function myLast() { setMarkRow(-1); }
+function myPrevPage() {
+  // число записей > 1000?
+}
 function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
+function myNextPage() {
+  // число записей > 1000?
+}
 function thisView() {
     thisRecord = thisDS[currRow-1]
     keyActiveRecord = thisRecord[nameKeyTable]
@@ -454,11 +474,15 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
+  <button class="navibtn pagebutton" title="предыдующая страница" on:click={myPrevPage}>
+    <i class="fa-solid fa-backward"></i></button>
   <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
     <i class="fa fa-chevron-left fa-fw"></i></button>
   <input class="navi_input" type="number" bind:value={currRow} />
   <button class="navibtn" title="следующая запись" on:click={myNext}>
     <i class="fa fa-chevron-right fa-fw" ></i></button>
+  <button class="navibtn pagebutton" title="следующая страница" on:click={myNextPage}>
+      <i class="fa-solid fa-forward"></i></button>
   <button class="navibtn" title="последняя запись" on:click={myLast}>
     <i class="fa fa-step-forward fa-fw"></i></button>
   <button class="navibtn" title="просмотреть запись" on:click={thisView}>
@@ -469,9 +493,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<button title="добавить запись">
-  верия 6.08 h
-</button>
+<div class="div_version" >версия 7.08 h</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -520,6 +542,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   ></Dialog>
    <!-- bind:RetDialog={RetTable}  -->
 <style>
+.div_version {
+  float: right;
+}
 .navi_input {
   float: left; 
   margin-top: 2px;
