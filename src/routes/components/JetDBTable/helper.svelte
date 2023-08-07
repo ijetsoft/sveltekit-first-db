@@ -54,7 +54,17 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
   .select()
   .eq(nameKeyTable, parmKeyValue)
   if (error) throw new Error(error.message); 
-  console.log(data)
+  //console.log(data)
+  return data
+}
+
+export async function GetRangeRecordDB(nameTable: string, nameKeyTable: string, parmStep: any) {
+  const { data, error } = await supabase
+  .from(nameTable)
+  .select()
+  .range(parmStep, parmStep+1000)
+  if (error) throw new Error(error.message); 
+  //console.log(data)
   return data
 }
 

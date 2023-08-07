@@ -1,5 +1,6 @@
 <script  lang="ts">
-    import {date2str, GetLastKey, Count, DeleteDBRecord, getVocabTextValue} from './helper.svelte';
+    import {date2str, GetLastKey, Count, DeleteDBRecord, 
+      getVocabTextValue, GetRangeRecordDB} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
     import Dialog from './../dialog/Dialog2.svelte'
@@ -33,6 +34,7 @@
     let keyActiveRecord = 0
     let RetTable = 0
     let countRecordDBTable = 0
+    let _styleTD : CSSStyleDeclaration
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
@@ -62,7 +64,7 @@ function onMapReady(event:any) {
 }
 onMount(() => {
     setMarkRow(1)
-  
+    _styleTD = getComputedStyle(tBody.children[0].children[0])
     Count(nameTable)
     .then(result =>{
       countRecordDBTable = result
@@ -346,6 +348,12 @@ function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
 function myNextPage() {
   // число записей > 1000?
+  alert('Next Page')
+  GetRangeRecordDB(nameTable, nameKeyTable, 1000)
+  .then(result => {
+    CreateTableRowFromRange(result)
+    setMarkRow(-1)
+  })
 }
 function thisView() {
     thisRecord = thisDS[currRow-1]
@@ -407,6 +415,63 @@ function CreateRecordForDialog(parmDSC: any){
     }
   }
   //alert('330 newRecord : '+JSON.stringify(newRecord))
+}
+function CreateTableRowFromRange(parmDSRange: any){
+ 
+  
+  for (let index = 0; index < parmDSRange.length; index++) {
+    let record = parmDSRange[index];
+    //currRow = 1000 +index
+    console.log( currRow, record['Id'] )
+    let TR: HTMLTableRowElement = document.createElement('tr');
+    for(var key in record){
+      let TD: HTMLTableCellElement = document.createElement('td');
+      let val = record[key], it : any, voc : any
+      if (key == nameKeyTable) {TD.innerText =1000 +index; appendTD(TR, TD); continue}
+      it =  thisCol.find((item:any) => item.fld == key);
+      if (it) {TD.innerText = sayCell(record, it); appendTD(TR, TD);}
+    }
+    tBody.append(TR)
+  }
+  tTable.scrollTop = tTable.scrollHeight;
+  setMarkRow(-1)
+ /*  }
+  let record = parmDSRange[0] */
+  /* for(var key in record){
+    let TD: HTMLTableCellElement = document.createElement('td');
+    //TD.style.cssText = 'color:red; background-color:yellow';
+    let val = record[key], it : any, voc : any
+    if (key == nameKeyTable) {TD.innerText =''; appendTD(TR, TD); continue}
+    it =  thisCol.find((item:any) => item.fld == key);
+    if (typeof it === 'undefined') it =  thisCol.find((item:any) => item.fld == '_'+key)
+    if (it) {
+      switch (it.type) {
+        case 'string': TD.innerText = sayCell(record, it); break;
+        case 'number': 
+          TD.innerText = sayCell(record, it);
+          TD.style.textAlign = 'right';
+          break;
+        case 'date': TD.style.textAlign = 'center';
+          TD.innerText = sayCell(record, it); break;
+        case 'bool': TD.innerText = sayCell(record, it); break;
+        default: TD.innerText = sayCell(record, it); break;
+      }
+    }
+  //console.log(key+'='+record[key])
+  
+  appendTD(TR, TD)
+  }
+  tBody.append(TR)
+} */
+
+
+  //  node.append(...nodes or strings) 
+}
+function appendTD(parmTR: HTMLTableRowElement, parmTD: HTMLTableCellElement) {
+ 
+  parmTD.style.border = _styleTD.border;
+  parmTD.style.padding = _styleTD.padding;
+  parmTR.append(parmTD);
 }
 
 function sortGridDoIt(colNum:number, sortMode:string) {
@@ -493,7 +558,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 7.08 h</div>
+<div class="div_version" >версия 7.08 w</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -516,16 +581,18 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <tbody bind:this={tBody}>
   {#if tblRows}
     {#each thisDS as row, j}
-        <tr>
-            <td></td>
-            {#each thisCol as colFld, i}
-                {#if (colFld.type == 'number')}
-                    <td class='r'> {@html sayCell(row,colFld)} </td>
-                {:else if (colFld.type == 'bool')}
-                    <td class='c'> {@html sayCell(row,colFld)} </td>                
-                {:else}  
-                    <td> {@html sayCell(row,colFld)} </td>
-                {/if}
+      <tr>
+        <td></td>
+        {#each thisCol as colFld, i}
+          {#if (colFld.type == 'number')}
+            <td class='r'> {@html sayCell(row,colFld)} </td>
+          {:else if (colFld.type == 'date')}
+            <td class='c'> {@html sayCell(row,colFld)} </td>   
+          {:else if (colFld.type == 'bool')}
+            <td class='c'> {@html sayCell(row,colFld)} </td>                
+          {:else}  
+            <td> {@html sayCell(row,colFld)} </td>
+          {/if}
             {/each}
         </tr>
     {/each}
