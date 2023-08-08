@@ -1,6 +1,9 @@
 <script  lang="ts">
+
+
+
   import {onMount} from 'svelte';
-    import dscEmployees from './../../../json/Employees.json'
+  import dscEmployees from './../../../json/Employees.json'
     import JetDBTable from './../../components/JetDBTable/JetDBTable2.svelte';
     export let data;
     let { db } = data;
@@ -11,6 +14,7 @@
     );
   </script>
   {@debug data}
+
   <JetDBTable dscFlds={dscEmployees} 
     tblRows={db} ></JetDBTable>
 <!--     Width='100%'
@@ -24,6 +28,7 @@
   </table> -->
 
   <style>
+
 .mini {
   background-color: rgb(202, 101, 101);
   border: none;

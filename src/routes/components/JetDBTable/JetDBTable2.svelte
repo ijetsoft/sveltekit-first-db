@@ -76,7 +76,10 @@ onMount(() => {
             } else element.style.display = "block"//element.style.visibility = "visible";
           }
     })
-    
+    let myLoader = document.getElementsByClassName('loader')
+    document.getElementsByClassName("loader").style.display = "none";
+    myLoader.style.display = 'none'
+    // .style.visibility='visible'
    /*  let x = ''; Count('Order')
     .then(result => {
     x = result;
@@ -534,7 +537,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
         <button>OK</button>
       </form>
 </dialog>
-<!--                Navigate -->
+<div class="loader" style="display='none'"></div>
 
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
@@ -558,7 +561,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 8.08 h</div>
+<div class="div_version" >версия 8.08 w</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -609,6 +612,21 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   ></Dialog>
    <!-- bind:RetDialog={RetTable}  -->
 <style>
+
+  .loader {
+  border: 16px solid #f3f3f3;
+  border-radius: 50%;
+  border-top: 16px solid #3498db;
+  width: 120px;
+  height: 120px;
+  -webkit-animation: spin 2s linear infinite; /* Safari */
+  animation: spin 2s linear infinite;
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
 .div_version {
   float: right;
 }
