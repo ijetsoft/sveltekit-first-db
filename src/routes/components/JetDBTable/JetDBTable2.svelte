@@ -1,5 +1,6 @@
 <script  lang="ts">
-    import {date2str, GetLastKey, Count, DeleteDBRecord, 
+import { Jumper } from 'svelte-loading-spinners';
+import {date2str, GetLastKey, Count, DeleteDBRecord, 
       getVocabTextValue, GetRangeRecordDB} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
     import {onMount, createEventDispatcher} from 'svelte';
@@ -35,6 +36,8 @@
     let RetTable = 0
     let countRecordDBTable = 0
     let _styleTD : CSSStyleDeclaration
+    let visible = true;
+
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
 // -------------------------------------------------------------    
@@ -75,10 +78,13 @@ onMount(() => {
               element.style.display = "none"
             } else element.style.display = "block"//element.style.visibility = "visible";
           }
+          visible = false
     })
-    let myLoader = document.getElementsByClassName('loader')
-    document.getElementsByClassName("loader").style.display = "none";
-    myLoader.style.display = 'none'
+    /* let myLoader: any  = document.getElementsByClassName('loader')
+    myLoader.style.visibility ="hidden" */
+    
+    /* document.getElementsByClassName("loader").style.display = "none";
+    myLoader.style.display = 'none' */
     // .style.visibility='visible'
    /*  let x = ''; Count('Order')
     .then(result => {
@@ -351,11 +357,13 @@ function myPrev() { setMarkRow(currRow-1); }
 function myNext() { setMarkRow(currRow+1); } 
 function myNextPage() {
   // число записей > 1000?
-  alert('Next Page')
+  //alert('Next Page')
+  visible = true
   GetRangeRecordDB(nameTable, nameKeyTable, 1000)
   .then(result => {
     CreateTableRowFromRange(result)
     setMarkRow(-1)
+    visible = false
   })
 }
 function thisView() {
@@ -537,7 +545,13 @@ function sortGridDoIt(colNum:number, sortMode:string) {
         <button>OK</button>
       </form>
 </dialog>
-<div class="loader" style="display='none'"></div>
+{#if visible}
+<div class="loader">
+  <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
+</div>
+
+{/if}
+<!-- <div class="loader"></div> -->
 
 <section id="parentbox">
   <button class="navibtn" title="первая запись" on:click={myFirst}>
@@ -561,7 +575,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 8.08 w</div>
+<div class="div_version" >версия 8.08 hh</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>

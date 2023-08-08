@@ -7,20 +7,26 @@
       
       export let data;
       let { db } = data;
-
+let x = 1
       
 	
       onMount(() => {
-        // let myPlace: any = document.querySelector(".placeHold") ;
+        
+         let myEl: any = document.getElementsByClassName("jump") ;
+         //myEl.style.visibility ="hidden"
+        
+         //myEl.style.display = "none"
         //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
       }  
       );
 
     </script>
-  
-  {#if $navigating} 
+   {@debug x} 
+  {#if $navigating}  
+  <div class="jump">
     <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
-  {/if} 
+  </div>
+   {/if}  
      {@debug db} 
      <!-- <div class="loader"></div> -->
 
