@@ -1,6 +1,6 @@
 <script  lang="ts">
-  	import { Jumper } from 'svelte-loading-spinners';
-    import { navigating } from '$app/stores'
+  	/* import { Jumper } from 'svelte-loading-spinners';
+    import { navigating } from '$app/stores' */
     import {onMount} from 'svelte';
       import dscOrders from './../../../json/Orders.json'
       import JetDBTable from './../../components/JetDBTable/JetDBTable2.svelte';
@@ -22,11 +22,11 @@ let x = 1
 
     </script>
    {@debug x} 
-  {#if $navigating}  
+ <!--  {#if $navigating}  
   <div class="jump">
     <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
   </div>
-   {/if}  
+   {/if}  --> 
      {@debug db} 
      <!-- <div class="loader"></div> -->
 
