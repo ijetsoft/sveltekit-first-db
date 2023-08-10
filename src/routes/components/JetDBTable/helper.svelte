@@ -60,7 +60,7 @@ export async function GetRecordDB(nameTable: string, nameKeyTable: string, parmK
 
 export async function GetRangeRecordDB(nameTable: string, parmStep: any, parmCurrStep: any) {
   let end = (parmCurrStep+1)*parmStep+1+parmStep;
-  alert('range: form '+((parmCurrStep+1)*parmStep+1)+' to ' + end)
+  //alert('range: form '+((parmCurrStep+1)*parmStep+1)+' to ' + end)
   const { data, error } = await supabase
   .from(nameTable)
   .select()
