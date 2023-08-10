@@ -81,7 +81,7 @@ onMount(() => {
             } else element.style.display = "block"//element.style.visibility = "visible";
           }
           visible = false
-          alert(thisDS.length)
+          //alert(thisDS.length)
     })
     /* let myLoader: any  = document.getElementsByClassName('loader')
     myLoader.style.visibility ="hidden" */
@@ -578,7 +578,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 10.08 w</div>
+<div class="div_version" >версия 10.08 ww</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
