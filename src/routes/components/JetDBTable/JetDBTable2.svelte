@@ -38,7 +38,7 @@ import {date2str, GetLastKey, Count, DeleteDBRecord,
     let _styleTD : CSSStyleDeclaration
     let visible = true;
     let step = 1000
-    let currStep = 0
+    let currStep = -1
 
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
@@ -81,6 +81,7 @@ onMount(() => {
             } else element.style.display = "block"//element.style.visibility = "visible";
           }
           visible = false
+          alert(thisDS.length)
     })
     /* let myLoader: any  = document.getElementsByClassName('loader')
     myLoader.style.visibility ="hidden" */
@@ -361,6 +362,7 @@ function myNextPage() {
   // число записей > 1000?
   //alert('Next Page')
   visible = true
+  currStep +=1
   GetRangeRecordDB(nameTable, step, currStep)
   .then(result => {
     CreateTableRowFromRange(result)
@@ -431,7 +433,7 @@ function CreateRecordForDialog(parmDSC: any){
 }
 function CreateTableRowFromRange(parmDSRange: any){
  
-  
+  visible = true
   for (let index = 0; index < parmDSRange.length; index++) {
     let record = parmDSRange[index];
     //currRow = 1000 +index
@@ -440,11 +442,12 @@ function CreateTableRowFromRange(parmDSRange: any){
     for(var key in record){
       let TD: HTMLTableCellElement = document.createElement('td');
       let val = record[key], it : any, voc : any
-      if (key == nameKeyTable) {TD.innerText =1000 +index; appendTD(TR, TD); continue}
+      if (key == nameKeyTable) {TD.innerText =record[key]; appendTD(TR, TD); continue}
       it =  thisCol.find((item:any) => item.fld == key);
       if (it) {TD.innerText = sayCell(record, it); appendTD(TR, TD);}
     }
     tBody.append(TR)
+    visible = true
   }
   tTable.scrollTop = tTable.scrollHeight;
   setMarkRow(-1)
@@ -538,7 +541,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 }
 
 </script>
-  {@debug thisDS}  
+  {@debug nameTable}  
 
 <!--                Dialog -->
 <dialog>
@@ -575,12 +578,14 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 10.08 h</div>
+<div class="div_version" >версия 10.08 w</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
+<div>
+
 <!--                 Table -->
-<table bind:this={tTable} style ="max-width:{Width}; height:{Height}"
+<table bind:this={tTable} style ="max-width:{Width}; height:{Height}; float: left;"
     on:click={onClick} 
 >
 <tr>
@@ -616,6 +621,11 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   {/if}
 </tbody>
 </table>
+{#if visible}
+	<RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
+   style="float: left; index:999; align-content='center'; top=60px" />
+{/if}
+</div>
 <Dialog 
   bind:dialog bkgHeaderColor = 'maroon' 
   dsc={dscFlds} outerRecord={thisRecord} voc={thisVoc}
