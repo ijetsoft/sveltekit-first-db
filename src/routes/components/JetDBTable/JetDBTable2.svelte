@@ -7,7 +7,7 @@ import {date2str, GetLastKey, Count, DeleteDBRecord,
     import Dialog from './../dialog/Dialog2.svelte'
     import {setContext} from 'svelte';
 
-    export let Width = 'auto' //'100%;'
+    export let Width = '100%;'
     export let Height = '470px;'
     export let dscFlds : any
     export let tblRows : any
@@ -578,7 +578,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
- <div class="div_version" >версия 10.08 h1</div> 
+ <div class="div_version" >версия 10.08 h2</div> 
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -623,6 +623,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 </table>
 {#if visible}
 	<RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
+    class= "loader"
    style="float: left; index:999; align-content='center'; top=60px" />
 {/if}
 </div>
@@ -637,7 +638,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
    <!-- bind:RetDialog={RetTable}  -->
 <style>
 
-  .loader1 {
+  .loader {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
@@ -731,7 +732,8 @@ tbody {
     font-size: 2em;  
   }  
   table { font-size: 2em; }
-  .navi_input {height: 45px; font-size: 2em;}
+  .navi_input {height: 50px; font-size: 2em;}
+  .loader {height: 470px; }
 } 
 th button {
   background-color: maroon;color:white;
