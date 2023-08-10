@@ -32,7 +32,8 @@ let x = 1
 
     <JetDBTable dscFlds={dscOrders} 
       tblRows={db} 
-      Height='465px'>
+     >
+     <!-- Height='465px' -->
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
