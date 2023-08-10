@@ -1,5 +1,5 @@
 <script  lang="ts">
-import { Jumper } from 'svelte-loading-spinners';
+import { Jumper, RingLoader } from 'svelte-loading-spinners';
 import {date2str, GetLastKey, Count, DeleteDBRecord, 
       getVocabTextValue, GetRangeRecordDB} from './helper.svelte';
     import { supabase } from "$lib/supabaseClient.js";
@@ -547,15 +547,11 @@ function sortGridDoIt(colNum:number, sortMode:string) {
         <button>OK</button>
       </form>
 </dialog>
-{#if visible}
-<div class="loader">
-  <Jumper size="60" color="#FF3E00" unit="px" duration="1s" />
-</div>
 
-{/if}
 <!-- <div class="loader"></div> -->
 
 <section id="parentbox">
+
   <button class="navibtn" title="первая запись" on:click={myFirst}>
     <i class="fa fa-step-backward fa-fw" ></i></button>
   <button class="navibtn pagebutton" title="предыдующая страница" 
@@ -631,7 +627,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
    <!-- bind:RetDialog={RetTable}  -->
 <style>
 
-  .loader {
+  .loader1 {
   border: 16px solid #f3f3f3;
   border-radius: 50%;
   border-top: 16px solid #3498db;
