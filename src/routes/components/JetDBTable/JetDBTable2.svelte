@@ -37,6 +37,8 @@ import {date2str, GetLastKey, Count, DeleteDBRecord,
     let countRecordDBTable = 0
     let _styleTD : CSSStyleDeclaration
     let visible = true;
+    let step = 1000
+    let currStep = 0
 
     //$: ModifyRecord(RetTable)
     $: ModifyReсord(mapDBTable.size)//, mapDBTable.size 
@@ -359,7 +361,7 @@ function myNextPage() {
   // число записей > 1000?
   //alert('Next Page')
   visible = true
-  GetRangeRecordDB(nameTable, nameKeyTable, 1000)
+  GetRangeRecordDB(nameTable, step, currStep)
   .then(result => {
     CreateTableRowFromRange(result)
     setMarkRow(-1)
@@ -577,7 +579,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 9.08 h</div>
+<div class="div_version" >версия 10.08 h</div>
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
