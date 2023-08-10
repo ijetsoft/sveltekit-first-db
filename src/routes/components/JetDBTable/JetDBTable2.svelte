@@ -578,7 +578,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<div class="div_version" >версия 10.08 wwithout</div>
+<!-- <div class="div_version" >версия 10.08 w1</div> -->
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
@@ -622,8 +622,8 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 </tbody>
 </table>
 {#if visible}
-	<!-- <RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
-   style="float: left; index:999; align-content='center'; top=60px" /> -->
+	<RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
+   style="float: left; index:999; align-content='center'; top=60px" />
 {/if}
 </div>
 <Dialog 
