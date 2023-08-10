@@ -7,7 +7,7 @@ import {date2str, GetLastKey, Count, DeleteDBRecord,
     import Dialog from './../dialog/Dialog2.svelte'
     import {setContext} from 'svelte';
 
-    export let Width = '100%;'
+    export let Width = 'auto' //'100%;'
     export let Height = '470px;'
     export let dscFlds : any
     export let tblRows : any
@@ -578,7 +578,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <button class="navibtn" title="удалить запись">
   <i class="fa-solid fa-trash" on:click={deleteRecord}></i>
 </button>
-<!-- <div class="div_version" >версия 10.08 w1</div> -->
+ <div class="div_version" >версия 10.08 h1</div> 
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
