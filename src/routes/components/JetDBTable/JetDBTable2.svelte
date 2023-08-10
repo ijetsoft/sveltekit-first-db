@@ -716,7 +716,7 @@ th {
 tbody {
   white-space: nowrap;
 }
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 641px) {
 .navibtn {
       width: 30px; 
       height: 30px; 
@@ -724,7 +724,7 @@ tbody {
   }
   table { font-size: 1em; }
 }
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 640px) {
 	.navibtn {
     width: 50px; 
     height: 50px; 
