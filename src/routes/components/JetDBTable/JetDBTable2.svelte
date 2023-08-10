@@ -622,9 +622,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 </tbody>
 </table>
 {#if visible}
-	<RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
+	<!-- <RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
     class= "loader"
-   style="float: left; index:999; align-content='center'; top=60px" />
+   style="float: left; index:999; align-content='center'; top=60px" /> -->
 {/if}
 </div>
 <Dialog 
