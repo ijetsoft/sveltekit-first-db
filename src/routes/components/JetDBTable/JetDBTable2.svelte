@@ -205,7 +205,7 @@ function UpdateTableRow(){
       } else subEl.textContent = value
       //tblRows[key] = value
     }
-    let x = tBody.children[currRow-1].chidren
+    //let x = tBody.children[currRow-1].chidren
    // alert('map UpdateTableRow: '+JSON.stringify(x)) 
      
   });
