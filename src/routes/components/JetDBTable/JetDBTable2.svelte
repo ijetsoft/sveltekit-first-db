@@ -562,14 +562,16 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     on:click={myPrevPage} style="display:none">
     {@html getSVG('PrevPage', 'Gold')}</button>
   <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
-    <i class="fa fa-chevron-left fa-fw"></i></button>
+    {@html getSVG('PrevRecord', 'Gold')}</button>
+    <!-- <i class="fa fa-chevron-left fa-fw"></i></button> -->
   <input class="navi_input" type="number" bind:value={currRow}/>
   <button class="navibtn" title="следующая запись" on:click={myNext}>
-    <i class="fa fa-chevron-right fa-fw" ></i>
-  </button>
+    {@html getSVG('NextRecord', 'Gold')}</button>
+    <!-- <i class="fa fa-chevron-right fa-fw" ></i> -->
+ 
   <button class="navibtn pagebutton" title="следующая страница" 
     on:click={myNextPage} style="display:none">
-    <svg fill="yellow" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>
+    <svg fill="yellow" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>'
   </button>
   <button class="navibtn" title="последняя запись" on:click={myLast}>
     <i class="fa fa-step-forward fa-fw"></i></button>
@@ -649,6 +651,9 @@ function sortGridDoIt(colNum:number, sortMode:string) {
   height: 120px;
   -webkit-animation: spin 2s linear infinite; /* Safari */
   animation: spin 2s linear infinite;
+  z-index: 999;
+  float: left; 
+  position: fixed;
 }
 @keyframes spin {
   0% { transform: rotate(0deg); }
@@ -705,6 +710,8 @@ table {
   overflow-x: auto;
   border-spacing: 0;
   margin-top: 2px;
+  float: left; 
+  position: fixed;
 }
 td, th {
   border: 1px solid #777;
