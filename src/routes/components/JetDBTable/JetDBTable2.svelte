@@ -565,14 +565,13 @@ function sortGridDoIt(colNum:number, sortMode:string) {
     {@html getSVG('PrevRecord', 'Gold')}</button>
     <!-- <i class="fa fa-chevron-left fa-fw"></i></button> -->
   <input class="navi_input" type="number" bind:value={currRow}/>
+
   <button class="navibtn" title="следующая запись" on:click={myNext}>
     {@html getSVG('NextRecord', 'Gold')}</button>
     <!-- <i class="fa fa-chevron-right fa-fw" ></i> -->
- 
   <button class="navibtn pagebutton" title="следующая страница" 
     on:click={myNextPage} style="display:none">
-    <svg fill="yellow" xmlns="http://www.w3.org/2000/svg" height="1em" viewBox="0 0 512 512"><!--! Font Awesome Free 6.4.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2023 Fonticons, Inc. --><path d="M470.6 278.6c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L402.7 256 265.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0l160-160zm-352 160l160-160c12.5-12.5 12.5-32.8 0-45.3l-160-160c-12.5-12.5-32.8-12.5-45.3 0s-12.5 32.8 0 45.3L210.7 256 73.4 393.4c-12.5 12.5-12.5 32.8 0 45.3s32.8 12.5 45.3 0z"/></svg>'
-  </button>
+    {@html getSVG('NextPage', 'Gold')}</button>
   <button class="navibtn" title="последняя запись" on:click={myLast}>
     <i class="fa fa-step-forward fa-fw"></i></button>
   <button class="navibtn" title="просмотреть запись" on:click={thisView}>
@@ -587,6 +586,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 
 <!-- <p class="boring-text" data-dir="asc">Here is some plain old boring text.</p> -->
 </section>
+<br>
 <div>
 
 <!--                 Table -->
