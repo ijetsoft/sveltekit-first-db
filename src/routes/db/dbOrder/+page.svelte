@@ -7,11 +7,12 @@
       
       export let data;
       let { db } = data;
+      let myHeight = window.innerHeight
 let x = 1
       
 	
       onMount(() => {
-        
+        //alert( window.innerWidth+' '+window.innerHeight)
          let myEl: any = document.getElementsByClassName("jump") ;
          //myEl.style.visibility ="hidden"
         
@@ -32,8 +33,11 @@ let x = 1
 
     <JetDBTable dscFlds={dscOrders} 
       tblRows={db} 
+      Height={myHeight}
+    </JetDBTable>
+    <!-- '465px' -->
      >
-     <!-- Height='465px' -->
+     
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>

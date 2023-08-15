@@ -491,7 +491,7 @@ function appendTD(parmTR: HTMLTableRowElement, parmTD: HTMLTableCellElement) {
 }
 
 function sortGridDoIt(colNum:number, sortMode:string) {
-  alert( window.innerWidth+' '+window.innerHeight)
+ 
   let type = thisCol[colNum-1].type
   let rowsArray = Array.from(tBody.rows);
   let compare
