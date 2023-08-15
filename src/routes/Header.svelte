@@ -68,7 +68,7 @@
 		position: relative;
 		padding: 0;
 		margin: 0;
-		height: 3em;
+		height: 2em;
 		display: flex;
 		justify-content: center;
 		align-items: center;

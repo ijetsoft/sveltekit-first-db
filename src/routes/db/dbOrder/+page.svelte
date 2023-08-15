@@ -7,12 +7,13 @@
       
       export let data;
       let { db } = data;
-      let myHeight = window.innerHeight
+      let myHeight = (window.screen.height-300)+'px'
 let x = 1
       
 	
       onMount(() => {
         //alert( window.innerWidth+' '+window.innerHeight)
+        alert(myHeight)
          let myEl: any = document.getElementsByClassName("jump") ;
          //myEl.style.visibility ="hidden"
         
