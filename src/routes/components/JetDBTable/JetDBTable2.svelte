@@ -591,7 +591,7 @@ function sortGridDoIt(colNum:number, sortMode:string) {
 <div>
 
 <!--                 Table -->
-<table bind:this={tTable} style ="max-width:{Width}; height:{Height}; float: left;"
+<table bind:this={tTable} style ="max-width:{Width}; max-height:{Height}; float: left;"
     on:click={onClick} 
 >
 <tr>
@@ -711,6 +711,7 @@ table {
   margin: 0 ;/*auto;*/
   display: block;
   overflow-x: auto;
+  /* overflow-y: auto; */
   border-spacing: 0;
   margin-top: 2px;
   float: left; 

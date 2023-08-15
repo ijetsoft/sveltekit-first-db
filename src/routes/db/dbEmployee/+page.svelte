@@ -15,7 +15,7 @@
   </script>
   {@debug data}
 
-  <JetDBTable dscFlds={dscEmployees} 
+  <JetDBTable dscFlds={dscEmployees} Height='470px'
     tblRows={db} ></JetDBTable>
 <!--     Width='100%'
     Height='470px'>
