@@ -31,9 +31,9 @@ let x = 1
      <!-- <div class="loader"></div> -->
 
     <JetDBTable dscFlds={dscOrders} 
-      tblRows={db} 
+      tblRows={db} Height='400px'
      >
-     <!-- Height='465px' -->
+     <!--  -->
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
