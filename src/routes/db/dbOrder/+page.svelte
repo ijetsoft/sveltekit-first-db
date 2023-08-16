@@ -7,10 +7,12 @@
       
       export let data;
       let { db } = data;
+      let myHeight = (window.screen.height-300)+'px'
 let x = 1
       
 	
       onMount(() => {
+        //alert( window.innerWidth+' '+window.innerHeight)
         
          let myEl: any = document.getElementsByClassName("jump") ;
          //myEl.style.visibility ="hidden"
@@ -19,7 +21,7 @@ let x = 1
         //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
       }  
       );
-
+function getHeight(){alert((window.screen.height-280)+'px'); return (window.screen.height-280)+'px'}
     </script>
    {@debug x} 
  <!--  {#if $navigating}  
@@ -31,9 +33,17 @@ let x = 1
      <!-- <div class="loader"></div> -->
 
     <JetDBTable dscFlds={dscOrders} 
+<<<<<<< HEAD
       tblRows={db} Height='400px'
      >
      <!--  -->
+=======
+      tblRows={db}  Height={getHeight()} Width='600px'
+      
+      
+     >
+      <!-- '465px' Height={myHeight}-->
+>>>>>>> 76f3a8bd1bcca02e54996c003eb07bd15bfccd14
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
