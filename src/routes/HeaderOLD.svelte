@@ -7,25 +7,32 @@
 </script>
 
 <header>
-	<!-- <nav> -->
+	<div class="corner">&nbsp;</div>
+	<nav>
+		<svg viewBox="0 0 2 3" aria-hidden="true">
+			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
+		</svg> 
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">  ● Home&nbsp;</a>
+				<a href="/">Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">  ● About&nbsp;</a>
+				<a href="/about">About</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/components') ? 'page' : undefined}>
-				<a href="/components">  ● Компоненты&nbsp;</a>
+				<a href="/components">Компоненты</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
-				<a href="/db">  ● БД&nbsp;</a>
+				<a href="/db">БД</a>
 			</li>
 
 		</ul>
-	<!-- </nav>
+		<svg viewBox="0 0 2 3" aria-hidden="true">
+			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
+		</svg> 
+	</nav>
 
-	<div class="corner"></div> -->
+	<div class="corner"></div>
 </header>
 
 <style>
@@ -57,19 +64,17 @@
 		fill: var(--background);
 	}
 
-	 ul {
+	ul {
 		position: relative;
 		padding: 0;
 		margin: 0;
-		height: 1.5em;
+		height: 2em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		list-style: none;
-		background: lightgray;		 
-		/* background: var(--background); */
+		background: var(--background);
 		background-size: contain;
-		width: 100%;
 	}
 
 	li {
@@ -77,7 +82,7 @@
 		height: 100%;
 		font-size: 2em;
 	}
-/*
+
 	li[aria-current='page']::before {
 		--size: 6px;
 		content: '';
@@ -89,7 +94,7 @@
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
 		font-size: 2em;
-	}*/
+	}
 
 	nav a {
 		display: flex;
@@ -107,7 +112,7 @@
 
 	a:hover {
 		color: var(--color-theme-1);
-	} 
+	}
 @media screen and (min-width: 601px) {
       li {
     font-size: 1em;

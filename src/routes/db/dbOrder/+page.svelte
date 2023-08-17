@@ -7,7 +7,8 @@
       
       export let data;
       let { db } = data;
-      let myHeight = (window.screen.height-300)+'px'
+      let myHeight = (window.screen.height-250)+'px'
+      let myWidth = (window.screen.width-50)+'px'
 let x = 1
       
 	
@@ -21,7 +22,8 @@ let x = 1
         //  myPlace.innerHTML = formView(dscProducts, db.product, db.voc);
       }  
       );
-function getHeight(){alert((window.screen.height-280)+'px'); return (window.screen.height-280)+'px'}
+function getHeight(){alert((window.screen.height-220)+'px'); return (window.screen.height-280)+'px'}
+function getWidth(){ return (window.screen.width-30)+'px'}
     </script>
    {@debug x} 
  <!--  {#if $navigating}  
@@ -33,17 +35,10 @@ function getHeight(){alert((window.screen.height-280)+'px'); return (window.scre
      <!-- <div class="loader"></div> -->
 
     <JetDBTable dscFlds={dscOrders} 
-<<<<<<< HEAD
-      tblRows={db} Height='400px'
-     >
-     <!--  -->
-=======
-      tblRows={db}  Height={getHeight()} Width='600px'
-      
+      tblRows={db}  Height={getHeight()} Width={getWidth()}
       
      >
       <!-- '465px' Height={myHeight}-->
->>>>>>> 76f3a8bd1bcca02e54996c003eb07bd15bfccd14
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>

@@ -586,7 +586,7 @@
   </button>-->
   <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
     {@html getSVG('DeleteRecord', 'Gold')}</button>
-  <div class="div_version" >версия 16.08 w</div>
+  <div class="div_version" >версия 16.08 hh</div>
   </section> 
   <br>
   <section> 
