@@ -7,12 +7,8 @@
 </script>
 
 <header>
-<<<<<<< HEAD
+
 	<!-- <nav> -->
-=======
-	<div class="corner">&nbsp;</div>
-	<nav>
->>>>>>> cbb0323083f87cf0c1901e894f631cd733bec951
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
 				<a href="/">  ● Home&nbsp;</a>
@@ -28,11 +24,9 @@
 			</li>
 
 		</ul>
-<<<<<<< HEAD
 	<!-- </nav>
-=======
+
 	</nav>
->>>>>>> cbb0323083f87cf0c1901e894f631cd733bec951
 
 	<div class="corner"></div> -->
 </header>
