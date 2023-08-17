@@ -26,6 +26,9 @@
   let thisDS: any; if (dscFlds) thisDS = tblRows[dscFlds.name].data
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
   //
+  window.addEventListener('resize', (e) => {
+  alert('Resize '+window.innerHeight+' '+window.innerWidth);
+});
   function sayPanelHeader(){ return dscFlds.col.length}
   function sayHeader(parm: string){
   
@@ -66,13 +69,14 @@ function thisView() {}
 function addRecord() {}
 function deleteRecord() {}
 </script>
-<h1>{nameTable}</h1>
+<!-- <h1>{nameTable}</h1>
 <h2>{nameTable}</h2>
-<h3>{nameTable}</h3>
-<table>
+<h3>{nameTable}</h3> -->
+<div id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
+<table >
   <thead>
   <tr >
-    <th style="width: 100%;" colspan="{sayPanelHeader()}" align="left">
+    <th  colspan="{sayPanelHeader()}" align="left">
     <button class="navibtn" title="первая запись" on:click={myFirst}>
       {@html getSVG('FirstRecord', 'Gold')}</button>
       <button class="navibtn pagebutton" title="предыдующая страница" 
@@ -139,6 +143,7 @@ function deleteRecord() {}
     {/if}
   </tbody>
 </table>
+</div>
 <style>
 table {
   border-collapse: collapse;
