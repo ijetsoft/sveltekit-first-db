@@ -35,10 +35,19 @@ function getWidth(){ return (window.screen.width-30)+'px'}
      <!-- <div class="loader"></div> -->
 
     <JetDBTable dscFlds={dscOrders} 
+<<<<<<< HEAD
       tblRows={db}  Height={getHeight()} Width={getWidth()}
       
      >
       <!-- '465px' Height={myHeight}-->
+=======
+      tblRows={db}  Height={getHeight()} Width='600px'
+      
+      
+     >
+      <!-- '465px' Height={myHeight}-->
+
+>>>>>>> cbb0323083f87cf0c1901e894f631cd733bec951
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
