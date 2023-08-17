@@ -33,17 +33,12 @@ function getHeight(){alert((window.screen.height-280)+'px'); return (window.scre
      <!-- <div class="loader"></div> -->
 
     <JetDBTable dscFlds={dscOrders} 
-<<<<<<< HEAD
-      tblRows={db} Height='400px'
-     >
-     <!--  -->
-=======
       tblRows={db}  Height={getHeight()} Width='600px'
       
       
      >
       <!-- '465px' Height={myHeight}-->
->>>>>>> 76f3a8bd1bcca02e54996c003eb07bd15bfccd14
+
     </JetDBTable>
     <!-- <Navigator></Navigator> -->
     <p class='placeHold'></p>
