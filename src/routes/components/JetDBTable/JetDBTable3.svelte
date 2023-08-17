@@ -179,7 +179,7 @@ tr:hover { background-color: rgb(202, 101, 101); color: white}
   
     margin: 2px;
   }
-  @media screen and (min-width: 601px) {
+  @media screen and (min-width: 641px) {
   .navibtn {
         width: 30px; 
         height: 30px; 
@@ -187,7 +187,7 @@ tr:hover { background-color: rgb(202, 101, 101); color: white}
     }
     table { font-size: 1em; }
   }
-  @media screen and (max-width: 600px) {
+  @media screen and (max-width: 640px) {
     .my_svg {
       width: 40px; 
       height: 40px; }
