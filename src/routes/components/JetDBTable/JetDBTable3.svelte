@@ -27,7 +27,7 @@
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
   //
   window.addEventListener('resize', (e) => {
-  alert('Resize '+window.innerHeight+' '+window.innerWidth);
+  alert('Resize: '+window.innerHeight+' '+window.innerWidth);
 });
   function sayPanelHeader(){ return dscFlds.col.length}
   function sayHeader(parm: string){
