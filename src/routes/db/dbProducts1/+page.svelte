@@ -12,11 +12,11 @@
     let newKey: any = {}
     onMount(() => {
     });
-    function getHeight(){alert(window.screen.height); return (window.innerHeight-280)+'px'}
-    function getWidth(){ return (window.innerWidth-25)+'px'}
+    function getHeight(){return (window.innerHeight-70)+'px'}
+    function getWidth(){ return (window.innerWidth-30)+'px'}
  </script>
-   {@debug db}  
-  <JetDBTable dscFlds={dscProducts} Height={getHeight()} Width={getWidth()}
+   <!-- {@debug db}   -->
+   <JetDBTable dscFlds={dscProducts} Height={getHeight()} Width={getWidth()}
     tblRows={db} ></JetDBTable>
   
   

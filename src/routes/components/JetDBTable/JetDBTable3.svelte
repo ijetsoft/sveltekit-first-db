@@ -25,15 +25,44 @@
     }
   let thisDS: any; if (dscFlds) thisDS = tblRows[dscFlds.name].data
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
-  //
+  // события
   window.addEventListener('resize', (e) => {
   alert('Resize: '+window.innerHeight+' '+window.innerWidth);
-});
-  function sayPanelHeader(){ return dscFlds.col.length}
-  function sayHeader(parm: string){
-  
-  return   parm
+  });
+  function onClick(event: any) {
+    let el = event.target
+    let p = el.parentNode.parentNode.parentNode.parentNode.parentNode
+    let dialog = p.children[0]
+    if (el.tagName === "BUTTON") {
+      if (el.parentNode.tagName === 'TH'){
+        clickSort(el)
+      }
+    } else {
+      let ind = event.target.parentNode.rowIndex
+      setMarkRow(ind)
+      alert('onClick setMarkRow')
+    }
+    
+
   }
+  // функции
+  function setMarkRow(parmInd: number){
+
+  }
+  function clickSort(el:any) {
+    // el.innerHTML += '<i class="fa-solid fa-caret-up"></i>'
+    if (el.childElementCount > 0) el.removeChild(el.lastChild);
+    if (el.getAttribute("data-dir") == "desc") {
+      el.setAttribute("data-dir", "asc");
+      el.innerHTML += getSVG('Up', 'White')
+    } else {
+      el.setAttribute("data-dir", "desc");
+      el.innerHTML += getSVG('Down', 'White')
+    }
+    
+  }
+  function sayPanelHeader(){ return dscFlds.col.length}
+  function sayHeader(parm: string){  return   parm  }
   function sayCell(parmRow: any, parmDSCCol: any){
       let ret = parmRow[parmDSCCol.fld]
       if (parmDSCCol.fld[0] == '_') {
@@ -73,7 +102,7 @@ function deleteRecord() {}
 <h2>{nameTable}</h2>
 <h3>{nameTable}</h3> -->
 <div id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
-<table >
+<table on:click={onClick} >
   <thead>
   <tr >
     <th  colspan="{sayPanelHeader()}" align="left">
@@ -104,7 +133,7 @@ function deleteRecord() {}
   </button>-->
   <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
     {@html getSVG('DeleteRecord', 'Gold')}</button>
-  <div class="div_version" >версия 17.08 w</div>
+  <div class="div_version" >версия 18.08 w</div>
     </th>  
   </tr>
  
@@ -112,8 +141,8 @@ function deleteRecord() {}
       <th> </th>
       {#if dscFlds} 
         {#each thisCol as fld, i}
-            <th data-fld={fld.fld} text-align= "center">{@html sayHeader(fld.header)}  </th>
-            <!-- <th data-fld={fld.fld}><button id={fld.fld}>{@html sayHeader(fld.header)}</button>  </th>             -->
+             <!-- <th data-fld={fld.fld} text-align= "center">{@html sayHeader(fld.header)}  </th>-->
+           <th data-fld={fld.fld}><button id={fld.fld}>{@html sayHeader(fld.header)}</button>  </th>             
         {/each}
       {:else if headerFlds} 
         {#each headerFlds as fld, i}
@@ -166,8 +195,22 @@ th {
     position: sticky;
     top: 0;
     vertical-align: center;
-   
+    font-weight: normal;
 }
+th button {
+    background-color: maroon;color:white;
+    border: none;
+    cursor: pointer;
+    display: block;
+    font: inherit;
+    height: 100%;
+    margin: 0;
+    min-width: max-content;
+    padding: 0.5rem 1rem;
+    position: relative;
+    text-align: left;
+    width: 100%;
+  }
 tr:nth-child(even) {
     background-color: #dddddd;
   }
