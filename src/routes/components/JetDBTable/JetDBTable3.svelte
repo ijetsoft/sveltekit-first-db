@@ -15,6 +15,9 @@
   let nameKeyTable = ''
   let currRow = 1;
   let tBody: any
+  let visible = true;
+  let step = 1000
+  let currStep = -1
 
   let lenCol = dscFlds.col.length
   let thisCol = [{}]
@@ -25,9 +28,11 @@
     }
   let thisDS: any; if (dscFlds) thisDS = tblRows[dscFlds.name].data
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
+
+
   // события
   window.addEventListener('resize', (e) => {
-  alert('Resize: '+window.innerHeight+' '+window.innerWidth);
+  //alert('Resize: '+window.innerHeight+' '+window.innerWidth);
   });
   function onClick(event: any) {
     let el = event.target
@@ -172,6 +177,11 @@ function deleteRecord() {}
     {/if}
   </tbody>
 </table>
+{#if visible}
+<RingLoader size="100" color="#FF3E00" unit="px" duration="1s"
+  class= "loader"
+ style="float: left; index:999; align-content='center'; top=60px" /> 
+{/if}
 </div>
 <style>
 table {
@@ -248,4 +258,20 @@ tr:hover { background-color: rgb(202, 101, 101); color: white}
     .navi_input {height: 45px; font-size: 2em;}
     .loader {height: 470px; }
   } 
+  .loader {
+    border: 16px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 16px solid #3498db;
+    width: 120px;
+    height: 120px;
+    -webkit-animation: spin 2s linear infinite; /* Safari */
+    animation: spin 2s linear infinite;
+    z-index: 999;
+    float: left; 
+    position: fixed;
+  }
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
 </style>
