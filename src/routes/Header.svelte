@@ -79,6 +79,7 @@
 		position: relative;
 		height: 100%;
 		font-size: 2em;
+		padding: 15px 10px 0px 10px;
 	}
 /*
 	li[aria-current='page']::before {
