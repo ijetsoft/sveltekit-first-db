@@ -16,9 +16,6 @@
   let currRow: number = 1;
   let tBody: any
   let tTable: any
-  let visible = true;
-  let step = 1000
-  let currStep = -1
   let _styleTD : CSSStyleDeclaration
   let visible = true;
   let step = 1000
@@ -35,8 +32,11 @@
   let thisVoc = {}; if (dscFlds) thisVoc =  tblRows.voc
   //
   window.addEventListener('resize', (e) => {
-  alert('Resize: '+window.innerHeight+' '+window.innerWidth);
+  //alert('Resize: '+window.innerHeight+' '+window.innerWidth);
 });
+onMount(() => {
+      setMarkRow(1)
+})
   function sayPanelHeader(){ return dscFlds.col.length}
   function sayHeader(parm: string){  return   parm  }
   function sayCell(parmRow: any, parmDSCCol: any){
@@ -82,6 +82,136 @@ function myLast() {setMarkRow(-1)}
 function thisView() {}
 function addRecord() {}
 function deleteRecord() {}
+function setMarkRow(parm: any) {
+  if (parm === 0 || parm > tBody.childElementCount) return
+  if (tTable && parm === -1) {
+    parm = tBody.childElementCount
+    tTable.scrollTop = tTable.scrollHeight;
+  }
+      if (tBody) {
+         tBody.children[currRow-1].children[0].innerHTML = ""
+         currRow = parm 
+         tBody.children[currRow-1].children[0].innerHTML = getSVG('pointer','','')//triangle
+         if (parm === 1) tTable.scrollTop = 0
+      }
+  }
+  function CreateTableRowFromRange(parmDSRange: any){
+   
+   visible = true
+   for (let index = 0; index < parmDSRange.length; index++) {
+     let record = parmDSRange[index];
+     //currRow = 1000 +index
+     console.log( currRow, record['Id'] )
+     let TR: HTMLTableRowElement = document.createElement('tr');
+     for(var key in record){
+       let TD: HTMLTableCellElement = document.createElement('td');
+       let val = record[key], it : any, voc : any
+       if (key == nameKeyTable) {TD.innerText =record[key]; appendTD(TR, TD, _styleTD); continue}
+       it =  thisCol.find((item:any) => item.fld == key);
+       if (it) {TD.innerText = sayCell(record, it); appendTD(TR, TD, _styleTD);}
+     }
+     tBody.append(TR)
+     visible = true
+   }
+   tTable.scrollTop = tTable.scrollHeight;
+   setMarkRow(-1)
+ 
+   //  node.append(...nodes or strings) 
+ }
+ function onClick(event: any) {
+    let el = event.target
+    let p = el.parentNode
+    p = el.parentNode.parentNode
+    p = el.parentNode.parentNode.parentNode
+    p = el.parentNode.parentNode.parentNode.parentNode
+    if (el.localName === 'svg') return;
+    let dialog = p.children[0]
+    if (el.tagName === "BUTTON") {
+      if (el.parentNode.tagName === 'TH'){
+        clickSort(el)
+      } else {
+        dialog.children[0].innerHTML = el.dataset.value
+        dialog.showModal() 
+      }
+    } else if (el.tagName === "TH") {
+  
+      //alert('th '+el.dataset['fld'])
+    } else {
+      let ind = event.target.parentNode.rowIndex-1
+      setMarkRow(ind)
+    }
+  }
+  function clickSort(el:any) {
+    let ind = el.parentNode.cellIndex
+    if (el.childElementCount > 0) el.removeChild(el.lastChild);
+  
+        if (el.getAttribute("data-dir") == "desc") {
+          //alert(el.id+' '+el.innerHTML)
+          //el.innerText.slice(0, -1);
+          //sortData(response.pokedata, e.target.id, "desc");
+          el.setAttribute("data-dir", "asc");
+          el.innerHTML += '<i class="fa-solid fa-caret-up"></i>'
+        } else {
+          //sortData(response.pokedata, e.target.id, "asc");
+          //alert(el.id+' '+el.innerHTML)
+          //el.innerText.slice(0, -1);
+          el.innerHTML += '<i class="fa-solid fa-caret-down"></i>'
+          el.setAttribute("data-dir", "desc");
+        }
+        sortGridDoIt(ind, el.getAttribute("data-dir")) 
+        
+        return ''
+  }
+  function sortGridDoIt(colNum:number, sortMode:string) {
+   
+   let type = thisCol[colNum-1].type
+   let rowsArray = Array.from(tBody.rows);
+   let compare
+     switch (type) {
+       case 'number':
+         compare = function(rowA:any, rowB:any) {
+           if (sortMode=== 'asc') return rowB.cells[colNum].innerText - rowA.cells[colNum].innerText
+              else return rowA.cells[colNum].innerText - rowB.cells[colNum].innerText
+         }
+         break;
+       case 'string':
+         compare = function(rowA:any, rowB:any) {
+           if (sortMode=== 'asc') return rowB.cells[colNum].innerHTML > rowA.cells[colNum].innerHTML ? 1 : -1;
+           else return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;
+         }
+         break;
+       case 'bool':
+         compare = function(rowA:any, rowB:any) {
+           if (sortMode=== 'asc') return rowB.cells[colNum].innerHTML > rowA.cells[colNum].innerHTML ? 1 : -1;
+           else return rowA.cells[colNum].innerHTML > rowB.cells[colNum].innerHTML ? 1 : -1;          
+         }
+         break;
+       case 'date':
+         compare = function(rowA:any, rowB:any) {
+           let cell1 = rowA.cells[colNum].innerHTML
+           let cell2 = rowB.cells[colNum].innerHTML
+           let year1 = +cell1.substr(6,4), year2 = +cell2.substr(6,4)
+           let month1 = +cell1.substr(4,2), month2 = +cell2.substr(4,2)
+           let day1 = +cell1.substr(0,2), day2 = +cell2.substr(0,2)
+           if (year1 == year2) {
+             if (month1 == month2) {
+               if (sortMode=== 'desc') return day1 >= day2 ? 1 : -1;
+               else return day2 >= day1 ? 1 : -1;
+             } else {
+               if (sortMode=== 'desc') return month1 > month2 ? 1 : -1;
+               else return month2 > month1 ? 1 : -1;
+             }
+           } else {
+             if (sortMode=== 'desc') return year1 > year2 ? 1 : -1;
+             else return year2 > year1 ? 1 : -1;
+           }
+         } 
+         break;
+     }
+   
+   rowsArray.sort(compare);
+   tBody.append(...rowsArray); 
+ }
 </script>
 <!-- <h1>{nameTable}</h1>
 <h2>{nameTable}</h2>
@@ -92,8 +222,9 @@ function deleteRecord() {}
  style="float: left; index:999; align-content='center'; top=60px" />  -->
 {/if}
 
-<div id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
-<table >
+<div bind:this={tTable} id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
+<table  style ="width:{Width}; height:{Height}; float: left;"
+on:click={onClick} >
   <thead>
   <tr >
     <th  colspan="{sayPanelHeader()}" align="left">
@@ -124,7 +255,7 @@ function deleteRecord() {}
   </button>-->
   <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
     {@html getSVG('DeleteRecord', 'Gold')}</button>
-  <div class="div_version" >версия 17.08 w</div>
+  <div class="div_version" >версия 22.08 h</div>
     </th>  
   </tr>
  
