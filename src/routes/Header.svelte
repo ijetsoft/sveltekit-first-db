@@ -35,6 +35,12 @@
 	header {
 		display: flex;
 		justify-content: space-between;
+
+overflow: hidden;
+  
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 	}
 
 	.corner {

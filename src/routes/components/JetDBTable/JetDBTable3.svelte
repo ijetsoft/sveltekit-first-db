@@ -221,41 +221,44 @@ function setMarkRow(parm: any) {
  class= "spin_loader"
  style="float: left; index:999; align-content='center'; top=60px" />  -->
 {/if}
+<div class="navbar">
+  <button class="navibtn" title="первая запись" on:click={myFirst}>
+    {@html getSVG('FirstRecord', 'Gold')}</button>
+    <button class="navibtn pagebutton" title="предыдующая страница" 
+    on:click={myPrevPage} style="display:none">
+    {@html getSVG('PrevPage', 'Gold')}</button>
+  <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
+    {@html getSVG('PrevRecord', 'Gold')}</button>
+    <!-- <i class="fa fa-chevron-left fa-fw"></i></button> -->
+  <input class="navi_input" type="number" bind:value={currRow}/>
 
+  <button class="navibtn" title="следующая запись" on:click={myNext}>
+    {@html getSVG('NextRecord', 'Gold')}</button>
+    <!-- <i class="fa fa-chevron-right fa-fw" ></i> -->
+  <button class="navibtn pagebutton" title="следующая страница" 
+    on:click={myNextPage} >
+    {@html getSVG('NextPage', 'Gold')}</button>
+  <button class="navibtn" title="последняя запись" on:click={myLast}>
+    <i class="fa fa-step-forward fa-fw"></i></button>
+  <button class="navibtn" title="просмотреть запись" on:click={thisView}>
+    {@html getSVG('ViewRecord', 'Gold')}</button>
+    <!-- <i class="fa fa-eye fa-fw"></i></button> -->
+  <button class="navibtn" title="добавить запись">
+    {@html getSVG('AddRecord', 'Gold')}</button>
+    <!-- <i class="far fa-plus-square" on:click={addNewRecord}></i> 
+    </button>-->
+  <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
+    {@html getSVG('DeleteRecord', 'Gold')}</button>
+  <div class="div_version" >версия 24.08 h</div>
+</div>
 <div bind:this={tTable} id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
-<table  style ="width:{Width}; height:{Height}; float: left;"
+  
+  <table  style ="width:{Width}; height:{Height}; float: left;"
 on:click={onClick} >
   <thead>
   <tr >
     <th  colspan="{sayPanelHeader()}" align="left">
-    <button class="navibtn" title="первая запись" on:click={myFirst}>
-      {@html getSVG('FirstRecord', 'Gold')}</button>
-      <button class="navibtn pagebutton" title="предыдующая страница" 
-      on:click={myPrevPage} style="display:none">
-      {@html getSVG('PrevPage', 'Gold')}</button>
-    <button class="navibtn" title="предыдущая запись" on:click={myPrev}>
-      {@html getSVG('PrevRecord', 'Gold')}</button>
-      <!-- <i class="fa fa-chevron-left fa-fw"></i></button> -->
-    <input class="navi_input" type="number" bind:value={currRow}/>
-  
-    <button class="navibtn" title="следующая запись" on:click={myNext}>
-      {@html getSVG('NextRecord', 'Gold')}</button>
-      <!-- <i class="fa fa-chevron-right fa-fw" ></i> -->
-    <button class="navibtn pagebutton" title="следующая страница" 
-      on:click={myNextPage} >
-      {@html getSVG('NextPage', 'Gold')}</button>
-    <button class="navibtn" title="последняя запись" on:click={myLast}>
-      <i class="fa fa-step-forward fa-fw"></i></button>
-    <button class="navibtn" title="просмотреть запись" on:click={thisView}>
-      {@html getSVG('ViewRecord', 'Gold')}</button>
-      <!-- <i class="fa fa-eye fa-fw"></i></button> -->
-  <button class="navibtn" title="добавить запись">
-    {@html getSVG('AddRecord', 'Gold')}</button>
-      <!-- <i class="far fa-plus-square" on:click={addNewRecord}></i> 
-  </button>-->
-  <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
-    {@html getSVG('DeleteRecord', 'Gold')}</button>
-  <div class="div_version" >версия 22.08 h</div>
+    
     </th>  
   </tr>
  
@@ -298,6 +301,7 @@ on:click={onClick} >
 
 <style>
 table {
+  margin-top: 20px;
   border-collapse: collapse;
   border-spacing: 0;
   width: 100%;
@@ -371,4 +375,11 @@ tr:hover { background-color: rgb(202, 101, 101); color: white}
     .navi_input {height: 45px; font-size: 2em;}
     .loader {height: 470px; }
   } 
+  .navbar {
+    overflow: hidden;
+    /* height: 20px; */
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
 </style>

@@ -57,15 +57,21 @@
         AddNewRecord(dscProducts) 
      return data
    }
+/*    function getHeight(){return (window.innerHeight-60)+'px'}
+   function getWidth(){ return (window.innerWidth-25)+'px'}
+ */   function getHeight(){ return (window.screen.height-280)+'px'}
+   function getWidth(){ return (window.screen.width-30)+'px'}
   </script>
    {@debug db}  
-  <JetDBTable dscFlds={dscProducts} Height='470px'
-    tblRows={db} ></JetDBTable>
+   <JetDBTable dscFlds={dscProducts} Height={getHeight()} Width={getWidth()} 
+   tblRows={db} ></JetDBTable> 
+  <!-- <JetDBTable dscFlds={dscProducts} Height='470px'
+    tblRows={db} ></JetDBTable> -->
     <!-- Width='100%'
     Height='470px'>
   </JetDBTable> -->
   <!-- <Navigator></Navigator> -->
-  <p class='placeHold'>xx</p>
+  <!-- <p class='placeHold'>xx</p> -->
   <!-- <table style="width: 30%; margin-top: 50px;">
     <tr><th>название</th> <th>код</th></tr>
     {#each prducts as prduct}

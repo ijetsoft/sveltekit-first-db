@@ -22,8 +22,8 @@
       
       // visible = false
     });
-    function getHeight(){return (window.innerHeight-60)+'px'}
-    function getWidth(){ return (window.innerWidth-25)+'px'}
+    function getHeight(){return (window.innerHeight-70)+'px'}
+    function getWidth(){ return (window.innerWidth-45)+'px'}
  </script>
    <!-- {@debug db} -->
    <!-- alert(window.screen.height);  -->
