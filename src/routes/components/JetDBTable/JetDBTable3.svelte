@@ -249,7 +249,7 @@ function setMarkRow(parm: any) {
     </button>-->
   <button class="navibtn" title="удалить запись" on:click={deleteRecord}>
     {@html getSVG('DeleteRecord', 'Gold')}</button>
-  <div class="div_version" >версия 24.08 h</div>
+  <div class="div_version" >версия 26.08 h</div>
 </div>
 <div bind:this={tTable} id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
   

@@ -5,6 +5,7 @@
   <a href="../db1" class="active">Страны мира</a>
   <a href="../db/dbEmployee">Персонал</a>    
   <a href="../db/dbProducts">Товары</a>
+  <a href="../db/dbProductsMobile">Товары (mobile)</a>
   <a href="../db/dbProducts1">*Товары+</a>
   <a href="../db2">Поставщики</a>
   <a href="../db/dbCategories">Типы товаров</a>  
