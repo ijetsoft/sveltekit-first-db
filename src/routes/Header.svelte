@@ -7,40 +7,29 @@
 </script>
 
 <header>
-
-	<!-- <nav> -->
+	<nav>
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">  ● Home&nbsp;</a>
+				<a href="/">Home</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">  ● About&nbsp;</a>
+				<a href="/about">About</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/components') ? 'page' : undefined}>
-				<a href="/components">  ● Компоненты&nbsp;</a>
+				<a href="/components">Компоненты</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
-				<a href="/db">  ● БД&nbsp;</a>
+				<a href="/db">БД</a>
 			</li>
 
 		</ul>
-	<!-- </nav>
-
 	</nav>
-
-	<div class="corner"></div> -->
 </header>
 
 <style>
 	header {
 		display: flex;
 		justify-content: space-between;
-
-overflow: hidden;
-  
-  position: fixed;
-  bottom: 0;
-  width: 100%;
 	}
 
 	.corner {
@@ -66,28 +55,25 @@ overflow: hidden;
 		fill: var(--background);
 	}
 
-	 ul {
+	ul {
 		position: relative;
 		padding: 0;
 		margin: 0;
-		height: 1.5em;
+		height: 2em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		list-style: none;
-		background: lightgray;		 
-		/* background: var(--background); */
+		background: var(--background);
 		background-size: contain;
-		width: 100%;
 	}
 
 	li {
 		position: relative;
 		height: 100%;
 		font-size: 2em;
-		padding: 15px 10px 0px 10px;
 	}
-/*
+
 	li[aria-current='page']::before {
 		--size: 6px;
 		content: '';
@@ -99,7 +85,7 @@ overflow: hidden;
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
 		font-size: 2em;
-	}*/
+	}
 
 	nav a {
 		display: flex;
@@ -117,7 +103,7 @@ overflow: hidden;
 
 	a:hover {
 		color: var(--color-theme-1);
-	} 
+	}
 @media screen and (min-width: 601px) {
       li {
     font-size: 1em;

@@ -7,38 +7,40 @@
 </script>
 
 <header>
-	<div class="corner">&nbsp;</div>
-	<nav>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L1,2 C1.5,3 1.5,3 2,3 L2,0 Z" />
-		</svg> 
+
+	<!-- <nav> -->
 		<ul>
 			<li aria-current={$page.url.pathname === '/' ? 'page' : undefined}>
-				<a href="/">Home</a>
+				<a href="/">  ● Home&nbsp;</a>
 			</li>
 			<li aria-current={$page.url.pathname === '/about' ? 'page' : undefined}>
-				<a href="/about">About</a>
+				<a href="/about">  ● About&nbsp;</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/components') ? 'page' : undefined}>
-				<a href="/components">Компоненты</a>
+				<a href="/components">  ● Компоненты&nbsp;</a>
 			</li>
 			<li aria-current={$page.url.pathname.startsWith('/db') ? 'page' : undefined}>
-				<a href="/db">БД</a>
+				<a href="/db">  ● БД&nbsp;</a>
 			</li>
 
 		</ul>
-		<svg viewBox="0 0 2 3" aria-hidden="true">
-			<path d="M0,0 L0,3 C0.5,3 0.5,3 1,2 L2,0 Z" />
-		</svg> 
+	<!-- </nav>
+
 	</nav>
 
-	<div class="corner"></div>
+	<div class="corner"></div> -->
 </header>
 
 <style>
 	header {
 		display: flex;
 		justify-content: space-between;
+
+overflow: hidden;
+  
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 	}
 
 	.corner {
@@ -64,25 +66,28 @@
 		fill: var(--background);
 	}
 
-	ul {
+	 ul {
 		position: relative;
 		padding: 0;
 		margin: 0;
-		height: 2em;
+		height: 1.5em;
 		display: flex;
 		justify-content: center;
 		align-items: center;
 		list-style: none;
-		background: var(--background);
+		background: lightgray;		 
+		/* background: var(--background); */
 		background-size: contain;
+		width: 100%;
 	}
 
 	li {
 		position: relative;
 		height: 100%;
 		font-size: 2em;
+		padding: 15px 10px 0px 10px;
 	}
-
+/*
 	li[aria-current='page']::before {
 		--size: 6px;
 		content: '';
@@ -94,7 +99,7 @@
 		border: var(--size) solid transparent;
 		border-top: var(--size) solid var(--color-theme-1);
 		font-size: 2em;
-	}
+	}*/
 
 	nav a {
 		display: flex;
@@ -112,7 +117,7 @@
 
 	a:hover {
 		color: var(--color-theme-1);
-	}
+	} 
 @media screen and (min-width: 601px) {
       li {
     font-size: 1em;

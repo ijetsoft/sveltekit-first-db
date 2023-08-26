@@ -10,10 +10,9 @@
 		<slot />
 	</main>
 
-	<footer>
-		<p>mail to <a href="mailto:ijetsoft@gmail.com?subject=Mail from Svelte Website">ijetsoft@gmail.com</a> </p>
-
-	</footer>
+	<!-- <footer>
+		<p>visit <a href="https://kit.svelte.dev">kit.svelte.dev</a> to learn SvelteKit</p>
+	</footer> -->
 </div>
 
 <style>
@@ -27,13 +26,13 @@
 		flex: 1;
 		display: flex;
 		flex-direction: column;
-		padding: 1rem;
+		padding: 2rem;
 		width: 100%;
-		max-width: 64rem;
+		/* max-width: 64rem; */
 		margin: 0 auto;
 		box-sizing: border-box;
 	}
-
+/* 
 	footer {
 		display: flex;
 		flex-direction: column;
@@ -50,5 +49,5 @@
 		footer {
 			padding: 12px 0;
 		}
-	}
+	} */
 </style>
