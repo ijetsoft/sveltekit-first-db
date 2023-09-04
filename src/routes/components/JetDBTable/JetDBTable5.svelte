@@ -3,9 +3,10 @@
 
 </script>
 <h1>CSS only Responsive Tables</h1>
-<h2>Basic overflow:</h2>
 
-<table class="rtable">
+<h2>Flipped axis and overflow:</h2>
+
+<table class="rtable rtable--flip">
   <thead>
     <tr>
       <th>Browser</th>
@@ -66,7 +67,7 @@
       <td>01:18</td>
     </tr>
     <tr>
-      <td>Other</td>
+      <td style="min-width: 100px;">Other</td>
       <td>275</td>
       <td>6.02%</td>
       <td>90</td>

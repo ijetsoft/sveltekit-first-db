@@ -251,10 +251,11 @@ function setMarkRow(parm: any) {
     {@html getSVG('DeleteRecord', 'Gold')}</button>
   <div class="div_version" >версия 26.08 h</div>
 </div>
-<div bind:this={tTable} id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}">
+<!-- <div bind:this={tTable} id="my-grid-wrapper" style="overflow-x:auto; overflow-y: auto; width:{Width}; height:{Height}"> -->
   
   <table  style ="width:{Width}; height:{Height}; float: left;"
 on:click={onClick} >
+<caption> {nameTable}</caption>
   <thead>
   <tr >
     <th  colspan="{sayPanelHeader()}" align="left">
@@ -297,7 +298,7 @@ on:click={onClick} >
     {/if}
   </tbody>
 </table>
-</div>
+<!-- </div> -->
 
 <style>
 table {
@@ -380,6 +381,7 @@ tr:hover { background-color: rgb(202, 101, 101); color: white}
     /* height: 20px; */
     position: fixed;
     top: 0;
+    padding-top: 35px;
     width: 100%;
 }
 </style>

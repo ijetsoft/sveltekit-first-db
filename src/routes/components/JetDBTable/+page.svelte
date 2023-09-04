@@ -1,5 +1,6 @@
 ﻿<script lang="ts">
-  import JetDBTable from './JetDBTable.svelte'
+  import JetDBTable4 from './JetDBTable4.svelte'
+  import JetDBTable5 from './JetDBTable5.svelte'
   let headerFlds: string[] = ['компания', 'контакт', 'страна'];
   let Rows = [
      {Company:'Alfreds Futterkiste', Contact:'Maria Anders', Country:'Germany'},
@@ -14,7 +15,10 @@
 <p>****</p>
 {@debug headerFlds}
 <div>
-   <JetDBTable headerFlds={headerFlds} Rows = {Rows}></JetDBTable> 
+   <JetDBTable4 headerFlds={headerFlds} Rows = {Rows}></JetDBTable4> 
+</div>
+<div>
+   <JetDBTable5 headerFlds={headerFlds} Rows = {Rows}></JetDBTable5> 
 </div>
   
   <style>

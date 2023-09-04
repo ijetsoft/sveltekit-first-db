@@ -104,13 +104,13 @@
 	a:hover {
 		color: var(--color-theme-1);
 	}
-@media screen and (min-width: 601px) {
+@media screen and (min-width: 401px) {
       li {
     font-size: 1em;
   }
 }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 400px) {
   li {
     font-size: 2em;
   }
