@@ -1,4 +1,5 @@
 <script  lang="ts">
+  
   	/* import { Jumper } from 'svelte-loading-spinners';
     import { navigating } from '$app/stores' */
     import {onMount} from 'svelte';
